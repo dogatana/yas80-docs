@@ -1,0 +1,15 @@
+{
+  "name": "yas80-doc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "honkit": "^6.1.6"
+  }
+}

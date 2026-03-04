@@ -1,0 +1,796 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>はじめに · yas80 仕様</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 6.1.6">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/@honkit/honkit-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chap1/" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter active" data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    はじめに
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="chap1/">
+            
+                <a href="chap1/">
+            
+                    
+                    実行
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >はじめに</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="yas80---yet-another-asemmbler-for-z80-and-r800">yas80 - Yet Another aSemmbler for z80 and r800</h1>
+<p>Version. 0.1.0</p>
+<h2 id="実行">実行</h2>
+<h3 id="コマンド書式">コマンド書式</h3>
+<pre><code>&gt; yas80 -h
+Usage: yas80 [options] file [file...]
+Options:
+  -I, --I strings       directories to search for iclude
+  -D, --D strings       define constants
+  -o, --output string   output file name
+  -f, --fill int        filler for DS and Segment Gap (default 255)
+      --mzt             output with MZT format
+      --t88             output with T88 format
+  -l, --l               generate list file
+      --list string     list filename
+  -m, --m               generate map file
+      --map string      map filename
+  -s, --s               generate symbol file
+      --sym string      symbol filename
+      --auto-proc       generate PROC from normal label
+  -R, --R800            assmble for R800
+  -v, --version         print version
+      --stdin           assemble stdin
+      --astdebug int    debug level for Parse
+      --yydebug int     debug level for go-yacc
+      --evaldebug int   debug level for Evaluator
+      --listdebug int   debug level for Lister
+  -a, --arg             assemble Args[0]
+</code></pre><h3 id="オプションとその意味">オプションとその意味</h3>
+<h3 id="ソースファイル">ソースファイル</h3>
+<ul>
+<li>ソースファイルは複数指定可能</li>
+<li>複数指定した場合、それらを結合した1つのファイルとしてアセンブルする</li>
+</ul>
+<h2 id="ソースファイル">ソースファイル</h2>
+<h3 id="エンコーディング">エンコーディング</h3>
+<ul>
+<li>エンコーディングは utf-8（BOM の有無は問わない）</li>
+<li>utf-8 として不正な文字を検出した場合、ShiftJISとして扱い、utf-8 へのエンコディーング変換を試みる。</li>
+<li>変換が失敗した場合、その旨表示するが、アセンブルは継続する</li>
+</ul>
+<h3 id="行">行</h3>
+<ul>
+<li>ソースファイルは行単位でアセンブル処理を進める</li>
+<li>物理行（行頭から改行記号までのテキスト）と論理行（アセンブラが1行として処理するもの）の対応<ul>
+<li>1:1 </li>
+<li>1:n マルチステートメント</li>
+<li>n:1 継続行</li>
+</ul>
+</li>
+</ul>
+<h3 id="マルチステートメント">マルチステートメント</h3>
+<ul>
+<li><code>\</code> でマルチステートメント記載可能</li>
+<li>エラー表示等は物理行単位で行う</li>
+</ul>
+<p>例）
+<code>ld a,(hl) \ inc hl</code> は</p>
+<pre><code>ld a,(hl)
+inc hl
+</code></pre><p>と同等。</p>
+<h3 id="継続行">継続行</h3>
+<ul>
+<li>物理行の行末が <code>\</code> の場合（<code>\</code> の直後が改行） の場合、次行と合わせて1行として扱う</li>
+</ul>
+<p>例）</p>
+<pre><code>ld \
+a \
+, \
+b \
+</code></pre><p>は <code>ld a, b</code> と同等</p>
+<h3 id="行の種類">行の種類</h3>
+<ul>
+<li>行は次のいずれか<ul>
+<li>空白行</li>
+<li>コメント行（コメントのみ含む）</li>
+<li>Z80 / R800 命令行</li>
+<li>疑似命令（アセンブラディレクティブ）行</li>
+</ul>
+</li>
+</ul>
+<h3 id="コメント">コメント</h3>
+<ul>
+<li><code>;</code> 以降行末までコメントで、アセンブル処理の対象外となる</li>
+</ul>
+<h2 id="構文要素">構文要素</h2>
+<h3 id="予約語">予約語</h3>
+<ul>
+<li>次のもの予約語のため、ユーザ定義名として利用できない</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Z80</td>
+<td>命令語、レジスタ名、フラグ名</td>
+</tr>
+<tr>
+<td>ディレクティブ（疑似命令）</td>
+<td>IF ELIF ELSE ENDIF<br></br> MACRO ENDM EXIT<br></br>REPT ENDR<br></br>FUNC ENDF FUNCTION<br></br>CONST EQU VAR</td>
+</tr>
+<tr>
+<td>システム変数</td>
+<td>_ $ 等</td>
+</tr>
+<tr>
+<td>組み込み関数</td>
+<td>$LEN $PUSH $POP $ERROR $WARN $INFO $PRINT $PRINTF</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>システム変数、組み込み関数は全て <code>$</code> で始まる</li>
+<li>システム変数は参照のみ可能。</li>
+<li>ユーザ定義名として <code>$</code> で始まる名前を定義することはできない。</li>
+<li><code>_</code> はブランク識別子（Go と同じ用途）</li>
+</ul>
+<h3 id="ユーザ定義名">ユーザ定義名</h3>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>グローバル</td>
+<td>英字もしくは <code>_</code> で始まり、英数字もしくは <code>_</code> が後に続くもの</td>
+</tr>
+<tr>
+<td>PROC ローカル</td>
+<td>通常名の前に <code>.</code> を付けたもの。スコープは PROC 内</td>
+</tr>
+<tr>
+<td>MACRO ローカル</td>
+<td>通常名の前に <code>@</code> を付けたもの。スコープは マクロ内</td>
+</tr>
+</tbody>
+</table>
+<h3 id="リテラル">リテラル</h3>
+<ul>
+<li>数値リテラル <ul>
+<li>10 進数<ul>
+<li>0-9 を 1 文字以上続けたもの</li>
+</ul>
+</li>
+<li>16 進数<ul>
+<li>0x もしくは 0X の後に 0-9 a-f A-F を1文字以上続けたもの</li>
+<li>'$` の後に 0-9 a-f A-F を1文字以上続けたもの</li>
+<li>0-9 の後に0-9 a-f A-F を1文字以上続け、末尾に h もしくは H を付けたもの</li>
+</ul>
+</li>
+<li>8 進数<ul>
+<li>0o もしくは 0O の後に 0-7  を1文字以上続けたもの</li>
+</ul>
+</li>
+<li>2 進数<ul>
+<li>0b もしくは 0B の後に 0, 1  を1文字以上続けたもの</li>
+<li>'%' の後に 0, 1  を1文字以上続けたもの</li>
+</ul>
+</li>
+<li>いずれの場合も任意の位置に <code>_</code> を含むことができる</li>
+</ul>
+</li>
+<li>文字列リテラル<ul>
+<li>二重引用符(<code>"</code>) もしくは引用符(<code>'</code>)で囲まれた文字列</li>
+<li><code>"</code> で囲む場合、文字列中に <code>"</code> を含めるにはエスケープする(<code>\"</code>)。<code>'</code> で囲む場合は不要</li>
+<li><code>'</code> で囲む場合、文字列中に <code>'</code> を含めるにはエスケープする(<code>\'</code>)。<code>"</code> で囲む場合は不要</li>
+<li>利用可能なエスケープ文字は次のとおり。これ以外の文字をエスケープした場合、<code>\</code> が無視され文字がそのまま出力される</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表記</th>
+<th>文字コード</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>\"</code></td>
+<td>0x22</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\'</code></td>
+<td>0x22</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\\</code></td>
+<td>0x5c</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\a</code></td>
+<td>0x07</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\b</code></td>
+<td>0x08</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\t</code></td>
+<td>0x09</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\v</code></td>
+<td>0x0b</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\f</code></td>
+<td>0x0c</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\n</code></td>
+<td>0x0a</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\r</code></td>
+<td>0x0d</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>真偽値リテラル<ul>
+<li>特別な真偽値リテラルはなく、次の通り真偽判定する</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">真偽値</th>
+<th>リテラル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">偽</td>
+<td>数値 <code>0</code>、空文字列 <code>""</code>、空の配列リテラル <code>[]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">真</td>
+<td>偽以外のリテラル数値、文字列。レジスタ、関数(FUNC)、列挙(ENUM)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>配列リテラル<ul>
+<li><code>[</code>, <code>]</code> で他の式を囲んだもの</li>
+<li>配列リテラルに <code>[数値式]</code> を付与することで対応する位置の配列要素を参照することができる</li>
+<li>配列リテラルの要素は参照のみ可能で値を更新することはできない。</li>
+</ul>
+</li>
+</ul>
+<h3 id="演算子">演算子</h3>
+<ul>
+<li>数値演算子<ul>
+<li>四則演算 <code>+ - * /</code></li>
+<li>剰余演算 <code>%</code></li>
+<li>ビット演算 <code>| &amp; ^ ~ &lt;&lt; &gt;&gt;</code></li>
+<li>比較演算 <code>&lt; &lt;= == != &gt; &gt;&gt;</code></li>
+<li>論理演算 <code>|| &amp;&amp; !（論理否定）</code></li>
+</ul>
+</li>
+<li>文字列演算子<ul>
+<li>結合 <code>+</code></li>
+</ul>
+</li>
+<li>トークン結合演算子<ul>
+<li>ユーザ定義名と数値・文字列を結合し、別のユーザ定義名とするもの</li>
+<li>ラベルもしくは定数の作成で利用可能</li>
+</ul>
+</li>
+</ul>
+<h2 id="z80-命令文">Z80 命令文</h2>
+<ul>
+<li><opcode> [opran1 [,operand2]]</opcode></li>
+<li>Z80 命令文はラベルを持つことが可能</li>
+</ul>
+<h2 id="ユーザ定義名（macro-名、func-名、function名、ラベル、定数、変数）">ユーザ定義名（MACRO 名、FUNC 名、FUNCTION名、ラベル、定数、変数）</h2>
+<ul>
+<li>通常</li>
+<li>.ローカル<ul>
+<li>PROC 内スコープ</li>
+<li>PROC 外からは 通常.ローカルで参照可能</li>
+</ul>
+</li>
+<li>@ローカル<ul>
+<li>MACRO、REPT（繰り返し単位）内スコープ</li>
+<li>MACRO、REPT外からは参照不可</li>
+</ul>
+</li>
+</ul>
+<h2 id="ディレクティブ">ディレクティブ</h2>
+<h3 id="定数定義文-constequ">定数定義文 CONST/EQU</h3>
+<ul>
+<li>CONST <code>&lt;name&gt;</code> = <code>&lt;expr&gt;</code></li>
+<li><code>&lt;name&gt;</code> EQU <code>&lt;expr&gt;</code></li>
+</ul>
+<h3 id="変数定義文-var">変数定義文 VAR</h3>
+<ul>
+<li>定義：VAR <code>&lt;name&gt;</code> = <code>&lt;expr&gt;</code></li>
+<li>更新（代入） VAR = <code>&lt;expr&gt;</code></li>
+</ul>
+<h3 id="if-文">IF 文</h3>
+<ul>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ELSE \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ELIF <code>&lt;expr&gt;</code>ELSE \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF 文のネストは可能</li>
+<li>ELIF は IF ELSE IF ELSE ENDIF ENDIF のシンタックスシュガー</li>
+</ul>
+<h3 id="rept-文">REPT 文</h3>
+<ul>
+<li>REPT <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ENDR</li>
+<li><code>&lt;expr&gt;</code> の数だけ <code>&lt;statements&gt;</code> を展開する</li>
+<li>＠名前 は各展開毎のローカル名となる</li>
+<li><code>&lt;statements&gt;</code> の中で EXIT を使用すると、そこから ENDR までの展開をやめる
+-</li>
+</ul>
+<h3 id="macro-文">MACRO 文</h3>
+<ul>
+<li>定義： <code>&lt;name&gt;</code> MACRO [param1 [, param2...]] \ <code>&lt;statements&gt;</code> \ ENDM</li>
+<li>トップレベルでのみ定義可能</li>
+<li>呼出： <code>&lt;name&gt;</code> [arg1 [, arg2...]]</li>
+<li>0 個以上の引数をとれる</li>
+<li>＠名前 は各展開毎のローカル名となる</li>
+<li><code>&lt;statements&gt;</code> の中で EXIT を使用すると、そこから ENDR までの展開をやめる</li>
+<li>トップレベルのみで定義可能</li>
+<li><code>&lt;statements&gt;</code> に次のものを含むことはできないできない（定義のネスト不可）<ul>
+<li>MACRO</li>
+<li>PROC</li>
+</ul>
+</li>
+<li><code>&lt;statements&gt;</code> の中で他のマクロを呼び出すことは可能</li>
+<li><code>&lt;statements&gt;</code> の中で自分自身を呼び出すことは不可（再帰呼び出しは不可）</li>
+</ul>
+<h3 id="proc-文">PROC 文</h3>
+<ul>
+<li><code>&lt;name&gt;</code> PROC \ <code>&lt;statements&gt;</code> \ ENDP</li>
+<li>トップレベルでのみ定義可能</li>
+<li><code>&lt;name&gt;</code> の通常ラベルが定義される</li>
+<li>.ローカル名のスコープ管理単位</li>
+<li>.ローカル名は PROC 内で一意であること（通常ラベルとの位置関係は問わない）</li>
+<li><code>&lt;statements&gt;</code> に次のものを含むことはできないできない（定義のネスト不可）<ul>
+<li>PROC</li>
+<li>MACRO</li>
+</ul>
+</li>
+<li>定義のネストは不可</li>
+</ul>
+<h3 id="func-文">FUNC 文</h3>
+<ul>
+<li>定義：<code>&lt;name&gt;</code> FUNC [param1 [, param2...]] \ <code>&lt;statements&gt;</code> \ ENDF</li>
+<li>呼出: <code>&lt;name&gt;</code> ( [arg1 [, arg2...]])</li>
+<li>関数呼出しは<code>&lt;expr&gt;</code></li>
+<li>引数がない場合でも () は必要</li>
+<li><code>&lt;statements&gt;</code> の中で RETURN 文が評価されると、その時点で呼出し元へ戻る</li>
+<li>RETURN 文に値が指定されていると、その値が呼出し元に返される</li>
+<li><code>&lt;statements&gt;</code> 内に RETURN 文がない場合、全ての文を実行後、呼び出し元に戻る。値は返さない</li>
+<li><code>&lt;name&gt;</code> は関数値を持つため、他の定数・変数に代入したり、関数を値として返すことも可能</li>
+<li>関数呼出しはクロージャを形成する</li>
+</ul>
+<pre><code>フィボナッチ関数の例
+フィボナッチ数列生成関数の例
+</code></pre><h3 id="function-文">FUNCTION 文</h3>
+<pre><code>FUNCTION name ([param1 [, param2...]]) expr
+</code></pre><ul>
+<li>1 行で定義できる関数</li>
+<li>次の FUNC 文のシンタックスシュガーで</li>
+</ul>
+<pre><code>name FUNC [param1 [, param2...]]
+statement(s)
+ENDF
+</code></pre><h3 id="return-文">RETURN 文</h3>
+<ul>
+<li>関数の処理を終了し呼出し元に戻る。</li>
+<li>戻り値なし： RETURN</li>
+<li>戻り値あり： RETURN <code>&lt;expr&gt;</code></li>
+</ul>
+<h3 id="charmap-文">CHARMAP 文</h3>
+<ul>
+<li><p>定義</p>
+<pre><code>CHARMAP name, filename | json-string [, option ]
+</code></pre></li>
+<li><p>適用</p>
+</li>
+</ul>
+<pre><code>  name("文字列")
+</code></pre><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>CHARMAP 名。この名前を関数として、文字列に適用する</td>
+</tr>
+<tr>
+<td>filename</td>
+<td>CHARMAP を定義した JSON ファイル名。アセンブル対象ファイルと同じフォルダか、-I オプションで指定したフォルダからロードする</td>
+</tr>
+<tr>
+<td>json-string</td>
+<td>文字列の先頭が '{' の場合、ファイル名でなく、JSON 文字列と解釈して CHARMAP を定義する</td>
+</tr>
+<tr>
+<td>option</td>
+<td>$CMAP_ERR - CHARMAP を適用する文字列の文字が、CHARMAP で定義されていない場合、エラーとする<br></br>$CMAP_THRU - CHARMAP で未定義の文字の文字を、元の文字のまま出力する<br></br>数値(0-65535) - CHARMAPで未定義の文字を、この数値で指定された文字コードに置き換える。文字コードが 256 以上の場合、上位バイト、下位バイトにの順に出力する</td>
+</tr>
+</tbody>
+</table>
+<h2 id="対応-cpu">対応 CPU</h2>
+<h3 id="z80-命令・実行時間">Z80 命令・実行時間</h3>
+<ul>
+<li><a href="https://www.zilog.com/docs/z80/z80cpu_um.pdf" target="_blank">Z80 Family CPU User Manual</a> に記載の命令・命令実行時間<ul>
+<li>ただし <code>IN Flag,(C)</code> を除く</li>
+</ul>
+</li>
+<li>Z80 非公開命令のうち、<code>IXH/IXL/IYH/IYL</code> に関するもの<ul>
+<li><code>LD/ADD/ADC/SUB/SBC/AND/AND/OR/XOR/CP/INC/DEC</code></li>
+<li>命令実行時間は <a href="http://www.z80.info/zip/z80-documented.pdf" target="_blank">The Undocumented Z80 Documented</a> による</li>
+</ul>
+</li>
+</ul>
+<h3 id="r800-命令・実行時間">R800 命令・実行時間</h3>
+<ul>
+<li><a href="https://d4.princess.ne.jp/msx/datas/R800UM/" target="_blank">R800ユーザーズマニュアル 暫定版</a> に記載の命令・命令実行時間<ul>
+<li>表記は zilog 表記</li>
+<li>乗算命令は <code>mulub</code>, <code>muluw</code> とも <code>MUL</code> を使用する</li>
+</ul>
+</li>
+</ul>
+<h3 id="表記の揺らぎ対応">表記の揺らぎ対応</h3>
+<ul>
+<li>本来の書式に加え、次の書式を許容する</li>
+<li>IX の書式は IY も同様</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>本来の書式</th>
+<th>許容する書式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>JP (IX)</code></td>
+<td><code>JP (IX + 0)</code></td>
+</tr>
+<tr>
+<td><code>LD (IX + 0), op</code></td>
+<td><code>LD (IX + 0), op</code></td>
+</tr>
+<tr>
+<td><code>LD op, (IX + 0)</code></td>
+<td><code>LD op, (IX + 0)</code></td>
+</tr>
+<tr>
+<td><code>BIT n, (IX + 0)</code></td>
+<td><code>BIT n, (IX)</code></td>
+</tr>
+<tr>
+<td><code>SET n, (IX + 0)</code></td>
+<td><code>SET n, (IX)</code></td>
+</tr>
+<tr>
+<td><code>RES n, (IX + 0)</code></td>
+<td><code>RES n, (IX)</code></td>
+</tr>
+<tr>
+<td><code>EX HL, DE</code></td>
+<td><code>EX DE, HL</code></td>
+</tr>
+<tr>
+<td><code>EX AF, AF'</code></td>
+<td><code>EX AF, AF'</code></td>
+</tr>
+<tr>
+<td><code>EX (SP), HL</code></td>
+<td><code>EX HL, (SP)</code></td>
+</tr>
+<tr>
+<td><code>EX (SP), IX</code></td>
+<td><code>EX IX, (SP)</code></td>
+</tr>
+<tr>
+<td><code>SUB op</code></td>
+<td><code>SUB A, op</code></td>
+</tr>
+<tr>
+<td><code>AND op</code></td>
+<td><code>AND A, op</code></td>
+</tr>
+<tr>
+<td><code>OR op</code></td>
+<td><code>OR A, op</code></td>
+</tr>
+<tr>
+<td><code>XOR op</code></td>
+<td><code>XOR A, op</code></td>
+</tr>
+<tr>
+<td><code>CP op</code></td>
+<td><code>CP A, op</code></td>
+</tr>
+</tbody>
+</table>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="chap1/" class="navigation navigation-next navigation-unique" aria-label="Next page: 実行">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"はじめに","level":"1.1","depth":1,"next":{"title":"実行","level":"1.2","depth":1,"path":"chap1/README.md","ref":"chap1/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"yas80 仕様","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-03-04T01:26:19.108Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-04T01:30:52.428Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/@honkit/honkit-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
