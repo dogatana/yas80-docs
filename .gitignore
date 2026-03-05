@@ -1,2 +1,10 @@
+*~
+.*~
+
+*.pyc
+
+temp/
+venv/
+
 node_modules/
 _book/
