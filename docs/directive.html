@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>yas80 概要 · yas80 docs</title>
+        <title>ディレクティブ（疑似命令） · yas80 docs</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 6.1.6">
@@ -56,8 +56,8 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="exec.html" />
     
+    <link rel="prev" href="syntax.html" />
     
 
     </head>
@@ -86,7 +86,7 @@
         
         
     
-        <li class="chapter active" data-level="1.1" data-path="./">
+        <li class="chapter " data-level="1.1" data-path="./">
             
                 <a href="./">
             
@@ -571,7 +571,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="directive.html">
+        <li class="chapter active" data-level="1.6" data-path="directive.html">
             
                 <a href="directive.html">
             
@@ -895,7 +895,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="directive.html">
+        <li class="chapter active" data-level="1.8" data-path="directive.html">
             
                 <a href="directive.html">
             
@@ -951,7 +951,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >yas80 概要</a>
+        <a href="." >ディレクティブ（疑似命令）</a>
     </h1>
 </div>
 
@@ -969,58 +969,138 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="yas80---yet-another-assembler-for-z80-and-r800">yas80 - Yet Another Assembler for z80 and R800</h1>
-<p>Version. 0.1.0</p>
-<h2 id="マルチパスアセンブラ">マルチパスアセンブラ</h2>
-<p>多くのアセンブラでは、前方参照シンボル等の未解決シンボルが発生するケースの処理のため、
-2 パスアセンブル方式が採用されていますが、yas80 はパス数可変のマルチパスアセンブラとしています。</p>
-<p>yas80 のアセンブル処理は大きく分けて</p>
-<p><img src="images/マルチパス.svg" alt="マルチパス"></img></p>
-<p>の 3 工程に分かれており、評価工程は更に</p>
+                                <h1 id="ディレクティブ（疑似命令）">ディレクティブ（疑似命令）</h1>
+<h2 id="org">ORG</h2>
+<h2 id="end">END</h2>
+<h2 id="entry">ENTRY</h2>
+<h2 id="proc">PROC</h2>
 <ul>
-<li>シンボル解決 ・・ 未解決シンボルがなくなるまで最大 256 回繰り返し評価</li>
-<li>生成コード確定・・生成コードが同一になるまで最大 16 回繰り返し評価</li>
+<li><code>&lt;name&gt;</code> PROC \ <code>&lt;statements&gt;</code> \ ENDP</li>
+<li>トップレベルでのみ定義可能</li>
+<li><code>&lt;name&gt;</code> の通常ラベルが定義される</li>
+<li>.ローカル名のスコープ管理単位</li>
+<li>.ローカル名は PROC 内で一意であること（通常ラベルとの位置関係は問わない）</li>
+<li><code>&lt;statements&gt;</code> に次のものを含むことはできないできない（定義のネスト不可）<ul>
+<li>PROC</li>
+<li>MACRO</li>
 </ul>
-<p>の 2 段階で構成しています。</p>
-<p>現在のパス番号（1～）は<a href="syntax.html#システム変数">システム変数</a> <code>$PASS</code> で参照できます。</p>
-<h2 id="生成コードの配置">生成コードの配置</h2>
+</li>
+<li>定義のネストは不可</li>
+</ul>
+<h2 id="align">ALIGN</h2>
+<h2 id="constequ">CONST/EQU</h2>
 <ul>
-<li>ORG から次の ORG までを "セグメント" としてまとめる</li>
-<li>セグメントは ORG の第1オペランド（アドレス）でソートして配置</li>
-<li>ORG の第2オペランドが REL の場合、該当セグメントは先行セグメントの従属データとして続けて配置</li>
+<li>CONST <code>&lt;name&gt;</code> = <code>&lt;expr&gt;</code></li>
+<li><code>&lt;name&gt;</code> EQU <code>&lt;expr&gt;</code></li>
 </ul>
-<h2 id="シンボルとスコープ">シンボルとスコープ</h2>
-<p>yas80 は次のスコープを持つ</p>
-<table>
+<h2 id="var">VAR</h2>
+<ul>
+<li>定義：VAR <code>&lt;name&gt;</code> = <code>&lt;expr&gt;</code></li>
+<li>更新（代入） VAR = <code>&lt;expr&gt;</code></li>
+</ul>
+<h2 id="代入">= (代入)</h2>
+<h2 id="dbdwdd">DB/DW/DD</h2>
+<h2 id="ds">DS</h2>
+<h2 id="include">INCLUDE</h2>
+<h2 id="incbin">INCBIN</h2>
+<h2 id="charmap">CHARMAP</h2>
+<ul>
+<li><p>定義</p>
+<pre><code>CHARMAP name, filename | json-string [, option ]
+</code></pre></li>
+<li><p>適用</p>
+</li>
+</ul>
+<pre><code>  name("文字列")
+</code></pre><table>
 <thead>
 <tr>
-<th>シンボル</th>
-<th>スコープ</th>
+<th>項目</th>
 <th>説明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>英字, <code>_</code> 始まり</td>
-<td>グローバル</td>
-<td>どのスコープでも定義、参照可能</td>
+<td>name</td>
+<td>CHARMAP 名。この名前を関数として、文字列に適用する</td>
 </tr>
 <tr>
-<td><code>.</code> 始まり</td>
-<td>PROC ローカル</td>
-<td>シンボルを含む PROC 内ローカル<br></br>PROC 外部からは <code>PROC-name.symbol-name</code> で参照可能</td>
+<td>filename</td>
+<td>CHARMAP を定義した JSON ファイル名。アセンブル対象ファイルと同じフォルダか、-I オプションで指定したフォルダからロードする</td>
 </tr>
 <tr>
-<td><code>@</code> 始まり</td>
-<td>MACRO/REPT ローカル</td>
-<td>シンボルを含む MACRO/REPT 内ローカル<br></br>外部からは参照不可<br></br>MACRO 呼出しがネストしている場合は別スコープ扱い<br></br>REPT の場合は展開の都度、別スコープ扱い</td>
+<td>json-string</td>
+<td>文字列の先頭が '{' の場合、ファイル名でなく、JSON 文字列と解釈して CHARMAP を定義する</td>
+</tr>
+<tr>
+<td>option</td>
+<td>$CMAP_ERR - CHARMAP を適用する文字列の文字が、CHARMAP で定義されていない場合、エラーとする<br></br>$CMAP_THRU - CHARMAP で未定義の文字の文字を、元の文字のまま出力する<br></br>数値(0-65535) - CHARMAPで未定義の文字を、この数値で指定された文字コードに置き換える。文字コードが 256 以上の場合、上位バイト、下位バイトにの順に出力する</td>
 </tr>
 </tbody>
 </table>
+<h2 id="setmap">SETMAP</h2>
+<h2 id="ifelifelseendif">IF/ELIF/ELSE/ENDIF</h2>
 <ul>
-<li>MACRO/REPT ローカルはアセンブル時、他の名前にマングリングすることで実現</li>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ELSE \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ELIF <code>&lt;expr&gt;</code>ELSE \ <code>&lt;statements&gt;</code> \ ENDIF</li>
+<li>IF 文のネストは可能</li>
+<li>ELIF は IF ELSE IF ELSE ENDIF ENDIF のシンタックスシュガー</li>
 </ul>
-<h2 id="エラーとアセンブル処理">エラーとアセンブル処理</h2>
+<h2 id="funcreturnendf">FUNC/RETURN/ENDF</h2>
+<ul>
+<li>定義：<code>&lt;name&gt;</code> FUNC [param1 [, param2...]] \ <code>&lt;statements&gt;</code> \ ENDF</li>
+<li>呼出: <code>&lt;name&gt;</code> ( [arg1 [, arg2...]])</li>
+<li>関数呼出しは<code>&lt;expr&gt;</code></li>
+<li>引数がない場合でも () は必要</li>
+<li><code>&lt;statements&gt;</code> の中で RETURN 文が評価されると、その時点で呼出し元へ戻る</li>
+<li>RETURN 文に値が指定されていると、その値が呼出し元に返される</li>
+<li><code>&lt;statements&gt;</code> 内に RETURN 文がない場合、全ての文を実行後、呼び出し元に戻る。値は返さない</li>
+<li><code>&lt;name&gt;</code> は関数値を持つため、他の定数・変数に代入したり、関数を値として返すことも可能</li>
+<li>関数呼出しはクロージャを形成する</li>
+</ul>
+<pre><code>フィボナッチ関数の例
+フィボナッチ数列生成関数の例
+</code></pre><h2 id="function">FUNCTION</h2>
+<pre><code>FUNCTION name ([param1 [, param2...]]) expr
+</code></pre><ul>
+<li>1 行で定義できる関数</li>
+<li>次の FUNC 文のシンタックスシュガーで</li>
+</ul>
+<pre><code>name FUNC [param1 [, param2...]]
+statement(s)
+ENDF
+</code></pre><h2 id="return-文">RETURN 文</h2>
+<ul>
+<li>関数の処理を終了し呼出し元に戻る。</li>
+<li>戻り値なし： RETURN</li>
+<li>戻り値あり： RETURN <code>&lt;expr&gt;</code></li>
+</ul>
+<h2 id="rept-文">REPT 文</h2>
+<ul>
+<li>REPT <code>&lt;expr&gt;</code> \ <code>&lt;statements&gt;</code> \ ENDR</li>
+<li><code>&lt;expr&gt;</code> の数だけ <code>&lt;statements&gt;</code> を展開する</li>
+<li>＠名前 は各展開毎のローカル名となる</li>
+<li><code>&lt;statements&gt;</code> の中で EXIT を使用すると、そこから ENDR までの展開をやめる
+-</li>
+</ul>
+<h2 id="macro-文">MACRO 文</h2>
+<ul>
+<li>定義： <code>&lt;name&gt;</code> MACRO [param1 [, param2...]] \ <code>&lt;statements&gt;</code> \ ENDM</li>
+<li>トップレベルでのみ定義可能</li>
+<li>呼出： <code>&lt;name&gt;</code> [arg1 [, arg2...]]</li>
+<li>0 個以上の引数をとれる</li>
+<li>＠名前 は各展開毎のローカル名となる</li>
+<li><code>&lt;statements&gt;</code> の中で EXIT を使用すると、そこから ENDR までの展開をやめる</li>
+<li>トップレベルのみで定義可能</li>
+<li><code>&lt;statements&gt;</code> に次のものを含むことはできないできない（定義のネスト不可）<ul>
+<li>MACRO</li>
+<li>PROC</li>
+</ul>
+</li>
+<li><code>&lt;statements&gt;</code> の中で他のマクロを呼び出すことは可能</li>
+<li><code>&lt;statements&gt;</code> の中で自分自身を呼び出すことは不可（再帰呼び出しは不可）</li>
+</ul>
 
                                 
                                 </section>
@@ -1064,10 +1144,10 @@
 
             
                 
-                
-                <a href="exec.html" class="navigation navigation-next navigation-unique" aria-label="Next page: yas80 実行">
-                    <i class="fa fa-angle-right"></i>
+                <a href="syntax.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ラベル">
+                    <i class="fa fa-angle-left"></i>
                 </a>
+                
                 
             
         
@@ -1076,7 +1156,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec.md","ref":"exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec.md","ref":"exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec.md","ref":"exec.md#オプション","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"生成コード配置","level":"1.1.2","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"シンボルとスコープ","level":"1.1.3","depth":2,"anchor":"#シンボルとスコープ","path":"README.md","ref":"README.md#シンボルとスコープ","articles":[]},{"title":"エラーとアセンブル処理","level":"1.1.4","depth":2,"anchor":"#エラーとアセンブル処理","path":"README.md","ref":"README.md#エラーとアセンブル処理","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./docs-src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-03-09T01:32:26.880Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-09T09:46:27.280Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ディレクティブ（疑似命令）","level":"1.6","depth":1,"next":{"title":"[MACRO/ENDM](directive.md#marcroendm","level":"1.6.18","depth":2,"ref":"","articles":[]},"previous":{"title":"ラベル","level":"1.5.12","depth":2,"path":"syntax.md","ref":"syntax.md","articles":[]},"articles":[{"title":"ORG","level":"1.6.1","depth":2,"anchor":"#org","path":"directive.md","ref":"directive.md#org","articles":[]},{"title":"END","level":"1.6.2","depth":2,"anchor":"#end","path":"directive.md","ref":"directive.md#end","articles":[]},{"title":"ENTRY","level":"1.6.3","depth":2,"anchor":"#entry","path":"directive.md","ref":"directive.md#entry","articles":[]},{"title":"PROC","level":"1.6.4","depth":2,"anchor":"#proc","path":"directive.md","ref":"directive.md#proc","articles":[]},{"title":"ALIGN","level":"1.6.5","depth":2,"anchor":"#align","path":"directive.md","ref":"directive.md#align","articles":[]},{"title":"CONST/EQU","level":"1.6.6","depth":2,"anchor":"#constequ","path":"directive.md","ref":"directive.md#constequ","articles":[]},{"title":"VAR","level":"1.6.7","depth":2,"anchor":"#var","path":"directive.md","ref":"directive.md#var","articles":[]},{"title":"=(代入)","level":"1.6.8","depth":2,"anchor":"#代入","path":"directive.md","ref":"directive.md#代入","articles":[]},{"title":"DB/DW/DD","level":"1.6.9","depth":2,"anchor":"#dbdwdd","path":"directive.md","ref":"directive.md#dbdwdd","articles":[]},{"title":"DS","level":"1.6.10","depth":2,"anchor":"#ds","path":"directive.md","ref":"directive.md#ds","articles":[]},{"title":"INCLUDE","level":"1.6.11","depth":2,"anchor":"#include","path":"directive.md","ref":"directive.md#include","articles":[]},{"title":"INCBIN","level":"1.6.12","depth":2,"anchor":"#incbin","path":"directive.md","ref":"directive.md#incbin","articles":[]},{"title":"CHARMAP","level":"1.6.13","depth":2,"anchor":"#charmap","path":"directive.md","ref":"directive.md#charmap","articles":[]},{"title":"SETMAP","level":"1.6.14","depth":2,"anchor":"#setmap","path":"directive.md","ref":"directive.md#setmap","articles":[]},{"title":"IF/ELIF/ELSE/ENDIF","level":"1.6.15","depth":2,"anchor":"#ifelifelseendif","path":"directive.md","ref":"directive.md#ifelifelseendif","articles":[]},{"title":"FUNC/RETURN/ENDF","level":"1.6.16","depth":2,"anchor":"#funcreturnendf","path":"directive.md","ref":"directive.md#funcreturnendf","articles":[]},{"title":"FUNCTION","level":"1.6.17","depth":2,"anchor":"#function","path":"directive.md","ref":"directive.md#function","articles":[]},{"title":"[MACRO/ENDM](directive.md#marcroendm","level":"1.6.18","depth":2,"ref":"","articles":[]},{"title":"EIXTM/EXITM IF","level":"1.6.19","depth":2,"anchor":"#exitmexitm_if","path":"directive.md","ref":"directive.md#exitmexitm_if","articles":[]},{"title":"REPT/ENDR","level":"1.6.20","depth":2,"anchor":"#reptendr","path":"directive.md","ref":"directive.md#reptendr","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./docs-src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"directive.md","mtime":"2026-03-09T01:46:01.364Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-09T09:46:27.280Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

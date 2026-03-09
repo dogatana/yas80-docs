@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>yas80 概要 · yas80 docs</title>
+        <title>ソースファイル · yas80 docs</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 6.1.6">
@@ -56,8 +56,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="exec.html" />
+    <link rel="next" href="output.html" />
     
+    
+    <link rel="prev" href="exec.html" />
     
 
     </head>
@@ -86,7 +88,7 @@
         
         
     
-        <li class="chapter active" data-level="1.1" data-path="./">
+        <li class="chapter " data-level="1.1" data-path="./">
             
                 <a href="./">
             
@@ -202,7 +204,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="source.html">
+        <li class="chapter active" data-level="1.3" data-path="source.html">
             
                 <a href="source.html">
             
@@ -951,7 +953,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >yas80 概要</a>
+        <a href="." >ソースファイル</a>
     </h1>
 </div>
 
@@ -969,58 +971,56 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="yas80---yet-another-assembler-for-z80-and-r800">yas80 - Yet Another Assembler for z80 and R800</h1>
-<p>Version. 0.1.0</p>
-<h2 id="マルチパスアセンブラ">マルチパスアセンブラ</h2>
-<p>多くのアセンブラでは、前方参照シンボル等の未解決シンボルが発生するケースの処理のため、
-2 パスアセンブル方式が採用されていますが、yas80 はパス数可変のマルチパスアセンブラとしています。</p>
-<p>yas80 のアセンブル処理は大きく分けて</p>
-<p><img src="images/マルチパス.svg" alt="マルチパス"></img></p>
-<p>の 3 工程に分かれており、評価工程は更に</p>
+                                <h1 id="ソースファイル">ソースファイル</h1>
 <ul>
-<li>シンボル解決 ・・ 未解決シンボルがなくなるまで最大 256 回繰り返し評価</li>
-<li>生成コード確定・・生成コードが同一になるまで最大 16 回繰り返し評価</li>
+<li>ソースファイルは複数指定可能です。</li>
+<li>複数のソースファイルを指定した場合、それらを結合した1つのファイルとしてアセンブルします。</li>
+<li>アセンブルしている途中で END 文があった場合、アセンブル中のソースファイルと以降のソースファイルのアセンブルを終了します。</li>
 </ul>
-<p>の 2 段階で構成しています。</p>
-<p>現在のパス番号（1～）は<a href="syntax.html#システム変数">システム変数</a> <code>$PASS</code> で参照できます。</p>
-<h2 id="生成コードの配置">生成コードの配置</h2>
+<h2 id="エンコーディング">エンコーディング</h2>
 <ul>
-<li>ORG から次の ORG までを "セグメント" としてまとめる</li>
-<li>セグメントは ORG の第1オペランド（アドレス）でソートして配置</li>
-<li>ORG の第2オペランドが REL の場合、該当セグメントは先行セグメントの従属データとして続けて配置</li>
+<li>利用可能なエンコーディングは UTF-8 および Shift_JIS です。</li>
+<li>UTF-8 の場合、BOM の有無は問いません（あってもなくても可）</li>
+<li>UTF-8 としてとして不正な文字を検出した場合、Shift_JIS から UTF-8 へのエンコディーング変換を試みます。</li>
+<li>変換が失敗した場合、アセンブルを中止します。</li>
 </ul>
-<h2 id="シンボルとスコープ">シンボルとスコープ</h2>
-<p>yas80 は次のスコープを持つ</p>
-<table>
-<thead>
-<tr>
-<th>シンボル</th>
-<th>スコープ</th>
-<th>説明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>英字, <code>_</code> 始まり</td>
-<td>グローバル</td>
-<td>どのスコープでも定義、参照可能</td>
-</tr>
-<tr>
-<td><code>.</code> 始まり</td>
-<td>PROC ローカル</td>
-<td>シンボルを含む PROC 内ローカル<br></br>PROC 外部からは <code>PROC-name.symbol-name</code> で参照可能</td>
-</tr>
-<tr>
-<td><code>@</code> 始まり</td>
-<td>MACRO/REPT ローカル</td>
-<td>シンボルを含む MACRO/REPT 内ローカル<br></br>外部からは参照不可<br></br>MACRO 呼出しがネストしている場合は別スコープ扱い<br></br>REPT の場合は展開の都度、別スコープ扱い</td>
-</tr>
-</tbody>
-</table>
+<h2 id="行">行</h2>
 <ul>
-<li>MACRO/REPT ローカルはアセンブル時、他の名前にマングリングすることで実現</li>
+<li>アセンブル処理は行単位で実行します。</li>
+<li>通常、物理行（行頭から行末改行記号）と論理行（アセンブラの処理単位）は同じです。</li>
 </ul>
-<h2 id="エラーとアセンブル処理">エラーとアセンブル処理</h2>
+<h2 id="マルチステートメント">マルチステートメント</h2>
+<style>
+.center { text-align:center;}
+</style>
+
+<ul>
+<li><code>\</code> で区切ることで １物理行の中に複数の論理行を記載するマルチステートメントとすることができます。</li>
+<li>エラー、警告等の表示は物理行単位になります。</li>
+</ul>
+<pre><code>ld a, (hl) \ inc hl
+</code></pre><p>&nbsp;⇩</p>
+<pre><code>ld a, (hl)
+inc hl
+</code></pre><h2 id="継続行">継続行</h2>
+<ul>
+<li>行末が <code>\</code> の場合（<code>\</code> の直後が改行） の場合、次行と合わせて1行として扱います。</li>
+<li><code>\</code> の直後に改行以外の文字がある場合は継続行になりません。</li>
+</ul>
+<pre><code>msg db "hello, " \
+       "world" \
+       "!"
+</code></pre><p>&nbsp;⇩</p>
+<pre><code>msg db "hello, " "world" "!"
+</code></pre><p>&nbsp;⇩</p>
+<pre><code>msg db "hello, world!"
+</code></pre><h2 id="行の種類">行の種類</h2>
+<ul>
+<li>空白行</li>
+<li>コメント行（コメントのみ含む）</li>
+<li>Z80 / R800 命令行</li>
+<li>疑似命令行（ディレクティブ）</li>
+</ul>
 
                                 
                                 </section>
@@ -1064,8 +1064,12 @@
 
             
                 
+                <a href="exec.html" class="navigation navigation-prev " aria-label="Previous page: yas80 実行">
+                    <i class="fa fa-angle-left"></i>
+                </a>
                 
-                <a href="exec.html" class="navigation navigation-next navigation-unique" aria-label="Next page: yas80 実行">
+                
+                <a href="output.html" class="navigation navigation-next " aria-label="Next page: 出力ファイル">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1076,7 +1080,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec.md","ref":"exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec.md","ref":"exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec.md","ref":"exec.md#オプション","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"生成コード配置","level":"1.1.2","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"シンボルとスコープ","level":"1.1.3","depth":2,"anchor":"#シンボルとスコープ","path":"README.md","ref":"README.md#シンボルとスコープ","articles":[]},{"title":"エラーとアセンブル処理","level":"1.1.4","depth":2,"anchor":"#エラーとアセンブル処理","path":"README.md","ref":"README.md#エラーとアセンブル処理","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./docs-src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-03-09T01:32:26.880Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-09T09:46:27.280Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ソースファイル","level":"1.3","depth":1,"next":{"title":"出力ファイル","level":"1.4","depth":1,"path":"output.md","ref":"output.md","articles":[{"title":"出力ファイル形式","level":"1.4.1","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"BIN形式","level":"1.4.2","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"MZT形式","level":"1.4.3","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"T88形式","level":"1.4.4","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"リストファイル","level":"1.4.5","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"シンボルファイル","level":"1.4.6","depth":2,"path":"output.md","ref":"output.md","articles":[]},{"title":"マップファイル","level":"1.4.7","depth":2,"path":"output.md","ref":"output.md","articles":[]}]},"previous":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec.md","ref":"exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec.md","ref":"exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec.md","ref":"exec.md#オプション","articles":[]}]},"articles":[{"title":"エンコーディング","level":"1.3.1","depth":2,"anchor":"#エンコーディング","path":"source.md","ref":"source.md#エンコーディング","articles":[]},{"title":"行","level":"1.3.2","depth":2,"anchor":"#行","path":"source.md","ref":"source.md#行","articles":[]},{"title":"マルチステートメント","level":"1.3.3","depth":2,"anchor":"#マルチステートメント","path":"source.md","ref":"source.md#マルチステートメント","articles":[]},{"title":"継続行","level":"1.3.4","depth":2,"anchor":"#継続行","path":"source.md","ref":"source.md#継続行","articles":[]},{"title":"行の種類","level":"1.3.5","depth":2,"anchor":"#行の種類","path":"source.md","ref":"source.md#行の種類","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./docs-src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"source.md","mtime":"2026-03-06T12:48:35.207Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-09T09:46:27.280Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
