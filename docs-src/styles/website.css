@@ -14,5 +14,13 @@ table thead th {
   font-family: 'Yu Mincho', 'YuMincho', 'Noto Serif JP', serif
 }
 .book.font-family-1 {
-  font-family: 'Yu Gothic', 'YuGothic', 'Noto Sans JP', sans
+  font-family: 'Yu Gothic', 'YuGothic', 'Noto Sans JP', sans-serif
+}
+
+.right {
+  text-align: right;
+}
+
+code {
+  background-color: transparent !important;
 }
