@@ -28,5 +28,6 @@ table thead th {
   margin: 0 !important;;
 }
 code {
+  font-size: 105% !important;
   background-color: transparent !important;
 }
