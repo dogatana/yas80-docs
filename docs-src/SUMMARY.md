@@ -2,8 +2,8 @@
 
 * [yas80 概要](README.md)
     * [マルチパスアセンブラ](README.md#マルチパスアセンブラ)
-    * [エラー・警告・情報](README.md#エラー・警告・情報)
-    * [異常発生時の挙動](README.md#異常発生時の挙動)
+    * [エラー・警告・情報](error.md)
+    * [異常発生時の挙動](error.md#異常発生時の挙動)
     * [生成コードの配置](allocate.md)
     * [スコープ](scope.md)
 * [yas80 実行](exec.md)
