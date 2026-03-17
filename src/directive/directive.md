@@ -6,6 +6,8 @@
 
 ## ENTRY
 
+## ALIGN
+
 ## PROC
 
 - `<name>` PROC \ `<statements>` \ ENDP
@@ -18,7 +20,6 @@
     - MACRO
 - 定義のネストは不可
 
-## ALIGN
 
 ## CONST/EQU
 
@@ -82,6 +83,11 @@ CHARMAP name, filename | json-string [, option ]
 - `<name>` は関数値を持つため、他の定数・変数に代入したり、関数を値として返すことも可能
 - 関数呼出しはクロージャを形成する
 
+### RETURN 文
+- 関数の処理を終了し呼出し元に戻る。
+- 戻り値なし： RETURN
+- 戻り値あり： RETURN `<expr>`
+
 ```
 フィボナッチ関数の例
 フィボナッチ数列生成関数の例
@@ -101,22 +107,7 @@ name FUNC [param1 [, param2...]]
 statement(s)
 ENDF
 ```
-
-## RETURN 文
-
-- 関数の処理を終了し呼出し元に戻る。
-- 戻り値なし： RETURN
-- 戻り値あり： RETURN `<expr>`
-
-## REPT 文
-
-- REPT `<expr>` \ `<statements>` \ ENDR
-- `<expr>` の数だけ `<statements>` を展開する
-- ＠名前 は各展開毎のローカル名となる
-- `<statements>` の中で EXIT を使用すると、そこから ENDR までの展開をやめる
--
-
-## MACRO 文
+## MACRO/ENDM
 
 - 定義： `<name>` MACRO [param1 [, param2...]] \ `<statements>` \ ENDM
 - トップレベルでのみ定義可能
@@ -130,3 +121,12 @@ ENDF
     - PROC
 - `<statements>` の中で他のマクロを呼び出すことは可能
 - `<statements>` の中で自分自身を呼び出すことは不可（再帰呼び出しは不可）
+
+## REPT/ENDR
+
+- REPT `<expr>` \ `<statements>` \ ENDR
+- `<expr>` の数だけ `<statements>` を展開する
+- ＠名前 は各展開毎のローカル名となる
+- `<statements>` の中で EXIT を使用すると、そこから ENDR までの展開をやめる
+
+## EXITM
