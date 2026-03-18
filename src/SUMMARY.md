@@ -8,7 +8,8 @@
     * [スコープ](scope.md)
 * [yas80 実行](exec/exec.md)
     * [コマンド書式](exec/exec.md#コマンド書式)
-    * [オプション](exec/option.md)
+    * [オプション](exec/option.md#オプション)
+    * [auto-proc 動作](exec/option.md#auto-proc-動作)
 * [ソースファイル](source/source.md)
     * [エンコーディング](source/source.md#エンコーディング)
     * [行](source/source.md#行)
@@ -59,5 +60,5 @@
     * [FUNCTION](directive/directive.md#function)
     * [MACRO/ENDM](directive/directive.md#macroendm)
     * [REPT/ENDR](directive/directive.md#reptendr)
-    * [EIXTM](directive/directive.md#exitm)
+    * [EXITM](directive/directive.md#exitm)
 

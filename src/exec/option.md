@@ -100,9 +100,41 @@
 
 ### -a, --auto-proc
 
-- 通常のラベルと `.` で始まるラベルとを自動的に  [PROC](directive/directive.md#proc) に変換してからアセンブルします。
 - ailz80asm からソースファイルを移行する際に使用します。
+- `.` で始まるラベルとを自動的に  [PROC](directive/directive.md#proc) に変換してからアセンブルします。
+- 動作については次項を参照ください。
 
+## auto-proc 動作
+
+### PROC 開始と判定する文
+
+- ラベルのみの文
+- ラベル付きの文
+    - Z80/R800 命令文
+    - DB/DW/DD 文
+    - DS 文
+    - MACRO 呼出し文
+    - REPT 文
+
+### PROC 範囲終了と判定する文
+
+- `.` で始まらないラベルのみの文
+- `.` で始まらないラベル付きの文
+    - Z80/R800 命令文
+    - DB/DW/DD 文
+    - DS 文
+    - MACRO 呼出し文
+    - REPT 文
+- PROC 文
+- MACRO 文
+- FUNC/FUNCTION 文
+- ENUM 文
+
+### PROC 変換条件
+
+開始、終了範囲に `.` で始まるラベル文、ラベル付き文を含まないとき。
+
+### 動作例
 
 ```
 addr1: 
@@ -111,7 +143,9 @@ addr1:
 
 addr2:
 .local1:
-.local2:
+
+addr3:
+
 ```
 &nbsp;⇩
 ```
@@ -122,6 +156,7 @@ endp
 
 addr2 proc
 .local1
-.local2
 endp
+
+addr3:       ; ローカルラベルを含まないため PROC は生成しない
 ```
