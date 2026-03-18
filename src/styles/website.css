@@ -20,6 +20,9 @@ table thead th {
 .right {
   text-align: right;
 }
+.center {
+  text-align: center;
+}
 
 .dropdown-menu {
   width: 15em;
@@ -34,6 +37,7 @@ table thead th {
 code {
   font-size: 105% !important;
   background-color: transparent !important;
+  padding: 0 !important;
 }
 
 h1 {
