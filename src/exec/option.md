@@ -5,7 +5,7 @@
 - [`INCLUDE`](/directive/directive.md#include),[`INCBIN`](/directive/directive.md#incbin),[`CHARMAP`](/directive/directive.md#charmap) がファイルをロードするフォルダを指定します。
 - `-Idir`, `-I dir` のようにフォルダを指定します。
 - `-Idir1 -Idir2` のように複数回指定できます
-- `-Idir1,dir2` のように "`,`"で区切って複数のフォルダを指定可能です。
+- `-Idir1,dir2` のように `","`で区切って複数のフォルダを指定可能です。
 - 検索順は次のとおりです
     1. 疑似命令を含むソースファイルと同じフォルダ
     2. -I で最初に指定したフォルダ
@@ -17,13 +17,13 @@
 ```
 ### -D
 
-- シンボルを定義します。ソースファイル内で [CONST/EQU](directive/directive.md#constequ)  を使用したのと同じ効果です。
+- シンボルを定義します。ソースファイル内で [`CONST/EQU`](/directive/directive.md#constequ)  を使用したのと同じ効果です。
 - `-Dname=value`もしくは`-D name=value`のように名前と値を指定します。
 - 値として指定できるのは数値のみです。
 - 10進数の他、0x, 0o のプレフィックスで、16進数、8進数も指定可能です。
 - `-Dname` のように名前のみ指定した場合は `-Dname=1` と指定したものとして扱います。
 - `-Dname1=1 -Dname2=2` のように複数回指定できます。
-- `-Dname1=1,name2=2` のように "`,`" で区切って複数のシンボルを定義可能です。
+- `-Dname1=1,name2=2` のように `","` で区切って複数のシンボルを定義可能です。
 
 ```
 -D name=1,name2 -Dname3=3
@@ -71,14 +71,14 @@
 
 ### -f --fill
 
-- [ORG](directive/directive.md#org) - [生成コードの配置](allocate.md), [ALIGN](directive/directive.md#align), [DS](directive/directive.md#ds) で領域を埋める際の値を指定します。
+- [生成コードの配置](/allocate.md), [`ALIGN`](/directive/directive.md#align), [`DS`](/directive/directive.md#ds) で領域を埋める際の値を指定します。
 - 10進数の他、0x, 0o のプレフィックスで、16進数、8進数も指定可能です。
 - このオプションを指定しない場合、255 を使用します。
-- [ALIGN](directive/directive.md#align), [DS](directive/directive.md#ds) で個別に値が指定されている場合は、そちらの値が使用されます。
+- [`ALIGN`](/directive/directive.md#align), [`DS`](/directive/directive.md#ds) で個別に値が指定されている場合は、そちらの値が使用されます。
 
 ### -l
 
-- [リストファイル](output/output.md#リストファイル)を出力します。
+- [リストファイル](/output/output.md#リストファイル)を出力します。
 - ソースファイル名（複数指定した場合は最初のファイル名）と同じフォルダに、ソースファイルの拡張子を `.lst` としたファイルです。
 - ファイル名を指定したい場合は次の --list オプションを使用します。
 
@@ -89,24 +89,24 @@
 
 ### -s, --sym
 
-- [シンボルファイル](output/output.md#シンボルファイル)を出力します。
+- [シンボルファイル](/output/output.md#シンボルファイル)を出力します。
 - `-s`, `--sym` の扱いは `-l`, `--lst` と同様です。
 
 ### -m, --map
 
-- [マップファイル](output/output.md#マップファイル)を出力します。
+- [マップファイル](/output/output.md#マップファイル)を出力します。
 - `-m`, `--map` の扱いは `-l`, `--lst` と同様です。
 
 
 ### -a, --auto-proc
 
 - ailz80asm からソースファイルを移行する際に使用します。
-- `.` で始まるラベルとを自動的に  [PROC](directive/directive.md#proc) に変換してからアセンブルします。
+- `"."` で始まるラベルとを自動的に  [`PROC`](/directive/directive.md#proc) に変換してからアセンブルします。
 - 動作については次項を参照ください。
 
 ## auto-proc 動作
 
-### PROC 開始と判定する文
+### PROC 範囲開始と判定する文
 
 - ラベルのみの文
 - ラベル付きの文
@@ -118,8 +118,8 @@
 
 ### PROC 範囲終了と判定する文
 
-- `.` で始まらないラベルのみの文
-- `.` で始まらないラベル付きの文
+- `"."` で始まらないラベルのみの文
+- `"."` で始まらないラベル付きの文
     - Z80/R800 命令文
     - DB/DW/DD 文
     - DS 文
@@ -136,23 +136,22 @@
 
 ### 適用例
 
-<table>
-<tr style="border:0"><td style="border:0;vertical-align:top; width:45%"><pre><code>addr1: nop
+<div class="iblock" style="width:15em"><pre><code>addr1: nop
 .local1: nop
 .local2: nop
 
 addr2:
 .local1: nop
 
-addr3:nop </code></pre></td>
-<td style="border:0;text-align:center;width:5%">⇒</td>
-<td style="border:0;width:45%"><pre><code>add1 proc \ nop
+addr3:nop </code></pre></div>
+
+<div class="iblock top center" style="width:3em"><br>⇒</div>
+
+<div class="iblock" style="width:15em"><pre><code>add1 proc \ nop
 .local1: nop
 .local2: nop \ endp
 
 addr2 proc
 .local1: nop \ endp
 
-addr3: nop</code></pre></td>
-</tr>
-</table>
+addr3: nop</code></pre></div>
