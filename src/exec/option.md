@@ -145,7 +145,7 @@ addr2:
 
 addr3:nop </code></pre></div>
 
-<div class="iblock top center" style="width:3em"><br>⇒</div>
+<div class="iblock top center"><br><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
 
 <div class="iblock" style="width:15em"><pre><code>add1 proc \ nop
 .local1: nop
