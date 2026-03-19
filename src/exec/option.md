@@ -23,7 +23,7 @@
 - 10進数の他、0x, 0o のプレフィックスで、16進数、8進数も指定可能です。
 - `-Dname` のように名前のみ指定した場合は `-Dname=1` と指定したものとして扱います。
 - `-Dname1=1 -Dname2=2` のように複数回指定できます。
-- `-Dname1=1,name2=2` のように "`,`2 で区切って複数のシンボルを定義可能です。
+- `-Dname1=1,name2=2` のように "`,`" で区切って複数のシンボルを定義可能です。
 
 ```
 -D name=1,name2 -Dname3=3
@@ -132,31 +132,27 @@
 
 ### PROC 変換条件
 
-開始、終了範囲に `.` で始まるラベル文、ラベル付き文を含まないとき。
+開始、終了範囲に `.` で始まるラベルを含まない場合は PROC 文への変換は行いません。
 
-### 動作例
+### 適用例
 
-```
-addr1: 
-.local1:
-.local2:
+<table>
+<tr style="border:0"><td style="border:0;vertical-align:top; width:45%"><pre><code>addr1: nop
+.local1: nop
+.local2: nop
 
 addr2:
-.local1:
+.local1: nop
 
-addr3:
-
-```
-&nbsp;⇩
-```
-add1 proc
-.local1
-.local2
-endp
+addr3:nop </code></pre></td>
+<td style="border:0;text-align:center;width:5%">⇒</td>
+<td style="border:0;width:45%"><pre><code>add1 proc \ nop
+.local1: nop
+.local2: nop \ endp
 
 addr2 proc
-.local1
-endp
+.local1: nop \ endp
 
-addr3:       ; ローカルラベルを含まないため PROC は生成しない
-```
+addr3: nop</code></pre></td>
+</tr>
+</table>

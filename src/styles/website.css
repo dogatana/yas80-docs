@@ -20,6 +20,12 @@ table thead th {
 .right {
   text-align: right;
 }
+.middle {
+  vertical-align: middle;
+}
+.top {
+  vertical-align: top;
+}
 .center {
   text-align: center;
 }
