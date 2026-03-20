@@ -69,6 +69,19 @@
 </tbody>
 </table>
 
+### -e --entry
+
+- 出力ファイルの実行開始アドレスを指定します。
+- ソースコードでは [`END`](/directive/directive.md#END)、[`ENTRY`](/directive/directive.md#entry) で指定しますが、このオプションの指定を優先します。
+- 出力ファイルの形式が [MZT 形式](/output/output.md#mzt-形式) の場合のみ有効です。
+
+### -n --load-name 
+
+- 出力ファイルのファイル名を指定します。
+- デフォルトではソースファイル名（複数の場合は最初のファイル）を元にファイル名が決定されますが、このオプションの指定を優先します。
+- 出力ファイルの形式が [MZT 形式](/output/output.md#mzt-形式) 、[T88 形式](/output/output.md#t88-形式)の場合で有効です。
+
+
 ### -f --fill
 
 - [生成コードの配置](/allocate.md), [`ALIGN`](/directive/directive.md#align), [`DS`](/directive/directive.md#ds) で領域を埋める際の値を指定します。
