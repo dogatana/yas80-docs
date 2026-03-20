@@ -84,8 +84,99 @@ start:  ret
 
 ## リストファイル
 
+- 書式は次のとおりです。
+    - ファイル名
+    - 行番号 アドレス コード [クロック数] ソース行
+- 条件付きジャンプなど、複数のクロック数を持つ命令は大きい方の値を示しています。
+
+```
+                charmap MZ700, "mz700.json"
+
+init_display	equ $2364
+            
+                org     $1200
+start:          
+                call    mz_setup_pcg
+                call    mz_init_8253
+		call	init_display
+		halt
+		
+mz_setup_pcg	proc
+		ret
+		endp
+
+mz_init_8253	proc
+		ret
+		endp
+```
+
+&nbsp;<i class="fa fa-arrow-down"></i>
+
+
+```
+loader.asm:
+    1                                                           charmap MZ700, "mz700.json"
+    2
+    3       2364(9060)                          init_display    equ $2364
+    4
+    5                                                           org     $1200
+    6  1200                          [  ]       start:
+    7  1200 cd 06 12                 [17]                       call    mz_setup_pcg
+    8  1203 cd 07 12                 [17]                       call    mz_init_8253
+    9  1206 cd 64 23                 [17]                       call    init_display
+   10  1209 76                       [ 4]                       halt
+   11
+   12                                           mz_setup_pcg    proc
+   13  120a c9                       [10]                       ret
+   14                                                           endp
+   15
+   16                                           mz_init_8253    proc
+   17  120b c9                       [10]                       ret
+   18                                                           endp
+   19
+```
+
+
 ## シンボルファイル
+
+- 定義されたシンボルのうち、ラベル情報を出力します。
+- 書式は次のとおりです。
+    - アドレス ラベル名
+```
+1200 START
+1206 MZ_SETUP_PCG
+1207 MZ_INIT_8253
+```
 
 ## マップファイル
 
+- [生成コードの配置](/allocate.md) の結果を示すファイルです。
+- 書式は次のとおりです
+    - ファイルオフセット セグメント種別(ABS/REL/GAP) セグメント範囲 セグメントサイズ
+    
+```
+org $20        ; ロードアドレス $20 から配置
+jp  $          ; jp $0020
+
+org $100, REL  ; 相対セグメント
+top1:
+jp  top1       ; jp $0100
+
+org $100, REL  ; 相対セグメントは他のセグメントとアドレス重複可能
+top2:
+jp  top2       ; jp $0100
+
+org $10        ; ロードアドレス $10 から配置
+jp  $          ; jp $00-10ld a, 1
+```
+
+&nbsp;<i class="fa fa-arrow-down"></i>
+
+```
+00000 ABS 0010 - 0012, size 0003
+00003 GAP 0013 - 001f, size 000d
+00010 ABS 0020 - 0022, size 0003
+00013 REL 0100 - 0102, size 0003
+00016 REL 0100 - 0102, size 0003
+```
 
