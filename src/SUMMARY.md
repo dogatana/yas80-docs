@@ -32,6 +32,7 @@
     * [文字列リテラルの結合](syntax/syntax.md#文字列リテラルの結合)
     * [真偽値リテラル](syntax/syntax.md#真偽値リテラル)
     * [演算子](syntax/syntax.md#演算子)
+    * [演算子の優先順位](syntax/syntax.md#演算子の優先順位)
     * [組み込み関数](syntax/syntax.md#組み込み関数)
     * [シンボル](syntaxsyntax//syntax.md#シンボル)
     * [予約語](syntax/syntax.md#予約語)

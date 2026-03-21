@@ -18,6 +18,10 @@ table thead th {
 }
 .dropdown-menu { width: 15em; }
 
+.markdown-section pre {
+  border: 1px solid #888!important;
+}
+
 .iblock { display: inline-block;}
 .right { text-align: right; }
 .middle { vertical-align: middle; }
