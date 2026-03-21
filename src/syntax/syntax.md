@@ -199,39 +199,81 @@ __concat.sym__
 ## 組み込み関数
 
 yas80 の組み込み関数を次表に示します。
-関数名が 2 つ記載されているものはエイリアスであり、どちらを使用しても同じ動作です。
+関数名が 2 つ記載されているものはエイリアスで、違いはありません。
 
 
 | 関数名   | 動作内容 |
 | --       |  -- |
-|$W, $WORD | 引数（数値）を WORD（2 バイト整数）としてマークします。DD 疑似命令で使用します|
-|$H, $HI   | 引数（数値）の上位バイトを返します |
-|$L, $LO   | 引数（数値）の下位バイトを返します |
-|$LEN      | 引数が文字列の場合は文字数を、配列リテラルの場合は要素数を返します|
-|$REV      | 引数（配列）の並びを逆転した配列を返します。引数の配列は元のまま変化しません|
-|$FMT, $FORMAT | 最初の引数を書式文字列、残りの引数（数値もしくは文字列）を書式文字列に従って文字列化した文字列を返します。書式指定文字は Go 言語の fmt パッケージの [Printing](https://pkg.go.dev/fmt@go1.26.1#hdr-Printing) を参照ください（C 言語等とほぼ同じです）|
-|$ISARY, $ISARRAY | 引数が配列の場合 1 を、配列でない場合 0 を返します|
-|$CHR   | 引数（配列）が 1 要素の場合はその値を、2 要素の場合は最初の値を上位バイト、次の値を下位バイトとした数値を返します|
-|$DEFINED | 引数（シンボル）が現在のパスでこの巻子いう呼出し時点で値が確定してれば 1 をそうでない場合 0 を返します |
+|`$W`<br>`$WORD` | 引数（数値）を WORD（2 バイト整数）としてマークします。[`DD`](/directive/directive.html#dbdwdd) で使用します。|
+|`$H`<br>`$HI`   | 引数（数値）の上位バイトを返します。 |
+|`$L`<br>`$LO`   | 引数（数値）の下位バイトを返します。 |
+|`$LEN`      | 引数が文字列の場合は文字数を、配列リテラルの場合は要素数を返します。|
+|`$REV`      | 引数（配列）の並びを逆転した配列を新たに作くり返します。引数の配列は元のまま変化しません。|
+|`$FMT` `$FORMAT` | 最初の引数を書式文字列、残りの引数（数値もしくは文字列）を書式文字列に従って文字列化した文字列を返します。書式指定文字は Go 言語の fmt パッケージの [Printing](https://pkg.go.dev/fmt@go1.26.1#hdr-Printing) を参照ください（C 言語等とほぼ同じです）。|
+|`$ISARY` `$ISARRAY` | 引数が配列の場合 1 を、配列でない場合 0 を返します。|
+|`$CHR`   | 引数（配列）が 1 要素の場合はその値を、2 要素の場合は最初の値を上位バイト、次の値を下位バイトとした数値を返します。1 文字の文字列リテラルに[`CHARMAP`](/directive/directive.md#charmap) を適用した場合、結果が配列になるため、それを「コード」としたい場合に使用します。|
+|`$DEFINED` | 引数（シンボル）が現在のパスでこの関数の呼出し時点で値が確定してれば 1 をそうでない場合 0 を返します。[`IF`](/directive/directive.md#ifelifelseendif)での使用を想定したものですが、[マルチパスアセンブラ](/README.md#マルチパスアセンブラ)のため利用機会があるかどうか。。 |
+
 
 ### 組み込み関数使用例
+
+__sample.lst__
 ```
-dd 1, $w(1)                     ; db 1 \ dw 1 
-db $fmt("%03d", 1)              ; db "001"
-data ## $fmt("%03d", 12): nop   ; data_012: nop 
+sample.asm:
+    1  0000 01 01 00   [  ]    dd 1, $w(1)                     ; db 1 \ dw 1
+    2  0003 30 30 31   [  ]    db $fmt("%03d", 1)              ; db "001"
+    3  0006 00         [ 4]    data ## $fmt("%03d", 12): nop   ; data012: nop
 ```
 
-## 予約語
+__sample.sym__
+```
+0006 DATA012
+```
 
-yas80 の予約語を次に示します。
-これらはラベル等、ユーザ定義のシンボル名として使用することはできません。
 
-| カテゴリ | 内容 |
-| --       | -- |
-| Z80      |命令語、レジスタ名、フラグ名  | 
-| ディレクティブ（疑似命令） | [ディレクティブ](directive.html) 参照 |
-| システム変数 | [システム変数](#システム変数) 参照 |
-| 組み込み関数 | [組み込み関数](#組み込み関数) 参照 |
+## シンボル{#symbol}
+
+yas80 のシンボルには次の種類があります。
+構文解析の工程で全て大文字に変換するため、大文字、小文字の区別はありません。
+
+命令、疑似命令以外のシンボルは「値」として定数、変数、引数、式などで使用可能です。
+
+<table>
+<thead>
+<tr><th colspan="2">種別</th><th>説明</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="3">予約語</td><td>命令</td><td>Z80/R800 の命令</td></tr>
+<tr><td>レジスタ</td><td>Z80/R800 のレジスタ</td></tr>
+<tr><td>フラグ</td><td>Z80/R800 のフラグ （※）</td></tr>
+<tr><td colspan="2">疑似命令</td><td>命令</td></tr>
+<tr><td colspan="2">ラベル</td><td>命令もしくは疑似命令のアドレス</td></tr>
+<tr><td colspan="2">定数</td><td><a href="/directive/directive.html#constequ"><code>CONST/EQU</code></a>で定義</td></tr>
+<tr><td rowspan="2">変数</td><td>ユーザ定義</td><td><a href="/directive/directive.html#var"><code>VAR</code></a>で定義</td></tr>
+<tr><td><a href="/syntax/syntax.html#システム変数">システム変数</a></td><td><code>$</code>で始まるシステム定義の変数で、参照のみ可能</td></tr>
+<tr><td colspan="2"><a href="/syntax/syntax.html#組み込み関数">組み込み関数</a></td><td><code>$</code>で始まるシステム定義の関数</td></tr>
+<tr><td colspan="2"><code>PROC</code> 名</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a> の名前。ラベルと同じ扱い</td></tr>
+<tr><td colspan="2"><code>ENUM</code> 名、<code>ENUM</code> 要素名</td><td><a href="/directive/directive.html#enum"><code>ENUM</code></a>で定義</td></tr>
+<tr><td colspan="2">関数名</td><td><a href="/directive/directive.html#funcendfunc"><code>FUNC</code></a>、<a href="/directive/directive.html#function"><code>FUNCION</code></a>で定義したユーザ定義関数</td></tr>
+<tr><td colspan="2"><code>MACRO</code> 名</td><td><a href="/directive/directive.html#macro"><code>MACRO</code></a>で定義</td></tr>
+</tbody>
+</table>
+
+### キャリーフラグについて
+
+シンボル `C` はレジスタです。
+条件ジャンプ命令などでキャリーフラグを指定し、表記は同じ `C` となりますが、
+命令の評価の際にキャリーフラグに置き換えて解釈しています。
+
+yas80 では `CY` をキャリーフラグリテラルとして定義しているため `CY` を使用することも可能です。
+
+```
+carry.asm:
+    1  0000 d8   [11]   ret c  ; C はレジスタだが CY に置き換えて評価
+    2  0001 d8   [11]   ret cy ; CY を指定することも可
+```
+
+## ラベル
 
 ## システム変数
 
