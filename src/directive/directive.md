@@ -2,38 +2,192 @@
 
 ## ORG
 
+#### 書式
+```
+ORG addr [, ABS|REL]
+```
+
+#### 説明
+
+- 次の命令のベースアドレスを `addr` で指定します。
+- この`ORG`から（あれば）次の`ORG`までのセグメントについて、出力ファイル内での配置方法を指定します。
+   - `ABS` この`ORG`から始まるセグメントを"絶対セグメント"として出力ファイルでの配置を決定します。 
+   - `REL` この`ORG`から始まるセグメントを"相対セグメント"として出力ファイルでの配置を決定します。 
+
+#### 関連
+
+- [生成コードの配置](/allocate.md)
+
 ## END
+
+#### 書式
+
+```
+END [start_addr]
+```
+
+#### 説明
+
+- トップレベルにある場合、アセンブルを終了し、以降の命令、以降のファイルはアセンブル対象外とします。
+- `start_addr` を指定した場合、MZT 形式の実行開始アドレスとなります。
+- 複数の `start_addr` が指定された場合、最後に指定されたものが有効です。
+- `-e --entry`オプションが指定された場合、そちらが有効です。
+
+#### 関連
+- [MZT 形式](/output/output.md#mzt-形式)
+- [`ENTRY`](#entry)
+- [`-e --entry`](/exec/option.md#e---entry)オプション
 
 ## ENTRY
 
+#### 書式
+```
+ENTRY start_addr
+```
+
+#### 説明
+
+- MZT 形式の実行開始アドレスを指定します。
+- 複数指定された場合、最後に指定されたものが有効です。
+- `-e --entry`オプションが指定された場合、そちらが有効です。
+- アセンブルを中止しない点を除き、機能的には "`END start_addr`" と同じです。
+
+#### 関連
+- [MZT 形式](/output/output.md#mzt-形式)
+- [`END`](#end)
+- [`-e --entry`](/exec/option.md#e---entry)オプション
+
 ## ALIGN
+
+#### 書式
+```
+ALIGN size [,fill]
+```
+
+#### 説明
+- ローケンションカウンタを `size` の倍数となるまで進めます。
+- `fill` が指定されている場合、その値で（あれば）ギャップを埋めます。
+- `fill` が指定されていない場合、デフォルトもしくは `-f --fill`オプションで指定した値で埋めます。
+
+#### 関連
+
+- [`-f --fill`](/exec/option.md#f---fill)オプション
+- [システム変数](syntax/syntax.md#システム変数)`$FILL`
+
 
 ## PROC
 
-- `<name>` PROC \ `<statements>` \ ENDP
-- トップレベルでのみ定義可能
-- `<name>` の通常ラベルが定義される
-- .ローカル名のスコープ管理単位
-- .ローカル名は PROC 内で一意であること（通常ラベルとの位置関係は問わない）
-- `<statements>` に次のものを含むことはできないできない（定義のネスト不可）
-    - PROC
-    - MACRO
-- 定義のネストは不可
+#### 書式
 
+```
+name    PROC
+.local_label1:
+        statements
+inner_label:
+        stataments
+.local_name2:
+        statements
+        ENDP
+
+        call name
+        call inner_label
+        call name.local_label1
+        call name.local_label2
+```
+
+#### 説明
+
+- トップレベルでのみ定義でき、複数の文を一つにまとめます。
+- `name` はラベルとして参照可能
+- `inner_label` はグローバルラベルで `PROC` 外部からそのまま参照できます。
+- `.local_name` を外部から参照する場合、`name.local_name` とします。
+- `.local_name` は同一`PROC` 内で一意であることが必要ですが、他の `PROC` の名前と同じでもかまいません。
+- `statements` として次のものを含むことはできません。
+    - `PROC`
+    - `MACRO`
+
+#### 関連
+
+- [スコープ](/scope.md)
+- [ユーザ定義名とスコープ](/syntax/syntax.md#ユーザ定義名とスコープ)
+- [PROC ローカルラベル](/syntax/syntax.md#proc-ローカルラベル)
 
 ## CONST/EQU
 
-- CONST `<name>` = `<expr>`
-- `<name>` EQU `<expr>`
+#### 書式
 
-## VAR
+```
+CONST name = expression
+name EQU expression
+```
 
-- 定義：VAR `<name>` = `<expr>`
-- 更新（代入） VAR = `<expr>`
+#### 説明
 
-## = (代入)
+- 名前が`name`、値が `expression`の定数を定義します。定数のため再定義できません。
+- `CONST`と`EQU`は書式が異なるだけで同等です。（`EQU`は yas80 内部では `CONST` 扱い）
+- `expression` を評価する際、値が確定できない場合、そのパスでの評価は行わず、評価を次のパスに回します。（前方参照可）
+- パスの評価状況によって、値が変わる可能性があります。
 
-## DB/DW/DD
+
+#### 関連
+
+- [マルチパスアセンブラ](/README.md#マルチパスアセンブラ) 
+
+## VAR 
+
+#### 書式
+
+```
+VAR name = expression ; 定義・初期化
+name = expression     ; 再代入
+```
+
+- 名前が`name`、値が `expression`の変数を定義します。変数のため再代入可能です。
+- 定義・初期化、再代入の際、`expression`の値が確定している必要があります。（前方参照は不可）
+- パスの評価状況によって、値が変わる可能性があります。
+
+#### 関連
+
+- [マルチパスアセンブラ](/README.md#マルチパスアセンブラ) 
+
+## DB
+
+#### 書式
+
+```
+[name] DB   expression [, expression...]
+[name] DEFB expression [, expression...]
+```
+
+- `expression` をバイトデータ（の列）として定義します。
+- `expression` を評価したとき、バイトの範囲（-128 <= x <= 255）にない場合、警告が出ます。
+- バイトの範囲を外れる場合、組み込み関数 `$H, $HI, $L, $LO` を使ってバイト範囲に変換してください。
+- ラベル `name` を付加することができます。
+- `DEFB` は `DB` のエイリアスです。
+
+#### 関連
+
+-  [組み込み関数](syntax/syntax.md#組み込み関数)`$H, $HI, $L, $LO`
+
+## DW
+
+#### 書式
+
+```
+[name] DW   expression [, expression...]
+[name] DEFB expression [, expression...]
+```
+
+- `expression` をバイトデータ（の列）として定義します。
+- `expression` を評価したとき、バイトの範囲（-128 <= x <= 255）にない場合、警告が出ます。
+- バイトの範囲を外れる場合、組み込み関数 `$H, $HI, $L, $LO` を使ってバイト範囲に変換してください。
+- ラベル `name` を付加することができます。
+- `DEFB` は `DB` のエイリアスです。
+
+#### 関連
+
+-  [組み込み関数](syntax/syntax.md#組み込み関数)`$H, $HI, $L, $LO`
+
 
 ## DS
 
