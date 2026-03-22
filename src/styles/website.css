@@ -23,10 +23,13 @@ table thead th {
 }
 
 .iblock { display: inline-block;}
-.right { text-align: right; }
-.middle { vertical-align: middle; }
-.top { vertical-align: top; }
+.left { text-align: left; }
 .center { text-align: center; }
+.right { text-align: right; }
+
+.top { vertical-align: top; }
+
+.middle { vertical-align: middle; }
 .nowrap { white-space:nowrap; }
 .m0 { margin: 0 !important;; }
 
