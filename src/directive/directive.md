@@ -604,7 +604,7 @@ _ = name ( [arg [, args...]])
 #### 関数呼出し
 
 - 引数を持たない関数でも呼出しの際に `()` が必要です。
-- 関数定義の仮引数の数と、関数呼出しの実引数の数は同じでない場合エラーになります。
+- 関数定義の仮引数の数と、関数呼出しの実引数の数が同じでない場合エラーになります。
 - 可変長引数はありませんが、配列を使用することで代替できる場合があります。
 
 #### 戻り値
@@ -673,7 +673,7 @@ _ = name ( [arg [, args...]])
 
 #### 関連
 
-- [`FUNCTION'](#function)
+- [`FUNCTION`](#function)
 
 ## FUNCTION
 
@@ -694,8 +694,7 @@ ENDF
 
 - `expression`を戻り値とする関数`name`を定義します。
 - これは書式の下側の `FUNC` を使用した定義のシンタックスシュガーです。
-- 引数は `()` で囲みます。
-- 引数がない場合でも `()` が必要です
+- 引数は `()` で囲みます。引数がない(0 個）場合でも `()` が必要です
 
 ```
     1                         ; 配列要素の合計を返す関数
@@ -716,7 +715,7 @@ ENDF
 
 #### 関連
 
-- [`FUNC'](#funcreturnendf)
+- [`FUNC`](#funcreturnendf)
 
 ## MACRO/ENDM
 #### 書式
@@ -730,33 +729,193 @@ ENDM
 ; 呼出し
 name [expression [, expression]]
 ```
-#### 説明
+#### マクロ定義
+
+- マクロ`name`を定義します。
+- 任意個（0 個以上）の仮引数を定義可能です。
+- マクロ定義内で`"@"`で始まる名前を使用した場合、マクロローカルの名前になります。
+- マクロローカル名は定義されているマクロ内でユニークである必要があります。
+- マクロ定義はネストできません（マクロ定義の中でマクロを定義することはできません）
+- マクロ定義の中に`PROC`を含むことはできません。
+- マクロ定義の中から定義中のマクロそのものを呼び出すことはできません。
+
+#### マクロ呼出し
+
+- マクロ定義の仮引数の数と、マクロ呼出しの実引数の数が同じでない場合エラーになります。
+- 可変長引数はありませんが、配列を使用することで代替できる場合があります。
+- マクロ呼出し中に`EXITM`を評価した場合、そのマクロの評価を終了し、マクロ呼出し元へ戻ります。
+
+```
+    1       1000(4096)                          const addr1 = $1000
+    2       2000(8192)                          const addr2 = $2000
+    3
+    4                                           check macro n, addr
+    5                                                 cp n
+    6                                                 jp nz, @ret
+    7                                                 call addr
+    8                                           @ret: ret
+    9                                           endm
+   10
+   11                                           check 1, addr1
+   11  0000 fe 01                    [ 7]     +       cp n
+   11  0002 c2 08 00                 [10]     +       jp nz, @ret
+   11  0005 cd 00 10                 [17]     +       call addr
+   11  0008 c9                       [10]     + @ret: ret
+   11                                         + endm(CHECK)
+   12                                           check 2, addr2
+   12  0009 fe 02                    [ 7]     +       cp n
+   12  000b c2 11 00                 [10]     +       jp nz, @ret
+   12  000e cd 00 20                 [17]     +       call addr
+   12  0011 c9                       [10]     + @ret: ret
+   12                                         + endm(CHECK)
+```
+<br>
+
+__sample.lst__
+```
+sample.asm
+    1                                           defmsg macro num, msg
+    2                                           data ## $fmt("_%02d", num) db msg
+    3                                           endm
+    4
+    5                                           defmsg 1, "one"
+    5  0000 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
+    5                                         + endm(DEFMSG)
+    6                                           defmsg 2, "two"
+    6  0003 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
+    6                                         + endm(DEFMSG)
+    7                                           defmsg 3, "three"
+    7  0006 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
+    7                                         + endm(DEFMSG)
+```
+__sample.sym__
+```
+0000 DATA_01
+0003 DATA_02
+0006 DATA_03
+```
 #### 関連
 
-- 定義： `<name>` MACRO [param1 [, param2...]] \ `<statements>` \ ENDM
-- トップレベルでのみ定義可能
-- 呼出： `<name>` [arg1 [, arg2...]]
-- 0 個以上の引数をとれる
-- ＠名前 は各展開毎のローカル名となる
-- `<statements>` の中で EXIT を使用すると、そこから ENDR までの展開をやめる
-- トップレベルのみで定義可能
-- `<statements>` に次のものを含むことはできないできない（定義のネスト不可）
-    - MACRO
-    - PROC
-- `<statements>` の中で他のマクロを呼び出すことは可能
-- `<statements>` の中で自分自身を呼び出すことは不可（再帰呼び出しは不可）
+- [`REPT`](#rept)
+- [`EXITM`](#exitm)
 
 ## REPT/ENDR
+
 #### 書式
+
+```
+REPT expression
+  statements
+ENDR
+```
+
 #### 説明
+
+- `expressioin`の評価結果が数値の場合、その回数だけ `REPT-ENDR` 間の`statement`を展開します。
+- `expressioin`の評価結果が配列の場合、その配列要素の数だけ `REPT-ENDR` 間の`statement`を展開します。
+- 展開の際、次のシステム変数が使用されます。
+
+| 変数名       | 型   | 内容 |
+| --           | --   | --   |
+| `$COUNT`     | 数値 | "[`REPT`](/directive/directive.md#reptendr) 数値（展開回数）" の場合はその展開回数を、"`REPT` 配列" の場合は配列要素数 |
+| `$V`         | 値   | "[`REPT`](/directive/directive.md#reptendr) 配列" の展開毎の値（配列要素の値）|
+| `$I`         | 数値 | [`REPT`](/directive/directive.md#reptendr) の展開毎の序数（0 から `$COUNT - 1` まで変化）|
+
+<br>
+
+```
+    1                                           pushs macro lst
+    2                                                 rept lst
+    3                                                   push $v
+    4                                                 endr
+    5                                           endm
+    6
+    7                                           pops  macro lst
+    8                                                 rept $rev(lst)
+    9                                                   pop $v
+   10                                                 endr
+   11                                           endm
+   12
+   13                                           process proc
+   14                                             const .regs = [hl, de]
+   15                                             pushs .regs
+   15                                         + $COUNT = 2(0x2)
+   15                                         + $I = 0(0x0)
+   15                                         + $V = HL
+   15  0000 e5                       [11]     +         push $v
+   15                                         + $COUNT = 2(0x2)
+   15                                         + $I = 1(0x1)
+   15                                         + $V = DE
+   15  0001 d5                       [11]     +         push $v
+   15                                         + endm(PUSHS)
+   16                                             ; do something
+   17                                             pops .regs
+   17                                         + $COUNT = 2(0x2)
+   17                                         + $I = 0(0x0)
+   17                                         + $V = DE
+   17  0002 d1                       [10]     +         pop $v
+   17                                         + $COUNT = 2(0x2)
+   17                                         + $I = 1(0x1)
+   17                                         + $V = HL
+   17  0003 e1                       [10]     +         pop $v
+   17                                         + endm(POPS)
+   18  0004 c9                       [10]         ret
+   19                                           endp
+```
+
 #### 関連
 
-- REPT `<expr>` \ `<statements>` \ ENDR
-- `<expr>` の数だけ `<statements>` を展開する
-- ＠名前 は各展開毎のローカル名となる
-- `<statements>` の中で EXIT を使用すると、そこから ENDR までの展開をやめる
 
 ## EXITM
+
 #### 書式
+
+```
+1) EXITM
+```
+<br>
+
+```
+2) EXITM IF expression
+```
+<i class="fa fa-arrow-down"><i class="fa fa-arrow-up">
+```
+IF expression
+  EXITM
+ENDIF
+```
+
 #### 説明
+
+- `EXITM`を評価するとマクロ展開中止します。
+- 後置`IF`は`IF expression \ EXITM \ ENDIF` のシンタックスシュガーです。
+- 次の例は `REPT`の最後の展開のみ `inc hl` が評価されないよう`EXITM`を指定しています。
+
+
+```
+    1                                           rept 4
+    2                                             ld (hl), a
+    3                                             exitm if $i == $count - 1
+    4                                             inc hl
+    5                                           endr
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 0(0x0)
+    5  0000 77                       [ 7]     +   ld (hl), a
+    5  0001 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 1(0x1)
+    5  0002 77                       [ 7]     +   ld (hl), a
+    5  0003 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 2(0x2)
+    5  0004 77                       [ 7]     +   ld (hl), a
+    5  0005 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 3(0x3)
+    5  0006 77                       [ 7]     +   ld (hl), a
+```
+
 #### 関連
+
+- [`MACRO/ENDM`](#macroendm)
+- [`REPT/ENDR`](#reptendr)
