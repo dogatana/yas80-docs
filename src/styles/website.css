@@ -31,7 +31,8 @@ table thead th {
 
 .middle { vertical-align: middle; }
 .nowrap { white-space:nowrap; }
-.m0 { margin: 0 !important;; }
+.m0 { margin: 0 !important; }
+.p0 {padding:0 !important;}
 
 code {
   font-size: 105% !important;
