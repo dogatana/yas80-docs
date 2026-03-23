@@ -583,49 +583,121 @@ ENDIF
 
 ## FUNC/RETURN/ENDF
 #### 書式
-#### 説明
-#### 関連
-
-- 定義：`<name>` FUNC [param1 [, param2...]] \ `<statements>` \ ENDF
-- 呼出: `<name>` ( [arg1 [, arg2...]])
-- 関数呼出しは`<expr>`
-- 引数がない場合でも () は必要
-- `<statements>` の中で RETURN 文が評価されると、その時点で呼出し元へ戻る
-- RETURN 文に値が指定されていると、その値が呼出し元に返される
-- `<statements>` 内に RETURN 文がない場合、全ての文を実行後、呼び出し元に戻る。値は返さない
-- `<name>` は関数値を持つため、他の定数・変数に代入したり、関数を値として返すことも可能
-- 関数呼出しはクロージャを形成する
-
-### RETURN 文
-#### 書式
-#### 説明
-#### 関連
-- 関数の処理を終了し呼出し元に戻る。
-- 戻り値なし： RETURN
-- 戻り値あり： RETURN `<expr>`
 
 ```
-フィボナッチ関数の例
-フィボナッチ数列生成関数の例
+; 定義
+name FUNC [parameter [, parameter...]]
+    [statement...]
+    RETURN [expression]
+    [statement...]
+ENDF
+
+; 呼出し
+_ = name ( [arg [, args...]])
 ```
+
+#### 関数定義
+
+- 関数`name`を定義します。
+- 任意数（0 個以上）の仮引数を定義可能です
+
+#### 関数呼出し
+
+- 引数を持たない関数でも呼出しの際に `()` が必要です。
+
+#### 戻り値
+
+- `RETURN expression`の`expression`を評価した値を戻り値とし、呼出し元へ戻ります。
+- `RETURN` で `expression` を省略した場合、もしくは`ENDF` に到達した場合、"不定な値" を戻り値として呼出し元へ戻ります。
+- "不定な値" を値としてしようととするとエラーになります。
+- `name`は定数、変数として定義できる "関数値" として評価します。
+
+#### クロージャ
+
+- 関数呼出し毎に新しいスコープを作成します。
+- 関数呼出しから関数を返す場合、クロージャとなります。
+
+
+```
+    1                                           ; フィボナッチ数列の n 項(0-) を返す関数
+    2                                           fib func n
+    3                                               if n == 0
+    4                                                  return 0
+    5                                               elif n == 1
+    6                                                  return 1
+    7                                               else
+    8                                                  return fib(n - 1) + fib(n - 2)
+    9                                               endif
+   10                                           endf
+   11
+   12                                           rept 5
+   13                                             ld a, fib($i)
+   14                                           endr
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 0(0x0)
+   14  0000 3e 00                    [ 7]     +   ld a, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 1(0x1)
+   14  0002 3e 01                    [ 7]     +   ld a, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 2(0x2)
+   14  0004 3e 01                    [ 7]     +   ld a, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 3(0x3)
+   14  0006 3e 02                    [ 7]     +   ld a, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 4(0x4)
+   14  0008 3e 03                    [ 7]     +   ld a, fib($i)
+```
+
+```
+    1                                           ; "n から始まる数値を返す関数"を返す関数を定義
+    2                                           mk_counter func n
+    3                                               var value = n - 1
+    4                                               fn func
+    5                                                 value = value + 1
+    6                                                 return value
+    7                                               endf
+    8                                               return fn ; 戻り値は"関数"
+    9                                           endf
+   10
+   11                                           var counter = mk_counter(0)
+   12
+   13  0000 3e 00                    [ 7]       ld a, counter()
+   14  0002 3e 01                    [ 7]       ld a, counter()
+   15  0004 3e 02                    [ 7]       ld a, counter()
+   16  0006 3e 03                    [ 7]       ld a, counter()
+```
+
+#### 関連
+
+- [`FUNCTION'](#function)
 
 ## FUNCTION
+
 #### 書式
+
+```
+FUNCTION name ([parameter [, parameter...]]) expression
+```
+
 #### 説明
-#### 関連
+
+- `expression`を戻り値とする関数`name`を定義します。
+- 引数は `()` で囲みます。
+- 引数がない場合でも `()` が必要です
+- これは次の `FUNC` を使用した定義のシンタックスシュガーです。
 
 ```
-FUNCTION name ([param1 [, param2...]]) expr
-```
-
-- 1 行で定義できる関数
-- 次の FUNC 文のシンタックスシュガーで
-
-```
-name FUNC [param1 [, param2...]]
-statement(s)
+name FUNC [parameter [, parameter...]]
+   RETURN expression
 ENDF
 ```
+
+#### 関連
+
+- [`FUNC'](#funcreturnendf)
+
 ## MACRO/ENDM
 #### 書式
 #### 説明
