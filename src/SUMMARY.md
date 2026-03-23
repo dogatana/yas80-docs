@@ -57,6 +57,7 @@
     * [DD](directive/directive.md#dd)
     * [DS/DSB](directive/directive.md#dsdsb)
     * [DSW](directive/directive.md#dsw)
+    * [ENUM](directive/directive.md#enum)
     * [INCLUDE](directive/directive.md#include)
     * [INCBIN](directive/directive.md#incbin)
     * [CHARMAP](directive/directive.md#charmap)

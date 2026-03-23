@@ -371,6 +371,67 @@ name = expression     ; 再代入
 - [`-f --fill`](/exec/option.md#f---fill) オプション
 - [`システム変数`](/syntax/syntax.md#システム変数)`$FILL`
 
+### ENUM
+
+#### 書式
+
+```
+name ENUM
+  element_name [= expression]
+ENDE
+```
+
+#### 説明
+
+- `element_name`要素を持つ列挙体`name`を定義します。
+- `name.element_name`として定義した値を参照します。
+- 数値以外の値も利用可能です。
+- `expression`がない場合、最初は数値 0 を、以降は前回定義した数値要素に +1 した値を定義します。
+- `expression`では前方参照できません。
+- `expression`で定義済みの`element_name`を参照刷る場合、名前の前に `"."` を付けます
+
+```
+RGB enum
+  black     ; 0
+  blue      ; 1
+  red       ; 2
+  magenta   ; 3
+  green     ; 4
+  cyan      ; 5
+  yellow    ; 6
+  white     ; 7
+ende
+```
+<br>
+```
+    1                                           ATTR enum
+    2                                             WHITE   = $70
+    3                                             YELLOW  = $60
+    4                                             CYAN    = $50
+    5                                             GREEN   = $40
+    6                                             MAGENTA = $30
+    7                                             RED     = $20
+    8                                             BLUE    = $10
+    9                                             BLACK   = $00
+   10                                           ende
+   11
+   12  0000 3e 10                    [ 7]       ld a, ATTR.BLUE
+```
+<br>
+```
+    1                                           msgs enum
+    2                                             m0 = "0"
+    3                                             m1 = .m0 + "1"
+    4                                             m2 = .m1 + "2"
+    5                                             m3 = .m2 + "3"
+    6                                           ende
+    7
+    8  0000 30                       [  ]       db msgs.m0
+    9  0001 30 31                    [  ]       db msgs.m1
+   10  0003 30 31 32                 [  ]       db msgs.m2
+   11  0006 30 31 32 33              [  ]       db msgs.m3
+```
+
 ## INCLUDE
 #### 書式
 
