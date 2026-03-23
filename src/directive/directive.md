@@ -604,6 +604,8 @@ _ = name ( [arg [, args...]])
 #### 関数呼出し
 
 - 引数を持たない関数でも呼出しの際に `()` が必要です。
+- 関数定義の仮引数の数と、関数呼出しの実引数の数は同じでない場合エラーになります。
+- 可変長引数はありませんが、配列を使用することで代替できる場合があります。
 
 #### 戻り値
 
@@ -681,17 +683,35 @@ _ = name ( [arg [, args...]])
 FUNCTION name ([parameter [, parameter...]]) expression
 ```
 
-#### 説明
-
-- `expression`を戻り値とする関数`name`を定義します。
-- 引数は `()` で囲みます。
-- 引数がない場合でも `()` が必要です
-- これは次の `FUNC` を使用した定義のシンタックスシュガーです。
-
+&nbsp;<i class="fa fa-arrow-up"><i class="fa fa-arrow-down">
 ```
 name FUNC [parameter [, parameter...]]
    RETURN expression
 ENDF
+```
+
+#### 説明
+
+- `expression`を戻り値とする関数`name`を定義します。
+- これは書式の下側の `FUNC` を使用した定義のシンタックスシュガーです。
+- 引数は `()` で囲みます。
+- 引数がない場合でも `()` が必要です
+
+```
+    1                         ; 配列要素の合計を返す関数
+    2                         function sum(vals) sum_iter(0, 0, vals)
+    3 
+    4                         sum_iter func total, index, vals
+    5                           if index == $len(vals)
+    6                             return total
+    7                           else
+    8                             return sum_iter(total + vals[index], index + 1, vals)
+    9                           endif
+   10                         endf
+   11
+   12  0000 3e 00     [ 7]    ld a, sum([])
+   13  0002 3e 01     [ 7]    ld a, sum([1])
+   14  0004 3e 06     [ 7]    ld a, sum([1, 2, 3])
 ```
 
 #### 関連
@@ -700,6 +720,16 @@ ENDF
 
 ## MACRO/ENDM
 #### 書式
+
+```
+; 定義
+name MACRO [parameter [, parameter...]]
+  statements
+ENDM
+
+; 呼出し
+name [expression [, expression]]
+```
 #### 説明
 #### 関連
 
