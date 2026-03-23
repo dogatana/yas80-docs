@@ -405,7 +405,25 @@ INCBIN filename [, offset [, length]]
    - `-I`オプションで指定されたディレクトリ
 - `offset`が指定された場合、`filename`を指定された位置から読み込みます。
 - `offset, length`が指定された場合、`filename` を指定された位置から`length`バイト分読み込みます。
+- 実際に読み込めるサイズが `length`より小さい場合でもエラーにはならず、読める分だけ読み込みます。
 - 読み込んだバイト数はシステム変数 `$RSIZE` に設定されます。（エラーの場合は -1）
+
+```
+; b16.bin
+00000000: 30 31 32 33 34 35 36 37  38 39 41 42 43 44 45 46  |0123456789ABCDEF
+```
+
+```
+sample.asm:
+    1  0000 30 31 32 33 34 35 36 37  [  ]       incbin "b16.bin"
+       0008 38 39 41 42 43 44 45 46  [  ]
+    2  0010 3e 10                    [ 7]       ld a, $rsize
+    3  0012 38 39 41 42 43 44 45 46  [  ]       incbin "b16.bin", 8
+    4  001a 3e 08                    [ 7]       ld a, $rsize
+    5  001c 38 39 41 42 43 44 45 46  [  ]       incbin "b16.bin", 8, 16
+    6  0024 3e 08                    [ 7]       ld a, $rsize
+```
+
 
 #### 関連
 
@@ -423,7 +441,8 @@ CHARMAP name, json-filename|json-string [, option]
 #### 説明
 
 - json ファイル `json-filename`もしくは json 文字列`json-string` を指定して charmap `name`を定義します。
-- 定義した charmap は文字列を引数とし、配列を出力する関数となります。
+- 定義した charmap は文字列を引数とし、要素数が 1 か 2 のバイト配列を出力する関数となります。
+- charmap を適用した結果を数値とする場合は、組み込み関数 `$CHR` を使用します。
 - json ファイルは次の順で検索します。
    - ソースファイルと同じディレクトリ
    - `-I`オプションで指定されたディレクトリ
@@ -457,37 +476,110 @@ CHARMAP name, json-filename|json-string [, option]
 </tbody>
 </table>
 
+<br>
+
+```
+    1                                           charmap map,  '{"a":[1]}'
+    2                                           charmap mapb, '{"a":[1]}', 255
+    3                                           charmap mapw, '{"a":[1]}', $1234
+    4                                           charmap mapt, '{"a":[1]}', $cmap_thru
+    5
+    6  0000 01 3f                    [  ]       db map("ab")
+    *  [ERR] CHARMAP に文字 'b' の定義がない
+    7  0002 01 ff                    [  ]       db mapb("ab")
+    8  0004 01 12 34                 [  ]       db mapw("ab")
+    9  0007 01 62                    [  ]       db mapt("ab")
+   10
+   11                                           charmap vmap, '{"a":[1], "b":[1,2]}'
+   12  0009 3e 01                    [ 7]       ld a,  $chr(vmap("a"))
+   13  000b 21 02 01                 [10]       ld hl, $chr(vmap("b"))
+```
 
 #### 関連
 
-- 適用
+- [システム変数](/syntax/syntax.md#システム変数) `$CMAP_ERR, $CMAP_THRU`
+- [組み込み関数](/syntax/syntax.md#組み込み関数) `$CHR`
 
-```
-  name("文字列")
-```
-
-| 項目 | 説明 |
-| -- | -- |
-| name | CHARMAP 名。この名前を関数として、文字列に適用する |
-| filename | CHARMAP を定義した JSON ファイル名。アセンブル対象ファイルと同じフォルダか、-I オプションで指定したフォルダからロードする |
-| json-string | 文字列の先頭が '{' の場合、ファイル名でなく、JSON 文字列と解釈して CHARMAP を定義する |
-| option | $CMAP_ERR - CHARMAP を適用する文字列の文字が、CHARMAP で定義されていない場合、エラーとする<br>$CMAP_THRU - CHARMAP で未定義の文字の文字を、元の文字のまま出力する<br>数値(0-65535) - CHARMAPで未定義の文字を、この数値で指定された文字コードに置き換える。文字コードが 256 以上の場合、上位バイト、下位バイトにの順に出力する |
 
 ## SETMAP
+
 #### 書式
+
+```
+SETMAP name, char, array
+```
+
 #### 説明
+
+- 定義済みの charmap を修正します。
+- `name` は charmap 名、`char`は 1 文字の文字列、`array`は要素数が 1 or 2 のバイト配列です。
+- 追加、更新は可能ですが、削除はできません。
+
+```
+    1                                           charmap map,  '{}'       ; 空の charmap
+    2       "a":[1, 2]                          setmap  map, "a", [1, 2] ; 追加
+    3
+    4  0000 01 02                    [  ]       db map("a")
+    5
+    6                                           charmap map2, '{"a": [1, 2]}'
+    7       "a":[1]                             setmap map2, "a", [1]    ; 更新
+    8       "b":[2]                             setmap map2, "b", [2]    ; 追加
+    9
+   10  0002 01 02                    [  ]       db map2("ab")
+```
+
+
 #### 関連
+
+- [`CHARMAP`](#charmap)
 
 ## IF/ELIF/ELSE/ENDIF
+
 #### 書式
+
+```
+IF expression
+[ELIF expression...]
+[ELSE expression]
+ENDIF
+```
 #### 説明
+
+- 条件アセンブルです。
+- ネストも可能です。
+- `ELIF` は複数定義できます。
+- `ELIF` は評価時にネストした `IF` として評価しています。
+
+<div class="iblock top" style="width:45%;"><pre style="height:25em"><code>IF 1
+  ; statment
+ELIF 2
+  ; statment
+ELIF 3
+  ; statment
+ELSE
+  ; statment
+ENDIF</code><br><br><br><br><br></pre></div>
+<div class="iblock top center" style="width:2em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock" style="width:45%"><pre style="height:25em"><code>IF 1
+  ; statment
+ELSE
+  IF 2
+  ; statment
+  ELSE
+    IF 3
+  ; statment
+    ELSE
+  ; statment
+    ENDIF
+  ENDIF
+ENDIF
+</code></pre></div>
+
+
+
 #### 関連
 
-- IF `<expr>` \ `<statements>` \ ENDIF
-- IF `<expr>` \ `<statements>` \ ELSE \ `<statements>` \ ENDIF
-- IF `<expr>` \ `<statements>` \ ELIF `<expr>`ELSE \ `<statements>` \ ENDIF
-- IF 文のネストは可能
-- ELIF は IF ELSE IF ELSE ENDIF ENDIF のシンタックスシュガー
+- [真偽値リテラル](/syntax/syntax.md#真偽値リテラル)
 
 ## FUNC/RETURN/ENDF
 #### 書式
