@@ -9,7 +9,7 @@
 * [yas80 実行](exec/exec.md)
     * [コマンド書式](exec/exec.md#コマンド書式)
     * [オプション](exec/option.md#オプション)
-    * [auto-proc 動作](exec/option.md#auto-proc-動作)
+    * [auto-proc 処理](exec/option.md#auto-proc-処理)
 * [ソースファイル](source/source.md)
     * [エンコーディング](source/source.md#エンコーディング)
     * [行](source/source.md#行)
