@@ -1,11 +1,11 @@
 # yas80 概要
+<div class="right" style="position:relative; top:-1.5em">Last Update: {{ book.buildDate }}</div>
 
+<div style="margin-top:1em">
 yas80 - Yet Another Assembler for Z80 and R800 - は
 Z80/R800 向けアブソリュートアセンブラです。
+</div>
 
-本資料では次のバージョンの yas80 について説明します。
-
-Version 0.1.0
 
 ## マルチパスアセンブラ
 
@@ -26,3 +26,9 @@ yas80 のアセンブル処理は大きく分けて
 の 2 段階で構成しています。
 
 現在のパス番号（1～）は[システム変数](/syntax/syntax.md#システム変数) `$PASS` で参照できます。
+
+### プリプロセス
+
+yas80 のプリプロセスは C言語のプリプロセスとは異なり構文解析の後、意味解析の前に実行します。
+これは[`-a --auto-proc`](/exec/option.md#a---auto-proc)オプションを指定した場合の
+[auto-proc 処理](/exec/option.md#auto-proc-処理)です。
