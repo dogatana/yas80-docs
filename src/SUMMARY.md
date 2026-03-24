@@ -31,6 +31,8 @@
     * [配列リテラル](syntax/syntax.md#配列リテラル)
     * [文字列リテラルの結合](syntax/syntax.md#文字列リテラルの結合)
     * [真偽値リテラル](syntax/syntax.md#真偽値リテラル)
+    * [レジスタ・フラグリテラル](syntax/syntax.md#レジスタ・フラグリテラル)
+    * [配列リテラル](syntax/syntax.md#配列リテラル)
     * [演算子](syntax/syntax.md#演算子)
     * [演算子の優先順位](syntax/syntax.md#演算子の優先順位)
     * [シンボル](syntax/syntax.md#symbol)
