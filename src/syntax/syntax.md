@@ -1,9 +1,23 @@
 # 文法
 
+## 文
+
+- プログラムは文の並びです。
+- 文とソースファイルの行は通常 1:1 に対応しますが、中には複数の行をまとめて 1 つの文として扱うものもあります。
+- 文は次のいずれかです。
+    - 命令文 ･･･ Z80/R800 の命令
+    - 疑似命令文 ･･･ 定数定義、`IF など yas80 が用意している命令
+
 ## コメント
 
 - `";"` 以降行末まではコメントです。
-- 改行記号と同じ扱いとなります。
+- 改行記号と同じ扱いです。
+
+## 式
+
+- 文は式を含むことがあります。
+- 式は各種リテラル、シンボルなどを必要により演算子で結合したもので評価すると"値"になります。
+- yas80 では値として通常の数値、文字列に他にレジスタ、フラグ、関数および配列も利用可能です。
 
 ## 数値リテラル
 
@@ -52,19 +66,24 @@ num.asm:
 - 次表に記載以外の文字をエスケープした場合、`\` を含めそのまま文字列リテラルとします。
 - 日本語を記載した場合、Shift_JIS コードの文字列リテラルとします。
 
-| エスケープ表記 | 文字コード |
-| :--: |:-: |
-| `\"` | 0x22 |
-| `\'` | 0x60 |
-| `\\` | 0x5c |
-| `\a` | 0x07 |
-| `\b` | 0x08 |
-| `\t` | 0x09 |
-| `\v` | 0x0b |
-| `\f` | 0x0c |
-| `\n` | 0x0a |
-| `\r` | 0x0d |
-    
+<table style="width:18em">
+<thead>
+<tr><th>エスケープ表記</th><th>文字コード</th></tr>
+</thead>
+<tbody>
+<tr><td class="center" style="width:10em"><code> \" </code></td><td class="center"><code> 0x22 </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \' </code></td><td class="center"><code> 0x60 </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \\ </code></td><td class="center"><code> 0x5c </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \a </code></td><td class="center"><code> 0x07 </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \b </code></td><td class="center"><code> 0x08 </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \t </code></td><td class="center"><code> 0x09 </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \v </code></td><td class="center"><code> 0x0b </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \f </code></td><td class="center"><code> 0x0c </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \n </code></td><td class="center"><code> 0x0a </code></td></tr>
+<tr><td class="center" style="width:10em"><code> \r </code></td><td class="center"><code> 0x0d </code></td></tr>
+</tbody>
+</table>
+
 <br>
 ```
 str.asm
