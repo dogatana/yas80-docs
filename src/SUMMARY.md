@@ -59,7 +59,7 @@
     * [DB](directive/directive.md#db)
     * [DW](directive/directive.md#dw)
     * [DD](directive/directive.md#dd)
-    * [DS/DSB](directive/directive.md#dsdsb)
+    * [DS/DSB](directive/directive.md#ds)
     * [DSW](directive/directive.md#dsw)
     * [ENUM](directive/directive.md#enum)
     * [INCLUDE](directive/directive.md#include)
