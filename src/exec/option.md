@@ -105,7 +105,7 @@
 
 - [リストファイル](/output/output.md#リストファイル)を出力します。
 - ソースファイル名（複数指定した場合は最初のファイル名）と同じフォルダに、ソースファイルの拡張子を `.lst` としたファイルです。
-- ファイル名を指定したい場合は次の --list オプションを使用します。
+- ファイル名を指定したい場合は次の`--list`オプションを使用します。
 
 ### --lst
 
@@ -126,34 +126,37 @@
 ### -a, --auto-proc
 
 - ailz80asm からソースファイルを移行する際に使用します。
-- `"."` で始まるラベルとを自動的に  [`PROC`](/directive/directive.md#proc) に変換してからアセンブルします。
+- 通常のラベルと`"."`で始まるラベルとを自動的に[`PROC`](/directive/directive.md#proc) に変換してからアセンブルします。
 - 処理内容については次項のとおりです。
 
 ## auto-proc 処理
+
+__【注意】__ 本処理は実験的に実装されているものであり今後削除・修正する可能性があります。
+
 
 ### PROC 範囲開始と判定する文
 
 - ラベルのみの文
 - ラベル付きの文
     - Z80/R800 命令文
-    - DB/DW/DD 文
-    - DS 文
-    - MACRO 呼出し文
-    - REPT 文
+    - `DB/DW/DD`文
+    - `DS`文
+    - `MACRO`呼出し文
+    - `REPT`文
 
 ### PROC 範囲終了と判定する文
 
 - `"."` で始まらないラベルのみの文
 - `"."` で始まらないラベル付きの文
     - Z80/R800 命令文
-    - DB/DW/DD 文
-    - DS 文
-    - MACRO 呼出し文
-    - REPT 文
-- PROC 文
-- MACRO 文
-- FUNC/FUNCTION 文
-- ENUM 文
+    - `DB/DW/DD`文
+    - `DS`文
+    - `MACRO`呼出し文
+    - `REPT`文
+- `PROC`文
+- `MACRO`文
+- `FUNC/FUNCTION`文
+- `ENUM`文
 
 ### PROC 変換条件
 
@@ -168,7 +171,7 @@
 addr2:
 .local1: nop
 
-addr3:nop </code></pre></div>
+addr3: nop </code></pre></div>
 
 <div class="iblock top center"><br><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
 
