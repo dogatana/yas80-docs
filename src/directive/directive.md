@@ -594,6 +594,38 @@ SETMAP name, char, array
 
 - [`CHARMAP`](#charmap)
 
+## ERROR/WARN/INFO
+
+#### 書式
+
+```
+ERROR expression
+WARN expression
+INFO expression
+```
+
+#### 説明
+
+- `expression`（文字列）をそれぞれ、エラー/警告/情報として出力します。
+- 所定の書式で出力したい場合は組み込み関数`$FMT`を使用します。
+
+```
+temp/sample.asm:
+    1       03e7(999)               const num = 999
+    2
+    3                               error "エラー"
+    *  [ERR] エラー
+    4                               warn "警告"
+    *  [WARN] 警告
+    5                               info $fmt("pass: %d, num: %d", $pass, num)
+    *  [INFO] pass: 1, num: 999
+```
+
+#### 関連
+
+- [エラー・警告・情報](/error.md#エラー・警告・情報)
+- [組み込み関数](/syntax/syntax.md#組み込み関数)
+
 ## IF/ELIF/ELSE/ENDIF
 
 #### 書式

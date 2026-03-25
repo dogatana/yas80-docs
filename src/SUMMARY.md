@@ -66,6 +66,7 @@
     * [INCBIN](directive/directive.md#incbin)
     * [CHARMAP](directive/directive.md#charmap)
     * [SETMAP](directive/directive.md#setmap)
+    * [ERROR/WARN/INFO](directive/directive.md#errorwarninfo)
     * [IF/ELIF/ELSE/ENDIF](directive/directive.md#ifelifelseendif)
     * [FUNC/RETURN/ENDF](directive/directive.md#funcreturnendf)
     * [FUNCTION](directive/directive.md#function)
