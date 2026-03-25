@@ -37,7 +37,7 @@
     * [配列リテラル](syntax/syntax.md#配列リテラル)
     * [演算子](syntax/syntax.md#演算子)
     * [演算子の優先順位](syntax/syntax.md#演算子の優先順位)
-    * [シンボル](syntax/syntax.md#symbol)
+    * [名前](syntax/syntax.md#名前)
     * [ユーザ定義名とスコープ](syntax/syntax.md#ユーザ定義名とスコープ)
     * [PROC ローカルラベル](syntax/syntax.md#proc-ローカルラベル)
     * [システム変数](syntax/syntax.md#システム変数)

@@ -5,12 +5,12 @@
 
 - Z80 公開命令
     - [Z80 Family CPU User Manual](https://www.zilog.com/docs/z80/z80cpu_um.pdf) に記載の命令
-    - `IN Flag, (C)` は `IN F, (C)` と表記
+    - `IN Flag, (C)` は `IN F, (C)` と表記します。
     - `C` は C レジスタですが、キャリーフラグが指定可な場所ではキャリーフラグとして評価します。
     - キャリーフラグとして `CY` も指定可能です。
 
 - Z80 非公開命令
-    - `LD/ADD/ADC/SUB/SBC/AND/AND/OR/XOR/CP/INC/DEC` 命令で `IXH/IXL/IYH/IYL` を使用するもの
+    - `LD/ADD/ADC/SUB/SBC/AND/AND/OR/XOR/CP/INC/DEC`命令で`IXH/IXL/IYH/IYL`を使用するもの
 
 ## Z80 TStates
 
@@ -21,7 +21,7 @@
 
 - [R800ユーザーズマニュアル 暫定版](https://d4.princess.ne.jp/msx/datas/R800UM/) に記載の命令
 - 表記は zilog 表記です。
-- Z80 にない乗算命令 `mulub`, `muluw` はいずれも `mul` を使用します。
+- 乗算命令 `mulub`, `muluw` はいずれも `mul` を使用します。
 
 
 <table style="width:28em">
@@ -42,7 +42,7 @@
 ## 表記揺らぎ対応
 
 - 本来の書式に加え、次の書式を許容します。
-- `IX` とあるケースは `IY` にも適用されます。
+- `IX`とある書式は`IY`にも適用します。
 
 
 <table style="width:30em">
@@ -51,13 +51,13 @@
 </thead>
 <tbody>
 <tr><td><code> JP (IX)         </code></td><td><code> JP (IX + 0)     </code></td></tr>
-<tr><td><code> LD (IX + 0), op </code></td><td><code> LD (IX + 0), op </code></td></tr>
-<tr><td><code> LD op, (IX + 0) </code></td><td><code> LD op, (IX + 0) </code></td></tr>
+<tr><td><code> LD (IX + 0), op </code></td><td><code> LD (IX), op </code></td></tr>
+<tr><td><code> LD op, (IX + 0) </code></td><td><code> LD op, (IX) </code></td></tr>
 <tr><td><code> BIT n, (IX + 0) </code></td><td><code> BIT n, (IX)     </code></td></tr>
 <tr><td><code> SET n, (IX + 0) </code></td><td><code> SET n, (IX)     </code></td></tr>
 <tr><td><code> RES n, (IX + 0) </code></td><td><code> RES n, (IX)     </code></td></tr>
 <tr><td><code> EX HL, DE       </code></td><td><code> EX DE, HL       </code></td></tr>    
-<tr><td><code> EX AF, AF'      </code></td><td><code> EX AF, AF'      </code></td></tr>
+<tr><td><code> EX AF, AF'      </code></td><td><code> EX AF', AF      </code></td></tr>
 <tr><td><code> EX (SP), HL     </code></td><td><code> EX HL, (SP)     </code></td></tr>
 <tr><td><code> EX (SP), IX     </code></td><td><code> EX IX, (SP)     </code></td></tr>
 <tr><td><code> SUB op          </code></td><td><code> SUB A, op       </code></td></tr>
