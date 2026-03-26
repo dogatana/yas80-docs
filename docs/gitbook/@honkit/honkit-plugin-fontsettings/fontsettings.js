@@ -11,17 +11,17 @@ require(["gitbook", "jquery"], (gitbook, $) => {
     let THEMES = [
         {
             config: "white",
-            text: "White",
+            text: "ホワイト",
             id: 0
         },
         {
             config: "sepia",
-            text: "Sepia",
+            text: "セピア",
             id: 1
         },
         {
             config: "night",
-            text: "Night",
+            text: "ナイト",
             id: 2
         }
     ];
@@ -30,12 +30,12 @@ require(["gitbook", "jquery"], (gitbook, $) => {
     let FAMILIES = [
         {
             config: "serif",
-            text: "Serif",
+            text: "明朝",
             id: 0
         },
         {
             config: "sans",
-            text: "Sans",
+            text: "ゴシック",
             id: 1
         }
     ];
@@ -179,18 +179,18 @@ require(["gitbook", "jquery"], (gitbook, $) => {
 
         // Create buttons in toolbar
         BUTTON_ID = gitbook.toolbar.createButton({
-            icon: "fa fa-font",
+            icon: "fa fa-cog",
             label: "Font Settings",
             className: "font-settings",
             dropdown: [
                 [
                     {
-                        text: "A",
+                        text: "ぁ",
                         className: "font-reduce",
                         onClick: reduceFontSize
                     },
                     {
-                        text: "A",
+                        text: "あ",
                         className: "font-enlarge",
                         onClick: enlargeFontSize
                     }

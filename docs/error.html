@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>yas80 概要 · yas80 docs</title>
+        <title>エラー・警告・情報 · yas80 docs</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 6.1.6">
@@ -56,8 +56,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="error.html" />
+    <link rel="next" href="allocate.html" />
     
+    
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -86,7 +88,7 @@
         
         
     
-        <li class="chapter active" data-level="1.1" data-path="./">
+        <li class="chapter " data-level="1.1" data-path="./">
             
                 <a href="./">
             
@@ -113,7 +115,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.2" data-path="error.html">
+        <li class="chapter active" data-level="1.1.2" data-path="error.html">
             
                 <a href="error.html">
             
@@ -1107,7 +1109,7 @@
     <!-- Title -->
     <h1 style="display:none;"">
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >yas80 概要</a>
+        <a href="." >エラー・警告・情報</a>
     </h1>
 </div>
 
@@ -1125,38 +1127,65 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="yas80-概要">yas80 概要</h1>
-<div class="right" style="position:relative; top:-1.5em">Last Update: 2026-03-26 11:32</div>
+                                <h2 id="エラー・警告・情報">エラー・警告・情報</h2>
+<p>yas80 は次の分類に応じてメッセージを表示・出力します。</p>
+<table>
+<thead>
+<tr><th>分 類</th><th>表 記</th><th>内 容</th></tr>
+</thead><tbody>
+<tr>
+    <td class="nowrap">エラー</td>
+    <td>ERR</td>
+    <td>yas80 が出力するエラーと<code>ERROR</code>疑似命令による出力があります。<br>
+    エラーが発生する工程によって、アセンブルを継続するかどうか、出力ファイルを生成するかどうかが決まります。</td>
+</tr>
+<tr>
+    <td>警告</td>
+    <td>WARN</td>
+    <td>型変換に関するものなど。<br>
+    <code>WARN</code>疑似命令による出力も可能です。
+    警告があってもアセンブルは継続し、指定された出力ファイルも生成します。</td>
+</tr>
+<tr>
+    <td>情報</td>
+    <td>INFO</td>
+    <td><code>INFO</code>疑似命令を使用して出力したもの。<br>アセンブル、出力ファイルへのは影響ありません。</td>
+</tr>
+</tbody>
+</table>
 
-<div style="margin-top:1em">
-yas80 - Yet Another Assembler for Z80 and R800 - は
-Z80/R800 向けアブソリュートアセンブラです。
-</div>
 
-
-<h2 id="マルチパスアセンブラ">マルチパスアセンブラ</h2>
-<p>多くのアセンブラでは、前方参照シンボル等の未解決シンボルが発生するケースの処理のため、
-2 パスアセンブル方式が採用されていますが、yas80 はパス数可変としてシンボルを解決する
-マルチパスアセンブラとしています。</p>
-<p>yas80 のアセンブル処理は大きく</p>
-<p><img src="images/マルチパス.svg" alt="マルチパス"></p>
-<p>の 4 工程に分かれており、評価工程は更に</p>
+<h2 id="異常発生時の挙動">異常発生時の挙動</h2>
+<h3 id="字句解析・構文解析">字句解析・構文解析</h3>
 <ul>
-<li>シンボル解決 <ul>
-<li>未解決シンボルがなくなるまで最大 256 回繰り返し評価</li>
+<li>syntax error が発生した場合、アセンブルを中止します。</li>
+<li>中止した場合出力ファイルは生成しません。</li>
+<li>リストファイル、シンボルファイル、マップファイルは出力しません。</li>
 </ul>
-</li>
-<li>生成コード確定<ul>
-<li>生成コードが安定する（評価し生成コードが同一になる）まで、最大 16 回繰り返し評価</li>
-</ul>
-</li>
-</ul>
-<p>の 2 段階で構成しています。</p>
-<p>現在のパス番号（1～）は<a href="syntax/syntax.html#システム変数">システム変数</a><code>$PASS</code>で参照できます。</p>
 <h3 id="プリプロセス">プリプロセス</h3>
-<p>yas80 のプリプロセスは C言語のプリプロセスとは異なり構文解析の後、意味解析の前に実行します。<br>
-これは<a href="exec/option.html#a---auto-proc"><code>-a --auto-proc</code></a>オプションを指定した場合に実行され、
-構文解析工程の出力である抽象構文木を処理する<a href="exec/option.html#auto-proc-処理">auto-proc 処理</a>です。</p>
+<ul>
+<li>この工程ではエラー、警告は発生しません。</li>
+</ul>
+<h3 id="評価：シンボル解決">評価：シンボル解決</h3>
+<ul>
+<li>エラーが発生した場合、評価を中止します。</li>
+<li>警告、情報の場合、評価を継続します。</li>
+<li>評価を中止した場合出力ファイルは生成しません。</li>
+<li>指定されていればリストファイルを出力します。</li>
+<li>シンボルファイル、マップファイルは出力しません。</li>
+</ul>
+<h3 id="評価：生成コード確定">評価：生成コード確定</h3>
+<ul>
+<li>規定回数評価してもコードが安定しない場合、警告を表示します。</li>
+<li>出力ファイルを生成します。</li>
+<li>指定されていればリストファイル、シンボルファイル、マップファイルを出力します。</li>
+</ul>
+<h3 id="出力ファイル生成">出力ファイル生成</h3>
+<ul>
+<li>出力ファイルを生成します。</li>
+<li>OS 側でのエラーなど、出力ファイル生成時にエラーが発生すればその内容を表示します。</li>
+<li>指定されていればリストファイル、シンボルファイル、マップファイルを出力します。</li>
+</ul>
 
                                 
                                 </section>
@@ -1200,8 +1229,12 @@ Z80/R800 向けアブソリュートアセンブラです。
 
             
                 
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: yas80 概要">
+                    <i class="fa fa-angle-left"></i>
+                </a>
                 
-                <a href="error.html" class="navigation navigation-next navigation-unique" aria-label="Next page: エラー・警告・情報">
+                
+                <a href="allocate.html" class="navigation navigation-next " aria-label="Next page: 生成コードの配置">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1212,7 +1245,7 @@ Z80/R800 向けアブソリュートアセンブラです。
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"エラー・警告・情報","level":"1.1.2","depth":2,"path":"error.md","ref":"error.md","articles":[]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"エラー・警告・情報","level":"1.1.2","depth":2,"path":"error.md","ref":"error.md","articles":[]},{"title":"異常発生時の挙動","level":"1.1.3","depth":2,"anchor":"#異常発生時の挙動","path":"error.md","ref":"error.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.4","depth":2,"path":"allocate.md","ref":"allocate.md","articles":[]},{"title":"スコープ","level":"1.1.5","depth":2,"path":"scope.md","ref":"scope.md","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-03-26 11:32"},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-03-25T03:04:58.358Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-26T02:32:54.254Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"エラー・警告・情報","level":"1.1.2","depth":2,"next":{"title":"生成コードの配置","level":"1.1.4","depth":2,"path":"allocate.md","ref":"allocate.md","articles":[]},"previous":{"title":"yas80 概要","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"エラー・警告・情報","level":"1.1.2","depth":2,"path":"error.md","ref":"error.md","articles":[]},{"title":"異常発生時の挙動","level":"1.1.3","depth":2,"anchor":"#異常発生時の挙動","path":"error.md","ref":"error.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.4","depth":2,"path":"allocate.md","ref":"allocate.md","articles":[]},{"title":"スコープ","level":"1.1.5","depth":2,"path":"scope.md","ref":"scope.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-03-26 11:32"},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"error.md","mtime":"2026-03-25T03:04:58.361Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-26T02:32:54.254Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

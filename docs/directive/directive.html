@@ -1,0 +1,2163 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>疑似命令 · yas80 docs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 6.1.6">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-collapsible-chapters/collapsible-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/honkit-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="../z80/instruction.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    yas80 概要
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../">
+            
+                <a href="../#マルチパスアセンブラ">
+            
+                    
+                    マルチパスアセンブラ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" data-path="../error.html">
+            
+                <a href="../error.html">
+            
+                    
+                    エラー・警告・情報
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" data-path="../error.html">
+            
+                <a href="../error.html#異常発生時の挙動">
+            
+                    
+                    異常発生時の挙動
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.4" data-path="../allocate.html">
+            
+                <a href="../allocate.html">
+            
+                    
+                    生成コードの配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.5" data-path="../scope.html">
+            
+                <a href="../scope.html">
+            
+                    
+                    スコープ
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../exec/exec.html">
+            
+                <a href="../exec/exec.html">
+            
+                    
+                    yas80 実行
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../exec/exec.html">
+            
+                <a href="../exec/exec.html#コマンド書式">
+            
+                    
+                    コマンド書式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../exec/option.html">
+            
+                <a href="../exec/option.html#オプション">
+            
+                    
+                    オプション
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../exec/option.html">
+            
+                <a href="../exec/option.html#auto-proc-処理">
+            
+                    
+                    auto-proc 処理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../source/source.html">
+            
+                <a href="../source/source.html">
+            
+                    
+                    ソースファイル
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../source/source.html">
+            
+                <a href="../source/source.html#エンコーディング">
+            
+                    
+                    エンコーディング
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../source/source.html">
+            
+                <a href="../source/source.html#行">
+            
+                    
+                    行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../source/source.html">
+            
+                <a href="../source/source.html#マルチステートメント">
+            
+                    
+                    マルチステートメント
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../source/source.html">
+            
+                <a href="../source/source.html#継続行">
+            
+                    
+                    継続行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../source/source.html">
+            
+                <a href="../source/source.html#行の種類">
+            
+                    
+                    行の種類
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../output/output.html">
+            
+                <a href="../output/output.html">
+            
+                    
+                    出力ファイル
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../output/output.html">
+            
+                <a href="../output/output.html#出力ファイル形式">
+            
+                    
+                    出力ファイル形式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../output/output.html">
+            
+                <a href="../output/output.html#bin-形式">
+            
+                    
+                    BIN 形式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../output/output.html">
+            
+                <a href="../output/output.html#mzt-形式">
+            
+                    
+                    MZT 形式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../output/output.html">
+            
+                <a href="../output/output.html#t88-形式">
+            
+                    
+                    T88 形式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../output/output.html">
+            
+                <a href="../output/output.html#リストファイル">
+            
+                    
+                    リストファイル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../output/output.html">
+            
+                <a href="../output/output.html#シンボルファイル">
+            
+                    
+                    シンボルファイル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../output/output.html">
+            
+                <a href="../output/output.html#マップファイル">
+            
+                    
+                    マップファイル
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html">
+            
+                    
+                    文法
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#文">
+            
+                    
+                    文
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#コメント">
+            
+                    
+                    コメント
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#式">
+            
+                    
+                    式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#数値リテラル">
+            
+                    
+                    数値リテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#文字列リテラル">
+            
+                    
+                    文字列リテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#配列リテラル">
+            
+                    
+                    配列リテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#文字列リテラルの結合">
+            
+                    
+                    文字列リテラルの結合
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.8" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#真偽値リテラル">
+            
+                    
+                    真偽値リテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.9" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#レジスタ・フラグリテラル">
+            
+                    
+                    レジスタ・フラグリテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.10" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#配列リテラル">
+            
+                    
+                    配列リテラル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.11" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#演算子">
+            
+                    
+                    演算子
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.12" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#演算子の優先順位">
+            
+                    
+                    演算子の優先順位
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.13" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#名前">
+            
+                    
+                    名前
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.14" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#ユーザ定義名とスコープ">
+            
+                    
+                    ユーザ定義名とスコープ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.15" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#proc-ローカルラベル">
+            
+                    
+                    PROC ローカルラベル
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.16" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#システム変数">
+            
+                    
+                    システム変数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.17" data-path="../syntax/syntax.html">
+            
+                <a href="../syntax/syntax.html#組み込み関数">
+            
+                    
+                    組み込み関数
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html">
+            
+                    
+                    Z80/R800 命令
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html#z80-命令">
+            
+                    
+                    Z80 命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html#z80-tstates">
+            
+                    
+                    Z80 TStates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html#r800-命令">
+            
+                    
+                    R800 命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html#r800-tstates">
+            
+                    
+                    R800 TStates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="../z80/instruction.html">
+            
+                <a href="../z80/instruction.html#表記揺らぎ対応">
+            
+                    
+                    表記揺らぎ対応
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.7" data-path="directive.html">
+            
+                <a href="directive.html">
+            
+                    
+                    疑似命令
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="directive.html">
+            
+                <a href="directive.html#org">
+            
+                    
+                    ORG
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="directive.html">
+            
+                <a href="directive.html#end">
+            
+                    
+                    END
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="directive.html">
+            
+                <a href="directive.html#entry">
+            
+                    
+                    ENTRY
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="directive.html">
+            
+                <a href="directive.html#align">
+            
+                    
+                    ALIGN
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="directive.html">
+            
+                <a href="directive.html#proc">
+            
+                    
+                    PROC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="directive.html">
+            
+                <a href="directive.html#constequ">
+            
+                    
+                    CONST/EQU
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="directive.html">
+            
+                <a href="directive.html#var">
+            
+                    
+                    VAR
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="directive.html">
+            
+                <a href="directive.html#db">
+            
+                    
+                    DB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.9" data-path="directive.html">
+            
+                <a href="directive.html#dw">
+            
+                    
+                    DW
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.10" data-path="directive.html">
+            
+                <a href="directive.html#dd">
+            
+                    
+                    DD
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.11" data-path="directive.html">
+            
+                <a href="directive.html#ds">
+            
+                    
+                    DS/DSB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.12" data-path="directive.html">
+            
+                <a href="directive.html#dsw">
+            
+                    
+                    DSW
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.13" data-path="directive.html">
+            
+                <a href="directive.html#enum">
+            
+                    
+                    ENUM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.14" data-path="directive.html">
+            
+                <a href="directive.html#include">
+            
+                    
+                    INCLUDE
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.15" data-path="directive.html">
+            
+                <a href="directive.html#incbin">
+            
+                    
+                    INCBIN
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.16" data-path="directive.html">
+            
+                <a href="directive.html#charmap">
+            
+                    
+                    CHARMAP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.17" data-path="directive.html">
+            
+                <a href="directive.html#setmap">
+            
+                    
+                    SETMAP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.18" data-path="directive.html">
+            
+                <a href="directive.html#errorwarninfo">
+            
+                    
+                    ERROR/WARN/INFO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.19" data-path="directive.html">
+            
+                <a href="directive.html#ifelifelseendif">
+            
+                    
+                    IF/ELIF/ELSE/ENDIF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.20" data-path="directive.html">
+            
+                <a href="directive.html#funcreturnendf">
+            
+                    
+                    FUNC/RETURN/ENDF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.21" data-path="directive.html">
+            
+                <a href="directive.html#function">
+            
+                    
+                    FUNCTION
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.22" data-path="directive.html">
+            
+                <a href="directive.html#macroendm">
+            
+                    
+                    MACRO/ENDM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.23" data-path="directive.html">
+            
+                <a href="directive.html#reptendr">
+            
+                    
+                    REPT/ENDR
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.24" data-path="directive.html">
+            
+                <a href="directive.html#exitm">
+            
+                    
+                    EXITM
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1 style="display:none;"">
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >疑似命令</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="ディレクティブ">ディレクティブ</h1>
+<h2 id="org">ORG</h2>
+<h4 id="書式">書式</h4>
+<pre><code>ORG address [,ABS|,REL]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>次の命令のベースアドレスを <code>address</code> で指定します。</li>
+<li>この<code>ORG</code>から次の<code>ORG, END</code>もしくはファイル末尾までをセグメントとして出力ファイル内での配置方法を指定します。<ul>
+<li><code>ABS</code>- <code>ORG</code>から始まるセグメントを&quot;絶対セグメント&quot;として出力ファイルでの配置を決定します。 </li>
+<li><code>REL</code>- <code>ORG</code>から始まるセグメントを&quot;相対セグメント&quot;として出力ファイルでの配置を決定します。 </li>
+</ul>
+</li>
+<li>配置方法については&quot;生成コードの配置&quot;を参照ください。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../allocate.html">生成コードの配置</a></li>
+<li><a href="#end"><code>END</code></a></li>
+</ul>
+<h2 id="end">END</h2>
+<h4 id="書式">書式</h4>
+<pre><code>END [address]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>トップレベルにある場合、アセンブルを終了し、以降の命令、以降のファイルはアセンブル対象外とします。</li>
+<li><code>address</code> を指定した場合、MZT 形式の実行開始アドレスとなります。</li>
+<li>複数の <code>END address</code> が指定された場合、最後に指定されたものが有効です。</li>
+<li><code>-e --entry</code>オプションが指定された場合、そちらが有効です。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../output/output.html#mzt-形式">MZT 形式</a></li>
+<li><a href="#entry"><code>ENTRY</code></a></li>
+<li><a href="../exec/option.html#e---entry"><code>-e --entry</code></a>オプション</li>
+</ul>
+<h2 id="entry">ENTRY</h2>
+<h4 id="書式">書式</h4>
+<pre><code>ENTRY address
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>MZT 形式の実行開始アドレスを指定します。</li>
+<li>複数指定された場合、最後に指定されたものが有効です。</li>
+<li><code>-e --entry</code>オプションが指定された場合、そちらが有効です。</li>
+<li>アセンブルを中止しない点を除き、&quot;<code>END address</code>&quot; と同じ機能です。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../output/output.html#mzt-形式">MZT 形式</a></li>
+<li><a href="#end"><code>END</code></a></li>
+<li><a href="../exec/option.html#e---entry"><code>-e --entry</code></a>オプション</li>
+</ul>
+<h2 id="align">ALIGN</h2>
+<h4 id="書式">書式</h4>
+<pre><code>ALIGN size [,fill]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>ローケンションカウンタを <code>size</code> の倍数となるまで進めます。</li>
+<li>ローケンションカウンタを既に <code>size</code> の倍数であれば何も行いません。</li>
+<li>進める場合、<code>fill</code> が指定されている場合、その値でギャップを埋めます。</li>
+<li>進める場合、<code>fill</code> が指定されていない場合、デフォルト(255)もしくは <code>-f --fill</code>オプションで指定した値で埋めます。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../exec/option.html#f---fill"><code>-f --fill</code></a>オプション</li>
+<li><a href="syntax/syntax.md#システム変数">システム変数</a><code>$FILL</code></li>
+</ul>
+<h2 id="proc">PROC</h2>
+<h4 id="書式">書式</h4>
+<pre><code>name    PROC
+.local_label1:
+        statements
+label:
+        stataments
+.local_name2:
+        statements
+        ENDP
+
+        call name
+        call label
+        call name.local_label1
+        call name.local_label2
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>複数の文を一つにまとめ、ローカルラベルを定義可能なスコープを形成します。</li>
+<li>トップレベルでのみ定義できます。</li>
+<li><code>name</code>はラベルとして参照可能</li>
+<li><code>label</code> はグローバルラベルで<code>PROC</code>外部からそのまま参照可能です。</li>
+<li><code>.local_label1</code> を外部から参照する場合、<code>name.local_label1</code> とします。</li>
+<li><code>.local_label1</code> は同一<code>PROC</code> 内で一意であることが必要ですが、他の<code>PROC</code>内の名前と同じでもかまいません。</li>
+<li><code>statements</code> として次のものを含むことはできません。<ul>
+<li><code>PROC</code></li>
+<li><code>MACRO</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../scope.html">スコープ</a></li>
+<li><a href="../syntax/syntax.html#ユーザ定義名とスコープ">ユーザ定義名とスコープ</a></li>
+<li><a href="../syntax/syntax.html#proc-ローカルラベル">PROC ローカルラベル</a></li>
+</ul>
+<h2 id="constequ">CONST/EQU</h2>
+<h4 id="書式">書式</h4>
+<pre><code>CONST name = expression
+name EQU expression
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>名前が<code>name</code>、値が <code>expression</code>の定数を定義します。</li>
+<li>定数のため再定義できません。再定義しようとするとエラーになります。</li>
+<li><code>CONST</code>と<code>EQU</code>は書式が異なるだけで同等です。（<code>EQU</code>は内部では<code>CONST</code>として処理）</li>
+<li><code>expression</code> を評価する際、値が確定できない場合、そのパスでの評価は行わず、評価を次のパスに回します（前方参照可）。</li>
+<li>パスの評価状況によって、値が変わる可能性があります。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../#マルチパスアセンブラ">マルチパスアセンブラ</a> </li>
+</ul>
+<h2 id="var">VAR</h2>
+<h4 id="書式">書式</h4>
+<pre><code>VAR name = expression ; 定義・初期化
+name = expression     ; 再代入
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>名前が<code>name</code>、値が <code>expression</code>の変数を定義します。</li>
+<li>`&quot;=&quot;=を使用して再代入可能です。</li>
+<li>定義・初期化、再代入の際、<code>expression</code>の値が確定している必要があります（前方参照不可）。</li>
+<li>パスの評価状況によって、値が変わる可能性があります。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../#マルチパスアセンブラ">マルチパスアセンブラ</a> </li>
+</ul>
+<h2 id="db">DB/DEFB</h2>
+<h4 id="書式">書式</h4>
+<pre><code>[name] DB   expression [, expression...]
+[name] DEFB expression [, expression...]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expression</code>の値をバイトデータ（複数指定可）として定義します。</li>
+<li>ラベル <code>name</code> を付加することができます。</li>
+<li><code>DEFB</code> は <code>DB</code> のエイリアスです。</li>
+<li><code>expression</code> の評価結果が次のものが有効です。</li>
+</ul>
+<table>
+<thead>
+<tr><th>値</th><th>定義</th></tr>
+</thead>
+<tbody>
+<tr><td>数値</td><td class="p0"><ul class="m0">
+  <li>バイトの範囲（-128 &lt;= x &lt;= 255）にない場合、警告が出ます。</li>
+  <li>バイトの範囲を外れる場合、組み込み関数 <code>$H, $HI, $L, $LO</code> を使ってバイト範囲に変換してください。</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="nowrap">文字列</td>
+<td class="p0"><ul class="m0">
+<li>文字列をバイト列として解釈し定義します。</li>
+<li>2 バイト文字の場合、Shift_JIS コードの上位バイト、下位バイトの順にの定義します。</li>
+</ul></td>
+</tr>
+<tr>
+<td>配列</td>
+<td class="p0"><ul class="m0"><li>配列要素が数値、文字列の場合、上に記載のとおり定義します。</li></ul></td>
+</tr>
+</tbody>
+</table>
+
+<p><br></p>
+<pre><code>    1                                           charmap mz700,&quot;mz700.json&quot;
+    2
+    3  0000 01 02 03                 [  ]       db 1, 2, 3
+    4  0003 61 62                    [  ]       db &quot;ab&quot;
+    5  0005 82 a0 82 a2              [  ]       db &quot;あい&quot;
+    6  0009 61 82 a0                 [  ]       db &quot;aあ&quot;
+    7  000c 04 35 06                 [  ]       db [4, &quot;5&quot;, 6]
+    8  000f 0d 1a 2a 27 20 20        [  ]       db mz700(&quot;mz-700&quot;)
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../syntax/syntax.html#組み込み関数">組み込み関数</a><code>$H, $HI, $L, $LO</code></li>
+<li><a href="#charmap"><code>CHARMAP</code></a></li>
+</ul>
+<h2 id="dw">DW/DEFW</h2>
+<h4 id="書式">書式</h4>
+<pre><code>[name] DW   expression [, expression...]
+[name] DEFW expression [, expression...]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expression</code>の値をワードデータ（リトルエンディアン、複数指定可）として定義します。</li>
+<li>ラベル <code>name</code> を付加することができます。</li>
+<li><code>DEFW</code> は <code>DW</code> のエイリアスです。</li>
+<li><code>expression</code> の評価結果が次のものが有効です。</li>
+</ul>
+<table>
+<thead>
+<tr><th>値</th><th>定義</th></tr>
+</thead>
+<tbody>
+<tr><td>数値</td><td class="p0"><ul class="m0">
+  <li>ワードの範囲（-32768 &lt;= x &lt;= 65535）にない場合、警告が出ます。</li>
+  <li>ワードの範囲を外れる場合、組み込み関数 <code>$W, $WORD</code> を使ってワード範囲に変換してください。</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="nowrap">文字列</td>
+<td class="p0"><ul class="m0">
+<li>文字列をバイト列として解釈し定義します。</li>
+<li>2 バイト文字の場合、Shift_JIS コードをワードとして定義します。</li>
+</ul></td>
+</tr>
+<tr>
+<td>配列</td>
+<td class="p0"><ul class="m0"><li>配列要素が数値、文字列の場合、上に記載のとおり定義します。</li></ul></td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>    1                                           charmap mz700,&quot;mz700.json&quot;
+    2
+    3  0000 01 00 02 00 03 00        [  ]       dw 1, 2, 3
+    4  0006 61 00 62 00              [  ]       dw &quot;ab&quot;
+    5  000a a0 82 a2 82              [  ]       dw &quot;あい&quot;
+    6  000e 61 00 a0 82              [  ]       dw &quot;aあ&quot;
+    7  0012 04 00 35 00 06 00        [  ]       dw [4, &quot;5&quot;, 6]
+    8  0018 0d 00 1a 00 2a 00 27 00  [  ]       dw mz700(&quot;mz-700&quot;)
+       0020 20 00 20 00              [  ]
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../syntax/syntax.html#組み込み関数">組み込み関数</a><code>$W $WORD</code></li>
+<li><a href="#charmap"><code>CHARMAP</code></a></li>
+</ul>
+<h2 id="dd">DD</h2>
+<h4 id="書式">書式</h4>
+<pre><code>[name] DD   expression [, expression...]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expression</code> の値に従ってバイトデータ、もしくはワードデータとして定義します。</li>
+<li>ラベル <code>name</code> を付加することができます。</li>
+<li><code>expression</code> の評価結果が次のものを有効とします。</li>
+</ul>
+<table>
+<thead>
+<tr><th>値</th><th>定義</th></tr>
+</thead>
+<tbody>
+<tr><td>数値</td><td class="p0"><ul class="m0">
+  <li>バイトの範囲の場合、バイトとして定義します。</li>
+  <li>バイト範囲のデータをワードとして格納したい場合は、組み込み関数<code>$W, $WORD</code> を使用します。</li>
+  <li>バイトの範囲にない場合、ワードとして定義しますが、ワードの範囲（-32768 &lt;= x &lt;= 65535）にない場合、警告が出ます。</li>
+  <li>ワードの範囲を外れる場合、組み込み関数 <code>$W, $WORD</code> を使ってワード範囲に変換してください。</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td class="nowrap">文字列</td>
+<td class="p0"><ul class="m0">
+<li>文字列をバイト列として解釈し定義します。（<code>DB</code>と同じ）</li>
+</ul></td>
+</tr>
+<tr>
+<td>配列</td>
+<td class="p0"><ul class="m0"><li>配列要素が数値、文字列の場合、上に記載のとおり定義します。</li></ul></td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>    1                                           charmap mz700,&quot;mz700.json&quot;
+    2
+    3  0000 01 02 03                 [  ]       dd 1, 2, 3
+    4  0003 01 02 00 03              [  ]       dd 1, $W(2), 3
+    5  0007 61 62                    [  ]       dd &quot;ab&quot;
+    6  0009 82 a0 82 a2              [  ]       dd &quot;あい&quot;
+    7  000d 61 82 a0                 [  ]       dd &quot;aあ&quot;
+    8  0010 04 35 06                 [  ]       dd [4, &quot;5&quot;, 6]
+    9  0013 0d 1a 2a 27 20 20        [  ]       dd mz700(&quot;mz-700&quot;)
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../syntax/syntax.html#組み込み関数">組み込み関数</a><code>$W $WORD</code></li>
+<li><a href="#charmap"><code>CHARMAP</code></a></li>
+</ul>
+<h2 id="ds">DS/DSB</h2>
+<h4 id="書式">書式</h4>
+<pre><code>[name] DS  length [, fill]
+[name] DSB length [, fill]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>legth</code>数のバイト領域を確保します。</li>
+<li><code>fill</code>を指定した場合、その値で領域を埋めます。</li>
+<li><code>fill</code>を指定しない場合デフォルトの値（255）で埋めます。<code>-f --fill</code>オプションを指定した場合はその値で埋めます。</li>
+<li>ラベル <code>name</code> を付加することができます。</li>
+<li><code>DSB</code>は<code>DS</code>のエイリアスです。</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../exec/option.html#f---fill"><code>-f --fill</code></a> オプション</li>
+<li><a href="../syntax/syntax.html#システム変数">システム変数</a><code>$FILL</code></li>
+</ul>
+<h2 id="dsw">DSW</h2>
+<h4 id="書式">書式</h4>
+<pre><code>[name] DSW length [, fill]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>legth</code>数のバイト領域を確保します。（<code>length * 2</code>バイトの領域を確保）</li>
+<li><code>fill</code>を指定した場合、その値をワードデータ（リトルエンディアン）とし領域を埋めます。</li>
+<li><code>fill</code>を指定しない場合デフォルトの値（255）で埋めます。<code>-f --fill</code>オプションを指定した場合はその値で埋めます。</li>
+<li>ラベル <code>name</code> を付加することができます。</li>
+</ul>
+<pre><code>    1  0000 ff ff ff ff              [  ]       dsw 2
+    2  0004 34 12 34 12              [  ]       dsw 2, $1234
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../exec/option.html#f---fill"><code>-f --fill</code></a> オプション</li>
+<li><a href="../syntax/syntax.html#システム変数">システム変数</a><code>$FILL</code></li>
+</ul>
+<h3 id="enum">ENUM</h3>
+<h4 id="書式">書式</h4>
+<pre><code>name ENUM
+  element_name [= expression]
+ENDE
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>element_name</code>要素を持つ列挙体<code>name</code>を定義します。</li>
+<li><code>name.element_name</code>として定義した値を参照します。</li>
+<li>数値以外の値も利用可能です。</li>
+<li><code>expression</code>がない場合、最初は数値 0 を、以降は前回定義した数値要素に +1 した値を定義します。</li>
+<li><code>expression</code>では前方参照できません。</li>
+<li><code>expression</code>で定義済みの<code>element_name</code>を参照刷る場合、名前の前に <code>&quot;.&quot;</code> を付けます</li>
+</ul>
+<pre><code>RGB enum
+  black     ; 0
+  blue      ; 1
+  red       ; 2
+  magenta   ; 3
+  green     ; 4
+  cyan      ; 5
+  yellow    ; 6
+  white     ; 7
+ende
+</code></pre><p><br></p>
+<pre><code>    1                                           ATTR enum
+    2                                             WHITE   = $70
+    3                                             YELLOW  = $60
+    4                                             CYAN    = $50
+    5                                             GREEN   = $40
+    6                                             MAGENTA = $30
+    7                                             RED     = $20
+    8                                             BLUE    = $10
+    9                                             BLACK   = $00
+   10                                           ende
+   11
+   12  0000 3e 10                    [ 7]       ld a, ATTR.BLUE
+</code></pre><p><br></p>
+<pre><code>    1                                           msgs enum
+    2                                             m0 = &quot;0&quot;
+    3                                             m1 = .m0 + &quot;1&quot;
+    4                                             m2 = .m1 + &quot;2&quot;
+    5                                             m3 = .m2 + &quot;3&quot;
+    6                                           ende
+    7
+    8  0000 30                       [  ]       db msgs.m0
+    9  0001 30 31                    [  ]       db msgs.m1
+   10  0003 30 31 32                 [  ]       db msgs.m2
+   11  0006 30 31 32 33              [  ]       db msgs.m3
+</code></pre><h2 id="include">INCLUDE</h2>
+<h4 id="書式">書式</h4>
+<pre><code>INCLUDE filename
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>ファイル<code>filename</code>をソースファイルとして現在の位置に読み込みます。</li>
+<li>読み込むファイルは次の順で検索します。<ul>
+<li>ソースファイルと同じディレクトリ</li>
+<li><code>-I</code>オプションで指定されたディレクトリ</li>
+</ul>
+</li>
+</ul>
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../exec/option.html#i"><code>-I</code></a>オプション</li>
+</ul>
+<h2 id="incbin">INCBIN</h2>
+<h4 id="書式">書式</h4>
+<pre><code>INCBIN filename [, offset [, length]]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>ファイル<code>filename</code>をバイトデータとして現在の位置に埋め込みます。</li>
+<li>読み込むファイルは次の順で検索します。<ul>
+<li>ソースファイルと同じディレクトリ</li>
+<li><code>-I</code>オプションで指定されたディレクトリ</li>
+</ul>
+</li>
+<li><code>offset</code>が指定された場合、<code>filename</code>を指定された位置から読み込みます。</li>
+<li><code>offset, length</code>が指定された場合、<code>filename</code> を指定された位置から<code>length</code>バイト分読み込みます。</li>
+<li>実際に読み込めるサイズが <code>length</code>より小さい場合でもエラーにはならず、読める分だけ読み込みます。</li>
+<li>読み込んだバイト数はシステム変数 <code>$RSIZE</code> に設定されます。（エラーの場合は -1）</li>
+</ul>
+<pre><code>; b16.bin
+00000000: 30 31 32 33 34 35 36 37  38 39 41 42 43 44 45 46  |0123456789ABCDEF
+</code></pre><pre><code>sample.asm:
+    1  0000 30 31 32 33 34 35 36 37  [  ]       incbin &quot;b16.bin&quot;
+       0008 38 39 41 42 43 44 45 46  [  ]
+    2  0010 3e 10                    [ 7]       ld a, $rsize
+    3  0012 38 39 41 42 43 44 45 46  [  ]       incbin &quot;b16.bin&quot;, 8
+    4  001a 3e 08                    [ 7]       ld a, $rsize
+    5  001c 38 39 41 42 43 44 45 46  [  ]       incbin &quot;b16.bin&quot;, 8, 16
+    6  0024 3e 08                    [ 7]       ld a, $rsize
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../exec/option.html#i"><code>-I</code></a>オプション</li>
+<li><a href="../syntax/syntax.html#システム変数">システム変数</a><code>$RSIZE</code></li>
+</ul>
+<h2 id="charmap">CHARMAP</h2>
+<h4 id="書式">書式</h4>
+<pre><code>CHARMAP name, json-filename|json-string [, option]
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>json ファイル <code>json-filename</code>もしくは json 文字列<code>json-string</code> を指定して charmap <code>name</code>を定義します。</li>
+<li>定義した charmap は文字列を引数とし、要素数が 1 か 2 のバイト配列を出力する関数となります。</li>
+<li>charmap を適用した結果を数値とする場合は、組み込み関数 <code>$CHR</code> を使用します。</li>
+<li>json ファイルは次の順で検索します。<ul>
+<li>ソースファイルと同じディレクトリ</li>
+<li><code>-I</code>オプションで指定されたディレクトリ</li>
+</ul>
+</li>
+<li><code>option</code> によって定義した charmap にない文字の扱いを指定できます。</li>
+<li>有効な json のフォーマットは次のとおりです。<ul>
+<li>単1オブジェクト <code>{}</code></li>
+<li>キーは <code>string</code>（1 文字）</li>
+<li>値は <code>number</code>の<code>array</code></li>
+</ul>
+</li>
+</ul>
+<p><br>
+<strong>mz700.json の冒頭</strong></p>
+<pre><code class="lang-json">{<span class="hljs-string">&quot; &quot;</span>: [<span class="hljs-number">0</span>], <span class="hljs-string">&quot;!&quot;</span>: [<span class="hljs-number">97</span>], <span class="hljs-string">&quot;\&quot;&quot;</span>: [<span class="hljs-number">98</span>], <span class="hljs-string">&quot;#&quot;</span>: [<span class="hljs-number">99</span>], <span class="hljs-string">&quot;$&quot;</span>: [<span class="hljs-number">100</span>], <span class="hljs-string">&quot;%&quot;</span>: [<span class="hljs-number">101</span>], 以降省略
+</code></pre>
+<p><br></p>
+<table>
+<thead>
+<tr>
+<th style="width:5em"><code>option</code></th>
+<th style="width:5em">値</th><th>説明</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td>指定なし</td>
+<td></td>
+<td rowspan="2">未定義の文字をエラーとします。 </td>
+</tr>
+
+<tr>
+<td rowspan="3">指定あり</td>
+<td><code>$CMAP_ERR (-1)</code></td>
+</tr>
+<tr>
+<td class="nowrap"><code>$CMAP_THRU (-2)</code></td>
+<td>未定義の文字をそのまま出力します。</td>
+</tr>
+<tr>
+<td class="nowrap">数値 (<code>0-65535</code>)</td>
+<td>指定された数値を文字コードとし出力します。
+</td></tr></tbody>
+</table>
+
+<p><br></p>
+<pre><code>    1                                           charmap map,  &apos;{&quot;a&quot;:[1]}&apos;
+    2                                           charmap mapb, &apos;{&quot;a&quot;:[1]}&apos;, 255
+    3                                           charmap mapw, &apos;{&quot;a&quot;:[1]}&apos;, $1234
+    4                                           charmap mapt, &apos;{&quot;a&quot;:[1]}&apos;, $cmap_thru
+    5
+    6  0000 01 3f                    [  ]       db map(&quot;ab&quot;)
+    *  [ERR] CHARMAP に文字 &apos;b&apos; の定義がない
+    7  0002 01 ff                    [  ]       db mapb(&quot;ab&quot;)
+    8  0004 01 12 34                 [  ]       db mapw(&quot;ab&quot;)
+    9  0007 01 62                    [  ]       db mapt(&quot;ab&quot;)
+   10
+   11                                           charmap vmap, &apos;{&quot;a&quot;:[1], &quot;b&quot;:[1,2]}&apos;
+   12  0009 3e 01                    [ 7]       ld a,  $chr(vmap(&quot;a&quot;))
+   13  000b 21 02 01                 [10]       ld hl, $chr(vmap(&quot;b&quot;))
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../syntax/syntax.html#システム変数">システム変数</a> <code>$CMAP_ERR, $CMAP_THRU</code></li>
+<li><a href="../syntax/syntax.html#組み込み関数">組み込み関数</a> <code>$CHR</code></li>
+</ul>
+<h2 id="setmap">SETMAP</h2>
+<h4 id="書式">書式</h4>
+<pre><code>SETMAP name, char, array
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>定義済みの charmap を修正します。</li>
+<li><code>name</code> は charmap 名、<code>char</code>は 1 文字の文字列、<code>array</code>は要素数が 1 か 2 のバイトデータ配列です。</li>
+<li>定義の追加、更新は可能ですが、削除はできません。</li>
+</ul>
+<pre><code>    1                                           charmap map,  &apos;{}&apos;       ; 空の charmap
+    2       &quot;a&quot;:[1, 2]                          setmap  map, &quot;a&quot;, [1, 2] ; 追加
+    3
+    4  0000 01 02                    [  ]       db map(&quot;a&quot;)
+    5
+    6                                           charmap map2, &apos;{&quot;a&quot;: [1, 2]}&apos;
+    7       &quot;a&quot;:[1]                             setmap map2, &quot;a&quot;, [1]    ; 更新
+    8       &quot;b&quot;:[2]                             setmap map2, &quot;b&quot;, [2]    ; 追加
+    9
+   10  0002 01 02                    [  ]       db map2(&quot;ab&quot;)
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#charmap"><code>CHARMAP</code></a></li>
+</ul>
+<h2 id="errorwarninfo">ERROR/WARN/INFO</h2>
+<h4 id="書式">書式</h4>
+<pre><code>ERROR expression
+WARN expression
+INFO expression
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expression</code>（文字列）をそれぞれ、エラー/警告/情報として出力します。</li>
+<li>所定の書式で出力したい場合は組み込み関数<code>$FMT, $FORMAT</code>を使用します。</li>
+</ul>
+<pre><code>temp/sample.asm:
+    1       03e7(999)               const num = 999
+    2
+    3                               error &quot;エラー&quot;
+    *  [ERR] エラー
+    4                               warn &quot;警告&quot;
+    *  [WARN] 警告
+    5                               info $fmt(&quot;pass: %d, num: %d&quot;, $pass, num)
+    *  [INFO] pass: 1, num: 999
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="../error.html#エラー・警告・情報">エラー・警告・情報</a></li>
+<li><a href="../syntax/syntax.html#組み込み関数">組み込み関数</a><code>$FMT, $FORMAT</code></li>
+</ul>
+<h2 id="ifelifelseendif">IF/ELIF/ELSE/ENDIF</h2>
+<h4 id="書式">書式</h4>
+<pre><code>IF expression
+[ELIF expression...]
+[ELSE expression]
+ENDIF
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li>条件アセンブルです。</li>
+<li>ネストも可能です。</li>
+<li><code>ELIF</code>は複数定義できます。</li>
+<li><code>ELIF</code>は評価時にネストした<code>IF</code>のシンタックスシュガーです。</li>
+</ul>
+<div class="iblock top" style="width:45%;"><pre style="height:25em"><code>IF 1
+  ; statment
+ELIF 2
+  ; statment
+ELIF 3
+  ; statment
+ELSE
+  ; statment
+ENDIF</code><br><br><br><br><br></pre></div>
+<div class="iblock top center" style="width:2em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock" style="width:45%"><pre style="height:25em"><code>IF 1
+  ; statment
+ELSE
+  IF 2
+  ; statment
+  ELSE
+    IF 3
+  ; statment
+    ELSE
+  ; statment
+    ENDIF
+  ENDIF
+ENDIF
+</code></pre></div>
+
+
+
+<h4 id="関連">関連</h4>
+<ul>
+<li><a href="../syntax/syntax.html#真偽値リテラル">真偽値リテラル</a></li>
+</ul>
+<h2 id="funcreturnendf">FUNC/RETURN/ENDF</h2>
+<h4 id="書式">書式</h4>
+<pre><code>; 定義
+name FUNC [parameter [, parameter...]]
+    [statement...]
+    RETURN [expression]
+    [statement...]
+ENDF
+
+; 呼出し ※yas80 には式文がないため、ブランク識別子への代入としている
+_ = name ( [argument [, argument...]] )
+</code></pre><h4 id="関数定義">関数定義</h4>
+<ul>
+<li>関数<code>name</code>を定義します。</li>
+<li>任意数（0 個以上）の仮引数を定義可能です</li>
+</ul>
+<h4 id="関数呼出し">関数呼出し</h4>
+<ul>
+<li><code>name</code> の後に引数のリストを<code>()</code> で囲ったものです。</li>
+<li>引数を持たない関数でも呼出しの際に <code>()</code> が必要です。</li>
+<li>関数定義の仮引数の数と、関数呼出しの実引数の数が同じでない場合エラーになります。</li>
+<li>可変長引数はありませんが、配列を使用することで代替できる場合があります。</li>
+</ul>
+<h4 id="戻り値">戻り値</h4>
+<ul>
+<li><code>RETURN expression</code>の<code>expression</code>を評価した値を戻り値とし、呼出し元へ戻ります。</li>
+<li><code>RETURN</code>で<code>expression</code>を省略した場合、もしくは関数内の文が<code>ENDF</code>に到達した場合、&quot;不定な値&quot; を戻り値として呼出し元へ戻ります。</li>
+<li>&quot;不定な値&quot; を値として使用するとエラーになります。</li>
+<li><code>name</code>は定数、変数として定義できる&quot;関数値&quot;として評価します。</li>
+</ul>
+<h4 id="クロージャ">クロージャ</h4>
+<ul>
+<li>関数呼出し毎に新しいスコープを作成します。</li>
+<li>関数呼出しから関数を返す場合、クロージャとなります。</li>
+</ul>
+<pre><code>    1                                           ; フィボナッチ数列の n 項(0-) を返す関数
+    2                                           fib func n
+    3                                             if n == 0
+    4                                                return 0
+    5                                             elif n == 1
+    6                                                return 1
+    7                                             else
+    8                                                return fib(n - 1) + fib(n - 2) ; 再帰
+    9                                             endif
+   10                                           endf
+   11
+   12                                           rept 5
+   13                                             db $i, fib($i)
+   14                                           endr
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 0(0x0)
+   14  0000 00 00                    [  ]     +   db $i, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 1(0x1)
+   14  0002 01 01                    [  ]     +   db $i, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 2(0x2)
+   14  0004 02 01                    [  ]     +   db $i, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 3(0x3)
+   14  0006 03 02                    [  ]     +   db $i, fib($i)
+   14                                         + $COUNT = 5(0x5)
+   14                                         + $I = 4(0x4)
+   14  0008 04 03                    [  ]     +   db $i, fib($i)
+</code></pre><p><br></p>
+<pre><code>    1                                           ; &quot;n から始まる数値を返す関数&quot;を返す関数
+    2                                           mk_counter func n
+    3                                             var value = n - 1
+    4                                             fn func
+    5                                               value = value + 1
+    6                                               return value
+    7                                             endf
+    8                                             return fn ; 戻り値は&quot;関数&quot;
+    9                                           endf
+   10
+   11                                           var counter = mk_counter(0)
+   12
+   13  0000 3e 00                    [ 7]       ld a, counter()
+   14  0002 3e 01                    [ 7]       ld a, counter()
+   15  0004 3e 02                    [ 7]       ld a, counter()
+   16  0006 3e 03                    [ 7]       ld a, counter()
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#function"><code>FUNCTION</code></a></li>
+</ul>
+<h2 id="function">FUNCTION</h2>
+<h4 id="書式">書式</h4>
+<pre><code>FUNCTION name ( [parameter [, parameter...]] ) expression
+</code></pre><p> <i class="fa fa-arrow-down"></i></p>
+<pre><code>name FUNC [parameter [, parameter...]]
+   RETURN expression
+ENDF
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expression</code>を戻り値とする関数<code>name</code>を定義します。</li>
+<li>これは書式の下側の <code>FUNC</code> を使用した定義のシンタックスシュガーです。</li>
+<li>引数は <code>()</code> で囲みます。引数がない(0 個）場合でも <code>()</code> が必要です</li>
+</ul>
+<pre><code>    1                         ; 配列要素の合計を返す関数
+    2                         function sum(vals) sum_iter(0, 0, vals)
+    3 
+    4                         sum_iter func total, index, vals
+    5                           if index == $len(vals)
+    6                             return total
+    7                           else
+    8                             return sum_iter(total + vals[index], index + 1, vals)
+    9                           endif
+   10                         endf
+   11
+   12  0000 3e 00     [ 7]    ld a, sum([])
+   13  0002 3e 01     [ 7]    ld a, sum([1])
+   14  0004 3e 06     [ 7]    ld a, sum([1, 2, 3])
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#funcreturnendf"><code>FUNC</code></a></li>
+</ul>
+<h2 id="macroendm">MACRO/ENDM</h2>
+<h4 id="書式">書式</h4>
+<pre><code>; 定義
+name MACRO [parameter [, parameter...]]
+  statements
+ENDM
+
+; 呼出し
+name [argument [, argument]]
+</code></pre><h4 id="マクロ定義">マクロ定義</h4>
+<ul>
+<li>マクロ<code>name</code>を定義します。</li>
+<li>任意個（0 個以上）の仮引数を定義可能です。</li>
+<li>マクロ定義内で<code>&quot;@&quot;</code>で始まる名前を使用した場合、<code>MACRO</code>ローカルの名前になります。</li>
+<li><code>MACRO</code>ローカル名は定義されているマクロ内でユニークである必要があります。</li>
+<li>マクロ定義はネストできません（マクロ定義の中でマクロを定義することはできません）</li>
+<li>マクロ定義の中に<code>PROC</code>を含むことはできません。</li>
+<li>マクロ定義の中から定義中のマクロそのものを呼び出す（再帰呼び出し）ことはできません。</li>
+</ul>
+<h4 id="マクロ呼出し">マクロ呼出し</h4>
+<ul>
+<li>マクロ定義の仮引数の数と、マクロ呼出しの実引数の数が同じでない場合エラーになります。</li>
+<li>可変長引数はありませんが、配列を使用することで代替できる場合があります。</li>
+<li>マクロ呼出し中に<code>EXITM</code>を評価した場合、そのマクロの評価を終了し、マクロ呼出し元へ戻ります。</li>
+</ul>
+<pre><code>    1       1000(4096)                          const addr1 = $1000
+    2       2000(8192)                          const addr2 = $2000
+    3
+    4                                           check macro n, addr
+    5                                                 cp n
+    6                                                 jp nz, @ret
+    7                                                 call addr
+    8                                           @ret: ret
+    9                                           endm
+   10
+   11                                           check 1, addr1
+   11  0000 fe 01                    [ 7]     +       cp n
+   11  0002 c2 08 00                 [10]     +       jp nz, @ret
+   11  0005 cd 00 10                 [17]     +       call addr
+   11  0008 c9                       [10]     + @ret: ret
+   11                                         + endm(CHECK)
+   12                                           check 2, addr2
+   12  0009 fe 02                    [ 7]     +       cp n
+   12  000b c2 11 00                 [10]     +       jp nz, @ret
+   12  000e cd 00 20                 [17]     +       call addr
+   12  0011 c9                       [10]     + @ret: ret
+   12                                         + endm(CHECK)
+</code></pre><p><br></p>
+<pre><code>sample.asm:
+    1                                           pushreg macro reg
+    2                                             if $isary(reg)
+    3                                               rept reg ; 配列なら展開して push
+    4                                                 push $v
+    5                                               endr
+    6                                             else
+    7                                               push reg ; そうでなければそのまま push
+    8                                             endif
+    9                                           endm
+   10
+   11                                           pushreg hl
+   11  0000 e5                       [11]     +     push reg ; そうでなければそのまま push
+   11                                         + endm(PUSHREG)
+   12                                           pushreg [hl, de]
+   12                                         + $COUNT = 2(0x2)
+   12                                         + $I = 0(0x0)
+   12                                         + $V = HL
+   12  0001 e5                       [11]     +       push $v
+   12                                         + $COUNT = 2(0x2)
+   12                                         + $I = 1(0x1)
+   12                                         + $V = DE
+   12  0002 d5                       [11]     +       push $v
+   12                                         + endm(PUSHREG)
+</code></pre><p><br>
+<strong>sample.lst</strong></p>
+<pre><code>sample.asm
+    1                                           defmsg macro num, msg
+    2                                           data ## $fmt(&quot;_%02d&quot;, num) db msg
+    3                                           endm
+    4
+    5                                           defmsg 1, &quot;one&quot;
+    5  0000 6f 6e 65                 [  ]     + data ## $fmt(&quot;_%02d&quot;, num) db msg
+    5                                         + endm(DEFMSG)
+    6                                           defmsg 2, &quot;two&quot;
+    6  0003 74 77 6f                 [  ]     + data ## $fmt(&quot;_%02d&quot;, num) db msg
+    6                                         + endm(DEFMSG)
+    7                                           defmsg 3, &quot;three&quot;
+    7  0006 74 68 72 65 65           [  ]     + data ## $fmt(&quot;_%02d&quot;, num) db msg
+    7                                         + endm(DEFMSG)
+</code></pre><p><strong>sample.sym</strong></p>
+<pre><code>0000 DATA_01
+0003 DATA_02
+0006 DATA_03
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#reptendr"><code>REPT/ENDR</code></a></li>
+<li><a href="#exitm"><code>EXITM</code></a></li>
+</ul>
+<h2 id="reptendr">REPT/ENDR</h2>
+<h4 id="書式">書式</h4>
+<pre><code>REPT expression
+  statements
+ENDR
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>expressioin</code>の評価結果が数値の場合、その回数だけ <code>REPT-ENDR</code> 間の<code>statement</code>を展開します。</li>
+<li><code>expressioin</code>の評価結果が配列の場合、その配列要素の数だけ <code>REPT-ENDR</code> 間の<code>statement</code>を展開します。</li>
+<li>展開の際、次のシステム変数の値が設定されます。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>変数名</th>
+<th style="text-align:center">型</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$COUNT</code></td>
+<td style="text-align:center">数値</td>
+<td>&quot;<code>REPT</code>数値&quot; の場合はその数値（展開回数）<br>&quot;<code>REPT</code>配列&quot; の場合は配列要素数</td>
+</tr>
+<tr>
+<td><code>$I</code></td>
+<td style="text-align:center">数値</td>
+<td>展開毎の序数（<code>0</code>から<code>$COUNT - 1</code>まで）</td>
+</tr>
+<tr>
+<td><code>$V</code></td>
+<td style="text-align:center">-</td>
+<td>&quot;<code>REPT</code>配列&quot; の展開毎の値（配列要素の値）</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<pre><code>push_regs macro lst
+  rept lst
+    push $v
+  endr
+endm
+
+pop_regs  macro lst
+  rept $rev(lst)         ; 逆順にする
+    pop $v
+  endr
+endm
+
+process proc
+  const .regs = [hl, de] ; 保存レジスタの定義
+  push_regs .regs        ; 保存レジスタ push
+  ; do something
+  pop_regs .regs         ; 保存レジスタ pop
+  ret
+endp
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#macroendm"><code>MACRO/ENDM</code></a></li>
+<li><a href="#exitm"><code>EXITM</code></a></li>
+<li><a href="../syntax/syntax.html#システム変数">システム変数</a></li>
+</ul>
+<h2 id="exitm">EXITM</h2>
+<h4 id="書式">書式</h4>
+<pre><code>1) EXITM
+</code></pre><p><br></p>
+<pre><code>2) EXITM IF expression
+</code></pre><p> <i class="fa fa-arrow-down"></i></p>
+<pre><code>IF expression
+  EXITM
+ENDIF
+</code></pre><h4 id="説明">説明</h4>
+<ul>
+<li><code>EXITM</code>を評価するとマクロ展開を中止します。</li>
+<li>後置<code>IF</code>は<code>IF expression\EXITM\ENDIF</code> のシンタックスシュガーです。</li>
+<li>次の例では<code>REPT</code>の最後の展開時のみ<code>inc hl</code>が評価されないよう<code>EXITM</code>を使用しています。</li>
+</ul>
+<pre><code>    1                                           rept 4
+    2                                             ld (hl), a
+    3                                             exitm if $i == $count - 1
+    4                                             inc hl
+    5                                           endr
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 0(0x0)
+    5  0000 77                       [ 7]     +   ld (hl), a
+    5  0001 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 1(0x1)
+    5  0002 77                       [ 7]     +   ld (hl), a
+    5  0003 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 2(0x2)
+    5  0004 77                       [ 7]     +   ld (hl), a
+    5  0005 23                       [ 6]     +   inc hl
+    5                                         + $COUNT = 4(0x4)
+    5                                         + $I = 3(0x3)
+    5  0006 77                       [ 7]     +   ld (hl), a
+</code></pre><h4 id="関連">関連</h4>
+<ul>
+<li><a href="#macroendm"><code>MACRO/ENDM</code></a></li>
+<li><a href="#reptendr"><code>REPT/ENDR</code></a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../z80/instruction.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Z80/R800 命令">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"疑似命令","level":"1.7","depth":1,"previous":{"title":"Z80/R800 命令","level":"1.6","depth":1,"path":"z80/instruction.md","ref":"z80/instruction.md","articles":[{"title":"Z80 命令","level":"1.6.1","depth":2,"anchor":"#z80-命令","path":"z80/instruction.md","ref":"z80/instruction.md#z80-命令","articles":[]},{"title":"Z80 TStates","level":"1.6.2","depth":2,"anchor":"#z80-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#z80-tstates","articles":[]},{"title":"R800 命令","level":"1.6.3","depth":2,"anchor":"#r800-命令","path":"z80/instruction.md","ref":"z80/instruction.md#r800-命令","articles":[]},{"title":"R800 TStates","level":"1.6.4","depth":2,"anchor":"#r800-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#r800-tstates","articles":[]},{"title":"表記揺らぎ対応","level":"1.6.5","depth":2,"anchor":"#表記揺らぎ対応","path":"z80/instruction.md","ref":"z80/instruction.md#表記揺らぎ対応","articles":[]}]},"articles":[{"title":"ORG","level":"1.7.1","depth":2,"anchor":"#org","path":"directive/directive.md","ref":"directive/directive.md#org","articles":[]},{"title":"END","level":"1.7.2","depth":2,"anchor":"#end","path":"directive/directive.md","ref":"directive/directive.md#end","articles":[]},{"title":"ENTRY","level":"1.7.3","depth":2,"anchor":"#entry","path":"directive/directive.md","ref":"directive/directive.md#entry","articles":[]},{"title":"ALIGN","level":"1.7.4","depth":2,"anchor":"#align","path":"directive/directive.md","ref":"directive/directive.md#align","articles":[]},{"title":"PROC","level":"1.7.5","depth":2,"anchor":"#proc","path":"directive/directive.md","ref":"directive/directive.md#proc","articles":[]},{"title":"CONST/EQU","level":"1.7.6","depth":2,"anchor":"#constequ","path":"directive/directive.md","ref":"directive/directive.md#constequ","articles":[]},{"title":"VAR","level":"1.7.7","depth":2,"anchor":"#var","path":"directive/directive.md","ref":"directive/directive.md#var","articles":[]},{"title":"DB","level":"1.7.8","depth":2,"anchor":"#db","path":"directive/directive.md","ref":"directive/directive.md#db","articles":[]},{"title":"DW","level":"1.7.9","depth":2,"anchor":"#dw","path":"directive/directive.md","ref":"directive/directive.md#dw","articles":[]},{"title":"DD","level":"1.7.10","depth":2,"anchor":"#dd","path":"directive/directive.md","ref":"directive/directive.md#dd","articles":[]},{"title":"DS/DSB","level":"1.7.11","depth":2,"anchor":"#ds","path":"directive/directive.md","ref":"directive/directive.md#ds","articles":[]},{"title":"DSW","level":"1.7.12","depth":2,"anchor":"#dsw","path":"directive/directive.md","ref":"directive/directive.md#dsw","articles":[]},{"title":"ENUM","level":"1.7.13","depth":2,"anchor":"#enum","path":"directive/directive.md","ref":"directive/directive.md#enum","articles":[]},{"title":"INCLUDE","level":"1.7.14","depth":2,"anchor":"#include","path":"directive/directive.md","ref":"directive/directive.md#include","articles":[]},{"title":"INCBIN","level":"1.7.15","depth":2,"anchor":"#incbin","path":"directive/directive.md","ref":"directive/directive.md#incbin","articles":[]},{"title":"CHARMAP","level":"1.7.16","depth":2,"anchor":"#charmap","path":"directive/directive.md","ref":"directive/directive.md#charmap","articles":[]},{"title":"SETMAP","level":"1.7.17","depth":2,"anchor":"#setmap","path":"directive/directive.md","ref":"directive/directive.md#setmap","articles":[]},{"title":"ERROR/WARN/INFO","level":"1.7.18","depth":2,"anchor":"#errorwarninfo","path":"directive/directive.md","ref":"directive/directive.md#errorwarninfo","articles":[]},{"title":"IF/ELIF/ELSE/ENDIF","level":"1.7.19","depth":2,"anchor":"#ifelifelseendif","path":"directive/directive.md","ref":"directive/directive.md#ifelifelseendif","articles":[]},{"title":"FUNC/RETURN/ENDF","level":"1.7.20","depth":2,"anchor":"#funcreturnendf","path":"directive/directive.md","ref":"directive/directive.md#funcreturnendf","articles":[]},{"title":"FUNCTION","level":"1.7.21","depth":2,"anchor":"#function","path":"directive/directive.md","ref":"directive/directive.md#function","articles":[]},{"title":"MACRO/ENDM","level":"1.7.22","depth":2,"anchor":"#macroendm","path":"directive/directive.md","ref":"directive/directive.md#macroendm","articles":[]},{"title":"REPT/ENDR","level":"1.7.23","depth":2,"anchor":"#reptendr","path":"directive/directive.md","ref":"directive/directive.md#reptendr","articles":[]},{"title":"EXITM","level":"1.7.24","depth":2,"anchor":"#exitm","path":"directive/directive.md","ref":"directive/directive.md#exitm","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-03-26 11:32"},"title":"yas80 docs","language":"ja","gitbook":"*"},"file":{"path":"directive/directive.md","mtime":"2026-03-26T02:10:57.443Z","type":"markdown"},"gitbook":{"version":"6.1.6","time":"2026-03-26T02:32:54.254Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-collapsible-chapters/collapsible-chapters.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

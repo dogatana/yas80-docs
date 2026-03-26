@@ -14,5 +14,37 @@ table thead th {
   font-family: 'Yu Mincho', 'YuMincho', 'Noto Serif JP', serif
 }
 .book.font-family-1 {
-  font-family: 'Yu Gothic', 'YuGothic', 'Noto Sans JP', sans
+  font-family: 'Yu Gothic', 'YuGothic', 'Noto Sans JP', sans-serif
+}
+.dropdown-menu { width: 15em; }
+
+.markdown-section pre {
+  border: 1px solid #888!important;
+}
+
+.iblock { display: inline-block;}
+.left { text-align: left; }
+.center { text-align: center; }
+.right { text-align: right; }
+
+.top { vertical-align: top; }
+
+.middle { vertical-align: middle; }
+.nowrap { white-space:nowrap; }
+.m0 { margin: 0 !important; }
+.p0 {padding:0 !important;}
+
+code {
+  font-size: 105% !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+h1 {
+  border: 2px solid #888;
+  padding: 2px 0.5em;
+  /* background-color: #f0f0f0;  */
+}
+h2 {
+  border-bottom: 2px solid #888
 }
