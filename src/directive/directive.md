@@ -591,8 +591,8 @@ SETMAP name, char, array
 #### 説明
 
 - 定義済みの charmap を修正します。
-- `name` は charmap 名、`char`は 1 文字の文字列、`array`は要素数が 1 or 2 のバイト配列です。
-- 追加、更新は可能ですが、削除はできません。
+- `name` は charmap 名、`char`は 1 文字の文字列、`array`は要素数が 1 か 2 のバイトデータ配列です。
+- 定義の追加、更新は可能ですが、削除はできません。
 
 ```
     1                                           charmap map,  '{}'       ; 空の charmap
@@ -625,7 +625,7 @@ INFO expression
 #### 説明
 
 - `expression`（文字列）をそれぞれ、エラー/警告/情報として出力します。
-- 所定の書式で出力したい場合は組み込み関数`$FMT`を使用します。
+- 所定の書式で出力したい場合は組み込み関数`$FMT, $FORMAT`を使用します。
 
 ```
 temp/sample.asm:
@@ -642,7 +642,7 @@ temp/sample.asm:
 #### 関連
 
 - [エラー・警告・情報](/error.md#エラー・警告・情報)
-- [組み込み関数](/syntax/syntax.md#組み込み関数)
+- [組み込み関数](/syntax/syntax.md#組み込み関数)`$FMT, $FORMAT`
 
 ## IF/ELIF/ELSE/ENDIF
 
@@ -658,8 +658,8 @@ ENDIF
 
 - 条件アセンブルです。
 - ネストも可能です。
-- `ELIF` は複数定義できます。
-- `ELIF` は評価時にネストした `IF` として評価しています。
+- `ELIF`は複数定義できます。
+- `ELIF`は評価時にネストした`IF`のシンタックスシュガーです。
 
 <div class="iblock top" style="width:45%;"><pre style="height:25em"><code>IF 1
   ; statment
@@ -703,8 +703,8 @@ name FUNC [parameter [, parameter...]]
     [statement...]
 ENDF
 
-; 呼出し
-_ = name ( [arg [, args...]])
+; 呼出し ※yas80 には式文がないため、ブランク識別子への代入としている
+_ = name ( [argument [, argument...]] )
 ```
 
 #### 関数定義
@@ -714,6 +714,7 @@ _ = name ( [arg [, args...]])
 
 #### 関数呼出し
 
+- `name` の後に引数のリストを`()` で囲ったものです。
 - 引数を持たない関数でも呼出しの際に `()` が必要です。
 - 関数定義の仮引数の数と、関数呼出しの実引数の数が同じでない場合エラーになります。
 - 可変長引数はありませんが、配列を使用することで代替できる場合があります。
@@ -721,9 +722,9 @@ _ = name ( [arg [, args...]])
 #### 戻り値
 
 - `RETURN expression`の`expression`を評価した値を戻り値とし、呼出し元へ戻ります。
-- `RETURN` で `expression` を省略した場合、もしくは`ENDF` に到達した場合、"不定な値" を戻り値として呼出し元へ戻ります。
-- "不定な値" を値としてしようととするとエラーになります。
-- `name`は定数、変数として定義できる "関数値" として評価します。
+- `RETURN`で`expression`を省略した場合、もしくは関数内の文が`ENDF`に到達した場合、"不定な値" を戻り値として呼出し元へ戻ります。
+- "不定な値" を値として使用するとエラーになります。
+- `name`は定数、変数として定義できる"関数値"として評価します。
 
 #### クロージャ
 
@@ -734,44 +735,44 @@ _ = name ( [arg [, args...]])
 ```
     1                                           ; フィボナッチ数列の n 項(0-) を返す関数
     2                                           fib func n
-    3                                               if n == 0
-    4                                                  return 0
-    5                                               elif n == 1
-    6                                                  return 1
-    7                                               else
-    8                                                  return fib(n - 1) + fib(n - 2)
-    9                                               endif
+    3                                             if n == 0
+    4                                                return 0
+    5                                             elif n == 1
+    6                                                return 1
+    7                                             else
+    8                                                return fib(n - 1) + fib(n - 2) ; 再帰
+    9                                             endif
    10                                           endf
    11
    12                                           rept 5
-   13                                             ld a, fib($i)
+   13                                             db $i, fib($i)
    14                                           endr
    14                                         + $COUNT = 5(0x5)
    14                                         + $I = 0(0x0)
-   14  0000 3e 00                    [ 7]     +   ld a, fib($i)
+   14  0000 00 00                    [  ]     +   db $i, fib($i)
    14                                         + $COUNT = 5(0x5)
    14                                         + $I = 1(0x1)
-   14  0002 3e 01                    [ 7]     +   ld a, fib($i)
+   14  0002 01 01                    [  ]     +   db $i, fib($i)
    14                                         + $COUNT = 5(0x5)
    14                                         + $I = 2(0x2)
-   14  0004 3e 01                    [ 7]     +   ld a, fib($i)
+   14  0004 02 01                    [  ]     +   db $i, fib($i)
    14                                         + $COUNT = 5(0x5)
    14                                         + $I = 3(0x3)
-   14  0006 3e 02                    [ 7]     +   ld a, fib($i)
+   14  0006 03 02                    [  ]     +   db $i, fib($i)
    14                                         + $COUNT = 5(0x5)
    14                                         + $I = 4(0x4)
-   14  0008 3e 03                    [ 7]     +   ld a, fib($i)
+   14  0008 04 03                    [  ]     +   db $i, fib($i)
 ```
-
+<br>
 ```
-    1                                           ; "n から始まる数値を返す関数"を返す関数を定義
+    1                                           ; "n から始まる数値を返す関数"を返す関数
     2                                           mk_counter func n
-    3                                               var value = n - 1
-    4                                               fn func
-    5                                                 value = value + 1
-    6                                                 return value
-    7                                               endf
-    8                                               return fn ; 戻り値は"関数"
+    3                                             var value = n - 1
+    4                                             fn func
+    5                                               value = value + 1
+    6                                               return value
+    7                                             endf
+    8                                             return fn ; 戻り値は"関数"
     9                                           endf
    10
    11                                           var counter = mk_counter(0)
@@ -791,10 +792,9 @@ _ = name ( [arg [, args...]])
 #### 書式
 
 ```
-FUNCTION name ([parameter [, parameter...]]) expression
+FUNCTION name ( [parameter [, parameter...]] ) expression
 ```
-
-&nbsp;<i class="fa fa-arrow-up"><i class="fa fa-arrow-down">
+&nbsp;<i class="fa fa-arrow-down">
 ```
 name FUNC [parameter [, parameter...]]
    RETURN expression
@@ -838,17 +838,17 @@ name MACRO [parameter [, parameter...]]
 ENDM
 
 ; 呼出し
-name [expression [, expression]]
+name [argument [, argument]]
 ```
 #### マクロ定義
 
 - マクロ`name`を定義します。
 - 任意個（0 個以上）の仮引数を定義可能です。
-- マクロ定義内で`"@"`で始まる名前を使用した場合、マクロローカルの名前になります。
-- マクロローカル名は定義されているマクロ内でユニークである必要があります。
+- マクロ定義内で`"@"`で始まる名前を使用した場合、`MACRO`ローカルの名前になります。
+- `MACRO`ローカル名は定義されているマクロ内でユニークである必要があります。
 - マクロ定義はネストできません（マクロ定義の中でマクロを定義することはできません）
 - マクロ定義の中に`PROC`を含むことはできません。
-- マクロ定義の中から定義中のマクロそのものを呼び出すことはできません。
+- マクロ定義の中から定義中のマクロそのものを呼び出す（再帰呼び出し）ことはできません。
 
 #### マクロ呼出し
 
@@ -882,6 +882,33 @@ name [expression [, expression]]
 ```
 <br>
 
+```
+sample.asm:
+    1                                           pushreg macro reg
+    2                                             if $isary(reg)
+    3                                               rept reg ; 配列なら展開して push
+    4                                                 push $v
+    5                                               endr
+    6                                             else
+    7                                               push reg ; そうでなければそのまま push
+    8                                             endif
+    9                                           endm
+   10
+   11                                           pushreg hl
+   11  0000 e5                       [11]     +     push reg ; そうでなければそのまま push
+   11                                         + endm(PUSHREG)
+   12                                           pushreg [hl, de]
+   12                                         + $COUNT = 2(0x2)
+   12                                         + $I = 0(0x0)
+   12                                         + $V = HL
+   12  0001 e5                       [11]     +       push $v
+   12                                         + $COUNT = 2(0x2)
+   12                                         + $I = 1(0x1)
+   12                                         + $V = DE
+   12  0002 d5                       [11]     +       push $v
+   12                                         + endm(PUSHREG)
+```
+<br>
 __sample.lst__
 ```
 sample.asm
@@ -893,10 +920,10 @@ sample.asm
     5  0000 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
     5                                         + endm(DEFMSG)
     6                                           defmsg 2, "two"
-    6  0003 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
+    6  0003 74 77 6f                 [  ]     + data ## $fmt("_%02d", num) db msg
     6                                         + endm(DEFMSG)
     7                                           defmsg 3, "three"
-    7  0006 6f 6e 65                 [  ]     + data ## $fmt("_%02d", num) db msg
+    7  0006 74 68 72 65 65           [  ]     + data ## $fmt("_%02d", num) db msg
     7                                         + endm(DEFMSG)
 ```
 __sample.sym__
@@ -907,7 +934,7 @@ __sample.sym__
 ```
 #### 関連
 
-- [`REPT`](#rept)
+- [`REPT/ENDR`](#reptendr)
 - [`EXITM`](#exitm)
 
 ## REPT/ENDR
@@ -924,57 +951,43 @@ ENDR
 
 - `expressioin`の評価結果が数値の場合、その回数だけ `REPT-ENDR` 間の`statement`を展開します。
 - `expressioin`の評価結果が配列の場合、その配列要素の数だけ `REPT-ENDR` 間の`statement`を展開します。
-- 展開の際、次のシステム変数が使用されます。
+- 展開の際、次のシステム変数の値が設定されます。
 
 | 変数名       | 型   | 内容 |
-| --           | --   | --   |
-| `$COUNT`     | 数値 | "[`REPT`](/directive/directive.md#reptendr) 数値（展開回数）" の場合はその展開回数を、"`REPT` 配列" の場合は配列要素数 |
-| `$V`         | 値   | "[`REPT`](/directive/directive.md#reptendr) 配列" の展開毎の値（配列要素の値）|
-| `$I`         | 数値 | [`REPT`](/directive/directive.md#reptendr) の展開毎の序数（0 から `$COUNT - 1` まで変化）|
+| --           | :--:   | --   |
+| `$COUNT`     | 数値 | "`REPT`数値" の場合はその数値（展開回数）<br>"`REPT`配列" の場合は配列要素数 |
+| `$I`         | 数値 | 展開毎の序数（`0`から`$COUNT - 1`まで）|
+| `$V`         | -   | "`REPT`配列" の展開毎の値（配列要素の値）|
 
 <br>
 
 ```
-    1                                           pushs macro lst
-    2                                                 rept lst
-    3                                                   push $v
-    4                                                 endr
-    5                                           endm
-    6
-    7                                           pops  macro lst
-    8                                                 rept $rev(lst)
-    9                                                   pop $v
-   10                                                 endr
-   11                                           endm
-   12
-   13                                           process proc
-   14                                             const .regs = [hl, de]
-   15                                             pushs .regs
-   15                                         + $COUNT = 2(0x2)
-   15                                         + $I = 0(0x0)
-   15                                         + $V = HL
-   15  0000 e5                       [11]     +         push $v
-   15                                         + $COUNT = 2(0x2)
-   15                                         + $I = 1(0x1)
-   15                                         + $V = DE
-   15  0001 d5                       [11]     +         push $v
-   15                                         + endm(PUSHS)
-   16                                             ; do something
-   17                                             pops .regs
-   17                                         + $COUNT = 2(0x2)
-   17                                         + $I = 0(0x0)
-   17                                         + $V = DE
-   17  0002 d1                       [10]     +         pop $v
-   17                                         + $COUNT = 2(0x2)
-   17                                         + $I = 1(0x1)
-   17                                         + $V = HL
-   17  0003 e1                       [10]     +         pop $v
-   17                                         + endm(POPS)
-   18  0004 c9                       [10]         ret
-   19                                           endp
+push_regs macro lst
+  rept lst
+    push $v
+  endr
+endm
+
+pop_regs  macro lst
+  rept $rev(lst)         ; 逆順にする
+    pop $v
+  endr
+endm
+
+process proc
+  const .regs = [hl, de] ; 保存レジスタの定義
+  push_regs .regs        ; 保存レジスタ push
+  ; do something
+  pop_regs .regs         ; 保存レジスタ pop
+  ret
+endp
 ```
 
 #### 関連
+
+- [`MACRO/ENDM`](#macroendm)
+- [`EXITM`](#exitm)
+- [システム変数](/syntax/syntax.md#システム変数)
 
 
 ## EXITM
@@ -989,7 +1002,7 @@ ENDR
 ```
 2) EXITM IF expression
 ```
-<i class="fa fa-arrow-down"><i class="fa fa-arrow-up">
+&nbsp;<i class="fa fa-arrow-down">
 ```
 IF expression
   EXITM
@@ -998,9 +1011,9 @@ ENDIF
 
 #### 説明
 
-- `EXITM`を評価するとマクロ展開中止します。
-- 後置`IF`は`IF expression \ EXITM \ ENDIF` のシンタックスシュガーです。
-- 次の例は `REPT`の最後の展開のみ `inc hl` が評価されないよう`EXITM`を指定しています。
+- `EXITM`を評価するとマクロ展開を中止します。
+- 後置`IF`は`IF expression\EXITM\ENDIF` のシンタックスシュガーです。
+- 次の例では`REPT`の最後の展開時のみ`inc hl`が評価されないよう`EXITM`を使用しています。
 
 
 ```
