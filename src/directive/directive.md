@@ -458,12 +458,13 @@ INCLUDE filename
 
 - [`-I`](/exec/option.md#i)オプション
 
-## INCBIN
+## INCBIN/BINCLUDE{#incbin}
 
 #### 書式
 
 ```
-INCBIN filename [, offset [, length]]
+INCBIN   filename [, offset [, length]]
+BINCLUDE filename [, offset [, length]]
 ```
 
 #### 説明
@@ -476,6 +477,7 @@ INCBIN filename [, offset [, length]]
 - `offset, length`が指定された場合、`filename` を指定された位置から`length`バイト分読み込みます。
 - 実際に読み込めるサイズが `length`より小さい場合でもエラーにはならず、読める分だけ読み込みます。
 - 読み込んだバイト数はシステム変数 `$RSIZE` に設定されます。（エラーの場合は -1）
+- `BINCLUDE`は`INCBIN`のエイリアスです。
 
 ```
 ; b16.bin
