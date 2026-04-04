@@ -52,7 +52,7 @@
     * [R800 命令](z80/instruction.md#r800-命令)
     * [R800 TStates](z80/instruction.md#r800-tstates)
     * [表記揺らぎ対応](z80/instruction.md#表記揺らぎ対応)
-    * [命令オペランドで文字列、配列を数値として指定する](z80/instruction.md#ld-op2)
+    * [文字列、配列を数値として扱う](z80/instruction.md#ld-op2)
 * [疑似命令](directive/directive.md)
     * [ORG](directive/directive.md#org)
     * [END](directive/directive.md#end)
