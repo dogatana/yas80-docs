@@ -44,7 +44,7 @@
     * [シンボル結合演算子](syntax/syntax.md#シンボル結合演算子)
     * [名前](syntax/syntax.md#名前)
     * [ユーザ定義名とスコープ](syntax/syntax.md#ユーザ定義名とスコープ)
-    * [PROC ローカルラベル](syntax/syntax.md#proc-ローカルラベル)
+    * [ラベルとコロン：](syntax/syntax.md#colon)
     * [システム変数](syntax/syntax.md#システム変数)
     * [組み込み関数](syntax/syntax.md#組み込み関数)
 * [Z80/R800 命令](z80/instruction.md)

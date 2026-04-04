@@ -314,20 +314,47 @@ __concat.sym__
 | `PROC`ローカル| グローバル名の前に `"."` を付けたもの。スコープは`PROC`内 |
 | `MACRO`ローカル| グローバル名の前に `"@"` を付けたもの。スコープは マクロ内 |
 
-## PROC ローカルラベル
+## ラベルとコロン`:`{#colon}
 
-`PROC`ローカルラベルを定義する場合、__ラベル文、命令の前のラベルには `":"` が必要です。__
+ラベルに対するコロンの要否についてはアセンブラによって異なっていて、
+有無どちらでも許容していますが、yas80 では次の仕様としています。
+
+- ラベル文のラベルにはコロンが必要
+- 命令、疑似命令のラベルにはコロンが必要
+- `DB/DW/DS/PROC` の名前はラベル扱いであるが、名前なのでコロン不要
+- コロンが必要な場合の省略、コロンが不要な場合の追加はエラー
+                
 
 ```
-sub proc
-  or a
-  jr z, .ret
-  ; do something
-.ret:  ; : が必要
-  ret
-endp
-```
+check   macro val, name
+        cp val
+        jr nz, @next
+        call name
+@next:                      ; 必要 マクロローカル
+        endm
 
+check1: check 'a', process  ; 必要 マクロ呼出し
+
+        call disp
+        jr skip
+skip:                       ; 必要 ラベル行
+disp:   ret                 ; 必要 命令
+
+all:    rept 3              ; 必要 疑似命令
+        nop
+        endr
+
+
+message db "hello"          ; 不要 名前
+
+process proc                ; 不要 名前
+        or a
+        jr z, .ret
+        
+.ret:                       ; 必要 PROCローカル
+        ret
+        endp
+```
 
 ## システム変数
 
