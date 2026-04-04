@@ -2,7 +2,7 @@
     "title": "yas80 docs",
     "language": "ja",
 	"root": "./src",
-    "plugins": ["collapsible-chapters", "search-plus"],
+    "plugins": ["collapsible-chapters", "search-plus", "@dogatana/back-to-top-button"],
     "styles": {
         "website": "styles/website.css"
     }
