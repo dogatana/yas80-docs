@@ -653,6 +653,7 @@ temp/sample.asm:
 #### 関連
 
 - [エラー・警告・情報](/error.md#エラー・警告・情報)
+- [重複出力の集約](/error.md#重複出力の集約)
 - [組み込み関数](/syntax/syntax.md#組み込み関数)`$FMT, $FORMAT`
 
 ## IF/ELIF/ELSE/ENDIF

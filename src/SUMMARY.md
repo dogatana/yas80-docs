@@ -5,6 +5,7 @@
     * [マルチパスアセンブルと`$DEFINED`](README.md#defined)
     * [プリプロセス](README.md#プリプロセス)
     * [エラー・警告・情報](error.md)
+    * [重複出力の集約](error.md#重複出力の集約)
     * [異常発生時の挙動](error.md#異常発生時の挙動)
     * [生成コードの配置](allocate.md)
     * [スコープ](scope.md)

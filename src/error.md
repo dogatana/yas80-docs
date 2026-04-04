@@ -26,6 +26,36 @@ yas80 は次の分類に応じてメッセージを表示・出力します。
 </tbody>
 </table>
 
+## 重複出力の集約
+
+yas80 は[マルチパスアセンブラ](/README.md#マルチパスアセンブラ)のため、
+エラー・警告・情報がパス毎に出力され同じ内容が重複します。
+そのため、アセンブル終了時、およびリストファイル出力時は"同じ内容の情報"は 1 つに集約して出力するようにしています。
+
+<div class="iblock" style="width:27em"><pre><code>const val = 123
+info $fmt("value: %d", val)
+ld a, val</code></pre>
+</div>
+<div class="iblock top center" style="width:1.5em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock top" style="width:23em"><pre><code>msg.asm:2 [INFO] val: 123
+
+
+</div>
+
+各パス毎の値の変化を`INFO`等で出力したい場合は、[システム変数](/syntax/syntax.md#システム変数)`$PASS`を出力すると集約を回避することが可能です。
+
+<div class="iblock" style="width:27em"><pre><code>const val= 123
+info $fmt("pass: %d, val: %d", $pass, val)
+ld a, val</code></pre>
+</div>
+<div class="iblock top center" style="width:1.5em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock top" style="width:23em"><pre><code>msg.asm:2 [INFO] pass: 1, val: 123
+msg.asm:2 [INFO] pass: 2, val: 123
+
+</div>
+
+
+
 
 ## 異常発生時の挙動
 
