@@ -629,13 +629,14 @@ SETMAP name, char, array
 
 ```
 ERROR expression
-WARN expression
-INFO expression
+WARN  expression
+INFO  expression
 ```
 
 #### 説明
 
 - `expression`（文字列）をそれぞれ、エラー/警告/情報として出力します。
+- `expression` の評価結果として文字列、数値、レジスタリテラル、フラグリテラルのいずれかが有効です。
 - 所定の書式で出力したい場合は組み込み関数`$FMT, $FORMAT`を使用します。
 
 ```
