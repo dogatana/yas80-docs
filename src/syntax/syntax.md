@@ -415,6 +415,11 @@ yas80 では次のシステム変数を定義しています。
 | `$I`         | 数値 | [`REPT`](/directive/directive.md#reptendr) の展開毎の序数（0 から `$COUNT - 1` まで変化）|
 | `$V`         | 値   | "[`REPT`](/directive/directive.md#reptendr) 配列" の展開毎の値（配列要素の値）|
 | `_`（下線）  | -    | 代入文の左辺値として使用できるブランク識別子（Go, Python と同様） |
+| `$ON`        | 数値 | 数値 1 |
+| `$OFF`       | 数値 | 数値 0 |
+| `$TRUE`      | 数値 | 数値 1 |
+| `$FALSE`     | 数値 | 数値 0 |
+
 
 
 ## 組み込み関数
