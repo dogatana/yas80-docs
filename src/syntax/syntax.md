@@ -314,10 +314,11 @@ __concat.sym__
 0002 DATA_003
 ```
 
-## 名前
+## 名前・予約語{#名前}
 
-- yas80 で扱う"名前"として英字もしくは `"_"` で始まり、英数字もしくは`"_"`を続けたものと、`"$"`で始まるシステムで定義した名前があります。
+- yas80 で扱う"名前"として英字、`"_", ".", "@"` で始まり、英数字もしくは`"_"`を続けたものと、`"$"`で始まるシステムで定義した名前があります。
 - 構文解析の工程で全て大文字に変換するため、大文字、小文字の違いは区別されません。
+- 予約語をラベル等ユーザ定義の名前として使用することはできません。
 
 
 <table>
@@ -325,10 +326,11 @@ __concat.sym__
 <tr><th colspan="2">種別</th><th>説明</th></tr>
 </thead>
 <tbody>
-<tr><td rowspan="3">予約語</td><td>命令</td><td>Z80/R800 の命令</td></tr>
+<tr><td rowspan="5">予約語</td><td>命令</td><td>Z80/R800 の命令</td></tr>
 <tr><td>レジスタ</td><td>Z80/R800 のレジスタ</td></tr>
 <tr><td>フラグ</td><td>Z80/R800 のフラグ （※）</td></tr>
-<tr><td colspan="2">疑似命令</td><td>命令</td></tr>
+<tr><td>疑似命令</td><td><a href="/directive/directive.html">アセンブラ疑似命令</a></td></tr>
+<tr><td>匿名シンボル</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a>内で使用可能な<a href="/directive/directive.html#anon-symbol">匿名シンボル</a><code>@@, @F, @B</code></td></tr>
 <tr><td colspan="2">ラベル</td><td>命令もしくは疑似命令のアドレス</td></tr>
 <tr><td colspan="2">定数名</td><td><a href="/directive/directive.html#constequ"><code>CONST/EQU</code></a>で定義</td></tr>
 <tr><td rowspan="2">変数名</td><td>ユーザ定義</td><td><a href="/directive/directive.html#var"><code>VAR</code></a>で定義</td></tr>
