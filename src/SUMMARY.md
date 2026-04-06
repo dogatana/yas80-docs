@@ -81,4 +81,5 @@
     * [MACRO/ENDM](directive/directive.md#macroendm)
     * [REPT/ENDR](directive/directive.md#reptendr)
     * [EXITM](directive/directive.md#exitm)
+    * [LIST](directive/directive.md#list)
 
