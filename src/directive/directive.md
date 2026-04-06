@@ -78,6 +78,27 @@ ALIGN size [,fill]
 - [`-f --fill`](/exec/option.md#f---fill)オプション
 - [システム変数](syntax/syntax.md#システム変数)`$FILL`
 
+## CHECK256
+
+#### 書式
+
+```
+CHECK256 expression
+```
+
+#### 説明
+
+- 現在のローケンションカウンタ(`$`)が`expression`で示す256バイトの境界をまたいでいるかどうかを検査し、またいでいる場合はエラーとします。
+- 次のマクロと同等の処理です。
+
+```
+check256m macro base
+  if $stage2 && $ > ($h(base) +1) * 256
+    error $fmt("256 バイト境界をまたいでいる。基準 0x%x, $ 0x%x", base, $)
+  endif
+endm
+```
+
 
 ## PROC
 

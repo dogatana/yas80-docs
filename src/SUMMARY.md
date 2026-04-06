@@ -60,6 +60,7 @@
     * [END](directive/directive.md#end)
     * [ENTRY](directive/directive.md#entry)
     * [ALIGN](directive/directive.md#align)
+    * [CHECK256](directive/directive.md#check256)
     * [PROC](directive/directive.md#proc)
     * [匿名シンボル](directive/directive.md#anon-symbol)
     * [CONST/EQU](directive/directive.md#constequ)
