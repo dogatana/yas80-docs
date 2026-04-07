@@ -330,7 +330,8 @@ __concat.sym__
 <tr><td>レジスタ</td><td>Z80/R800 のレジスタ</td></tr>
 <tr><td>フラグ</td><td>Z80/R800 のフラグ （※）</td></tr>
 <tr><td>疑似命令</td><td><a href="/directive/directive.html">アセンブラ疑似命令</a></td></tr>
-<tr><td>匿名シンボル</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a>内で使用可能な<a href="/directive/directive.html#anon-symbol">匿名シンボル</a><code>@@, @F, @B</code></td></tr>
+<tr><td>匿名シンボル</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a>内で使用可能な<a href="/directive/directive.html#anon-symbol">匿名シンボル</a><br>
+<code>@@, @F, @B, @0-@9, @0F-@9F, @0B-@9B</code></td></tr>
 <tr><td colspan="2">ラベル</td><td>命令もしくは疑似命令のアドレス</td></tr>
 <tr><td colspan="2">定数名</td><td><a href="/directive/directive.html#constequ"><code>CONST/EQU</code></a>で定義</td></tr>
 <tr><td rowspan="2">変数名</td><td>ユーザ定義</td><td><a href="/directive/directive.html#var"><code>VAR</code></a>で定義</td></tr>
@@ -352,8 +353,8 @@ __concat.sym__
 | カテゴリ | 内容 |
 | -- | -- |
 | グローバル | 英字もしくは `"_"` で始まり、英数字もしくは `"_"` が後に続くもの |
-| `PROC`ローカル| グローバル名の前に `"."` を付けたもの。スコープは`PROC`内 |
-| `MACRO`ローカル| グローバル名の前に `"@"` を付けたもの。スコープは マクロ内 |
+| `PROC`ローカル| グローバル名の前に `"."` を付けたもの、および[匿名シンボル](/directive/directive.md#anon-symbol)。<br>スコープは`PROC`内 |
+| `MACRO`ローカル| グローバル名の前に `"@"` を付けたもの。<br>スコープは マクロ内 |
 
 ## ラベルとコロン`:`{#colon}
 
@@ -402,24 +403,85 @@ process proc                ; 不要 名前
 yas80 では次のシステム変数を定義しています。
 システム変数は参照のみ可能です。書込みはできません。
 
-| 変数名       | 型   | 内容 |
-| --           | --   | --   |
-| `$`          | 数値 | 現在のロケーションカウンタ（アドレス）|
-| `$R800`      | 数値 | [`-R --r800`](/exec/option.md#r---r800) オプションを指定したとき 1、指定しないとき 0 |
-| `$FILL`      | 数値 | [`-f --fill`](/exec/option.md#f---fill) オプションで指定した値。指定しないとき 255 |
-| `$PASS`      | 数値 | アセンブラ評価工程のパス番号（1 ～）。アドレス解決、生成コード確定での通し番号になっています。|
-| `$STAGE2`    | 数値 | 評価工程の出力ファイル生成工程で 1、それ以外で 0。<br>2 パスアセンブラのパス 2 に相当する段階であること表します。<br>[マルチパスアセンブラ](/README.md#マルチパスアセンブラ)を参照ください。|
-| `$RSIZE`     | 数値 | [`INCBIN`](/directive/directive.md#incbin) で読み込んだバイト数。エラーの場合は -1  |
-| `$CMAP_ERR`  | 数値 | [`CHARMAP`](/directive/directive.md#charmap) を適用する際、未定義の文字であればエラーにする (-1)|
-| `$CMAP_THRU` | 数値 | [`CHARMAP`](/directive/directive.md#charmap) を適用する際、未定義の文字で適用前の文字とする (-2)|
-| `$COUNT`     | 数値 | "[`REPT`](/directive/directive.md#reptendr) 数値（展開回数）" の場合は展開回数。"`REPT` 配列" の場合は配列要素数 |
-| `$I`         | 数値 | [`REPT`](/directive/directive.md#reptendr) の展開毎の序数（0 から `$COUNT - 1` まで変化）|
-| `$V`         | 値   | "[`REPT`](/directive/directive.md#reptendr) 配列" の展開毎の値（配列要素の値）|
-| `_`（下線）  | -    | 代入文の左辺値として使用できるブランク識別子（Go, Python と同様） |
-| `$ON`        | 数値 | 数値 1 |
-| `$OFF`       | 数値 | 数値 0 |
-| `$TRUE`      | 数値 | 数値 1 |
-| `$FALSE`     | 数値 | 数値 0 |
+
+<style>
+table#sysvar tr td:nth-child(-n+2) { white-space: nowrap; }
+table#sysvar tr td:nth-child(2) { text-align: center}
+</style>
+<table id="sysvar">
+<thead>
+<tr><th>変数名</th><th>型</th><th>内容</th></tr>
+</thead>
+<tbody>
+<tr>
+    <td><code>$ </code></td>
+    <td class="center">数値</td>
+    <td>現在のロケーションカウンタ（アドレス）</td>
+</tr>
+<tr>
+    <td><code>$R800 </code></td>
+    <td>数値</td>
+    <td><a href="/exec/option.html#r---r800"><code>-R --R800</code></a>オプションを指定したとき 1、指定しないとき 0 </td>
+</tr>
+<tr>
+    <td><code>$FILL</code></td>
+    <td>数値</td>
+    <td><a href="/exec/option.html#f---fill"><code>-f --fill</code></a>オプションで指定した値。指定しないとき 255 </td>
+</tr>
+<tr>
+    <td><code>$PASS</code></td>
+    <td>数値</td>
+    <td>アセンブラ評価工程のパス番号（1 ～）。アドレス解決、生成コード確定での通し番号になっています。</td>
+</tr>
+<tr>
+    <td><code>$STAGE2</code></td>
+    <td>数値</td>
+    <td>評価工程の出力ファイル生成工程で 1、それ以外で 0。<br>
+    2 パスアセンブラのパス 2 に相当する段階であること表します。<br>
+    <a href="/#マルチパスアセンブラ">マルチパスアセンブラ</a>を参照ください。</td>
+</tr>
+<tr>
+    <td><code>$RSIZE</code></td>
+    <td>数値</td>
+    <td><a href="/directive/directive.html#incbin"><code>INCBIN/BINCLUDE</code></a>で読み込んだバイト数。エラーの場合は -1  </td>
+</tr>
+<tr>
+    <td><code>$CMAP_ERR </code></td>
+    <td>数値</td>
+    <td><a href="/directive/directive.html#charmap"><code>CHARMAP</code></a>を適用する際、未定義の文字であればエラーにする (-1)</td>
+</tr>
+<tr>
+    <td><code>$CMAP_THRU</code></td>
+    <td>数値</td>
+    <td><a href="/directive/directive.html#charmap"><code>CHARMAP</code></a>を適用する際、未定義の文字は適用前の文字とする (-2)</td>
+</tr>
+<tr>
+    <td><code>$COUNT    </code></td>
+    <td>数値</td>
+    <td><a href="/directive/directive.html#reptendr">"<code>REPT</code></a> 数値（展開回数）" の場合は展開回数。<br>
+    <a href="/directive/directive.html#reptendr">"<code>REPT</code></a> 配列" の場合は配列要素数 </td>
+</tr>
+<tr>
+    <td><code>$I        </code></td>
+    <td>数値</td>
+    <td><a href="/directive/directive.html#reptendr"><code>REPT</code></a>の展開毎の序数（<code>0</code>から<code>$COUNT-1</code>まで変化）</td>
+</tr>
+<tr>
+    <td><code>$V        </code></td>
+    <td>値  </td>
+    <td><a href="/directive/directive.html#reptendr">"<code>REPT</code></a>配列" の展開毎の値（配列要素の値）</td>
+</tr>
+<tr>
+    <td><code>_</code>（下線） </td>
+    <td class="center">-   </td>
+    <td>代入文の左辺値として使用できるブランク識別子（Go, Python と同様） </td>
+</tr>
+<tr><td><code>$ON   </code></td><td>数値</td><td>数値 1</td></tr>
+<tr><td><code>$OFF  </code></td><td>数値</td><td>数値 0</td></tr>
+<tr><td><code>$TRUE </code></td><td>数値</td><td>数値 1</td></tr>
+<tr><td><code>$FALSE</code></td><td>数値</td><td>数値 0</td></tr>
+</tbody>
+</table>
 
 
 
