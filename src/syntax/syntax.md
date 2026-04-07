@@ -440,6 +440,7 @@ yas80 の組み込み関数を次表に示します。
 |`$ISARY` `$ISARRAY` | 引数が配列の場合 1 を、配列でない場合 0 を返します。|
 |`$CHR`   | 引数（配列）が 1 要素の場合はその値を、2 要素の場合は最初の値を上位バイト、次の値を下位バイトとした数値を返します。1 文字の文字列リテラルに[`CHARMAP`](/directive/directive.md#charmap) を適用した場合、結果が配列になるため、それを"コード（数値）"としたい場合に使用します。|
 |`$DEFINED` | 引数（シンボル）が現在のパスでこの関数の呼出し時点で値が確定してれば 1 をそうでない場合 0 を返します。[`IF`](/directive/directive.md#ifelifelseendif)と組み合わせて使用する場合は[マルチパスアセンブルと`#DEFINED`](/README.md#defined)の記載内容に注意ください。|
+|`$STR` | 引数を文字列に変換します。|
 
 
 ### 組み込み関数使用例
@@ -456,3 +457,32 @@ __sample.sym__
 ```
 0006 DATA012
 ```
+<br>
+__disp.asm__
+<div class="iblock top" style="width:26em;font-size:90%"><pre><code>disp macro arg
+  info $fmt("disp arg is %s", $str(arg))
+endm
+
+function xypos(x, y) $d000 + y * 40 + x
+
+disp 123
+disp "abc"
+disp hl
+disp nz
+disp 1 + 2
+disp xypos
+</code></pre></div>
+<div class="iblock top center" style="width:1.5em"><br><i class="fa fa-arrow-right"></i></div>
+
+<div class="iblock top" style="width:30em;font-size:90%"><pre><code>7 information
+disp.asm:7 [INFO] disp arg is 123(0x7b)
+disp.asm:8 [INFO] disp arg is "abc"
+disp.asm:9 [INFO] disp arg is HL
+disp.asm:10 [INFO] disp arg is NZ
+disp.asm:11 [INFO] disp arg is 3(0x3)
+disp.asm:12 [INFO] disp arg is 53289(0xd029)
+disp.asm:13 [INFO] disp arg is XYPOS FUNC X, Y
+RETURN ((53248 + (Y * 40)) + X)
+ENDF
+</code></pre></div>
+
