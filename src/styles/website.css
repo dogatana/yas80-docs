@@ -48,3 +48,5 @@ h1 {
 h2 {
   border-bottom: 2px solid #888
 }
+
+pre > code { font-size: 90%!important;}
