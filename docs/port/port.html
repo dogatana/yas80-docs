@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>yas80 実行 · yas80 マニュアル</title>
+        <title>移植メモ · yas80 マニュアル</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 6.1.7">
@@ -60,10 +60,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../source/source.html" />
     
-    
-    <link rel="prev" href="../" />
+    <link rel="prev" href="../directive/directive.html" />
     
 
     </head>
@@ -215,9 +213,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2" data-path="exec.html">
+        <li class="chapter " data-level="1.2" data-path="../exec/exec.html">
             
-                <a href="exec.html">
+                <a href="../exec/exec.html">
             
                     
                     yas80 実行
@@ -229,9 +227,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.2.1" data-path="exec.html">
+        <li class="chapter " data-level="1.2.1" data-path="../exec/exec.html">
             
-                <a href="exec.html#コマンド書式">
+                <a href="../exec/exec.html#コマンド書式">
             
                     
                     コマンド書式
@@ -242,9 +240,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.2" data-path="exec.html">
+        <li class="chapter " data-level="1.2.2" data-path="../exec/exec.html">
             
-                <a href="exec.html#オプション">
+                <a href="../exec/exec.html#オプション">
             
                     
                     オプション
@@ -255,9 +253,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.3" data-path="exec.html">
+        <li class="chapter " data-level="1.2.3" data-path="../exec/exec.html">
             
-                <a href="exec.html#auto-proc-処理">
+                <a href="../exec/exec.html#auto-proc-処理">
             
                     
                     auto-proc 処理
@@ -1213,9 +1211,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="../port/port.html">
+        <li class="chapter active" data-level="1.8" data-path="port.html">
             
-                <a href="../port/port.html">
+                <a href="port.html">
             
                     
                     移植メモ
@@ -1227,9 +1225,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="../port/port.html">
+        <li class="chapter " data-level="1.8.1" data-path="port.html">
             
-                <a href="../port/port.html#メモについて">
+                <a href="port.html#メモについて">
             
                     
                     メモについて
@@ -1240,9 +1238,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="../port/port.html">
+        <li class="chapter " data-level="1.8.2" data-path="port.html">
             
-                <a href="../port/port.html#z80as">
+                <a href="port.html#z80as">
             
                     
                     z80as
@@ -1253,9 +1251,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.3" data-path="../port/port.html">
+        <li class="chapter " data-level="1.8.3" data-path="port.html">
             
-                <a href="../port/port.html#ailz80asm">
+                <a href="port.html#ailz80asm">
             
                     
                     AILZ80ASM
@@ -1301,7 +1299,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >yas80 実行</a>
+        <a href=".." >移植メモ</a>
     </h1>
 </div>
 
@@ -1319,246 +1317,251 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="yas80-実行">yas80 実行</h1>
-<h2 id="コマンド書式">コマンド書式</h2>
-<pre><code>Usage: yas80 [options] file [file...]
-Options:
-  -I, --I strings          directories to search for include/incbin/charmap
-  -D, --D strings          define numeric constants
-  -o, --output string      output file name
-      --mzt                output with MZT format
-      --t88                output with T88 format
-  -e, --entry int          program start address (default -1)
-  -n, --load-name string   load file name
-  -a, --auto-proc          generate PROC from normal label
-  -f, --fill int           filler for DS and Segment Gap (default 255)
-  -R, --R800               assmble for R800
-  -l, --l                  generate list file
-      --lst string         lst filename
-  -m, --m                  generate map file
-      --map string         map filename
-  -s, --s                  generate symbol file
-      --sym string         symbol filename
-  -v, --verbose            verbose mode
-  -V, --version            print version
-</code></pre><h3 id="オプションoption">オプション(option)</h3>
+                                <h1 id="移植メモ">移植メモ</h1>
+<h2 id="メモについて">メモについて</h2>
+<p>自作および公開されているアセンブラソースを yas80 用に修正する際に必要になった事柄のメモです。</p>
+<p>修正後のソースファイルで同一のバイナリが生成されるまでは確認していますが、
+修正はあくまで該当ソースファイルで使用している機能範囲に限定されており、
+<span class="text-danger"><b>移植元のアセンブラの仕様を網羅するものではない</b></span>ため、
+参考レベルの情報として&quot;メモ&quot;と呼ぶものです。</p>
+<h2 id="z80as">z80as</h2>
+<h3 id="変更点">変更点</h3>
 <ul>
-<li>オプションは大文字・小文字を区別します。</li>
-<li>オプションは引数がないか、引数の 1 つをとるかのいずれかです。<ul>
-<li>引数を取らないオプション <code>--mzt</code> など</li>
-<li>引数を 1 つとるオプション <code>-I</code> など</li>
+<li><code>@@, @n</code> のラベルを適当な名前に置き換えるか、<code>-a</code>オプションの利用を検討する。</li>
+<li><code>DB/DW/DS</code> のラベルの <code>:</code> を削除する</li>
+<li><code>:</code> 演算子を数式に置き換える</li>
+<li>ギャップが <code>0</code> のため、オプション <code>-f 0</code> を指定する</li>
 </ul>
-</li>
-<li>複数の引数を取るオプションはありませんが、複数の項目を取るものがあります（<code>strings</code>）<ul>
-<li>複数回指定可能なオプション </li>
-<li>引数は 1 つで、<code>&quot;,&quot;</code> で複数の項目のオプション</li>
-</ul>
-</li>
-</ul>
-<h3 id="ソースファイルfile">ソースファイル(file)</h3>
-<ul>
-<li>オプションの次にソースファイルを指定します。</li>
-<li>ソースファイルは複数指定可能です。</li>
-</ul>
-<h2 id="オプション">オプション</h2>
-<h3 id="h---help">-h --help</h3>
-<ul>
-<li>簡単なヘルプを表示します。</li>
-</ul>
-<h3 id="i">-I</h3>
-<ul>
-<li><a href="../directive/directive.html#include"><code>INCLUDE</code></a>,<a href="../directive/directive.html#incbin"><code>INCBIN</code></a>,<a href="../directive/directive.html#charmap"><code>CHARMAP</code></a> がファイルをロードするフォルダを指定します。</li>
-<li><code>-Idir</code>, <code>-I dir</code> のようにフォルダを指定します。</li>
-<li><code>-Idir1 -Idir2</code> のように複数回指定できます</li>
-<li>さらに<code>-Idir1,dir2</code> のように <code>&quot;,&quot;</code>で区切って複数のフォルダを指定可能です。</li>
-<li>検索順は次のとおりです<ol>
-<li>ソースファイルと同じフォルダ</li>
-<li><code>-I</code>で最初に指定したフォルダ</li>
-<li><code>-I</code>で次に指定フォルダ</li>
-<li>以降<code>-I</code>の指定数まで繰り返し</li>
-</ol>
-</li>
-</ul>
-<pre><code>-I dir1 -Idir2,dir3
-</code></pre><h3 id="d">-D</h3>
-<ul>
-<li>シンボルを定義します。ソースファイル内で <a href="../directive/directive.html#constequ"><code>CONST/EQU</code></a>  を使用したのと同じ効果です。</li>
-<li><code>-Dname=value</code>もしくは<code>-D name=value</code>のように名前と値を指定します。</li>
-<li>値として指定できるのは数値のみです。</li>
-<li>10進数の他、<code>0x, 0o</code>のプレフィックスで、16進数、8進数も指定可能です。</li>
-<li><code>-Dname</code> のように名前のみ指定した場合は <code>-Dname=1</code> と指定したものとして扱います。</li>
-<li><code>-Dname1=1 -Dname2=2</code> のように複数回指定できます。</li>
-<li><code>-Dname1=1,name2=2</code> のように <code>&quot;,&quot;</code> で区切って複数のシンボルを定義可能です。</li>
-</ul>
-<pre><code>-D name=1,name2 -Dname3=3
-</code></pre><h3 id="o---output">-o --output</h3>
-<ul>
-<li>出力ファイル名を指定します（※）</li>
-<li>出力ファイル名の拡張子に応じた出力形式で出力します。<ul>
-<li>拡張子 <code>.mzt</code> ･･･ <a href="../output/output.html#mzt-形式">MZT 形式</a></li>
-<li>拡張子 <code>.t88</code> ･･･ <a href="../output/output.html#t88-形式">T88 形式</a></li>
-<li>これ以外の拡張子<ul>
-<li><code>--mzt</code> 指定 ･･･ MZT 形式</li>
-<li><code>--t88</code> 指定 ･･･ T88 形式</li>
-<li>指定なし･･･ <a href="../output/output.html#bin-形式">BIN 形式</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="-mzt">--mzt</h3>
-<ul>
-<li>MZT 形式で出力します。</li>
-<li><code>-o --output</code> で指定した拡張子が t88 の場合、エラーとします。</li>
-</ul>
-<h3 id="-t88">--t88</h3>
-<ul>
-<li>T88 形式で出力します</li>
-<li><code>-o --output</code> で指定した拡張子が mzt の場合、エラーとします。</li>
-</ul>
-<h3 id="オプション組み合わせ">オプション組み合わせ</h3>
-<table style="width:35em">
-<thead>
-<tr>
-  <th><code>-o</code>拡張子</th><th style="width:7em"><code>--mzt</code></th><th style="width:7em"><code>--t88</code></th><th>出力形式</th>
-</tr>
-</thead>
-<tbody>
-<tr><td rowspan="3"><code>.mzt</code></td><td></td><td></td><td>MZT   </td></tr>
-<tr>  <td class="center">✓ </td><td class="center">  </td><td>MZT   </td></tr>
-<tr>  <td class="center">n/a</td><td class="center">✓</td><td>エラー</td></tr>
-
-<tr><td rowspan="3"><code>.t88</code></td><td></td><td></td><td>T88   </td></tr>
-<tr>  <td class="center">✓</td><td class="center">n/a</td><td>エラー</td></tr>
-<tr>  <td class="center">  </td><td class="center">✓ </td><td>T88   </td></tr>
-
-<tr><td rowspan="3"><code>.mzt .t88</code>以外</td><td></td><td></td><td>BIN</td></tr>
-<tr>  <td class="center">✓</td><td class="center">  </td><td>MZT</td></tr>
-<tr>  <td class="center">  </td><td class="center">✓</td><td>T88</td></tr>
-</tbody>
-</table>
+<h3 id="patchpy">patch.py</h3>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> defaultdict
 
 
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Labels</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span> = defaultdict(<span class="hljs-built_in">list</span>)
 
-<h3 id="e---entry">-e --entry</h3>
-<ul>
-<li>出力ファイルの実行開始アドレスを指定します。</li>
-<li>ソースコードでは <a href="../directive/directive.html#END"><code>END</code></a>,<a href="../directive/directive.html#entry"><code>ENTRY</code></a> で指定しますが、このオプションの指定を優先します。</li>
-<li>出力ファイルの形式が <a href="../output/output.html#mzt-形式">MZT 形式</a> の場合のみ有効です。</li>
-</ul>
-<h3 id="n---load-name">-n --load-name</h3>
-<ul>
-<li>出力ファイルの形式が <a href="../output/output.html#mzt-形式">MZT 形式</a> 、<a href="../output/output.html#t88-形式">T88 形式</a>の場合で有効です。</li>
-<li>出力ファイル内に記載されるファイル名を指定します。</li>
-<li>デフォルトではソースファイル名（複数の場合は最初のファイル）を元にファイル名を決定しますが、このオプションの指定を優先します。</li>
-</ul>
-<h3 id="f---fill">-f --fill</h3>
-<ul>
-<li><a href="../#生成コードの配置">生成コードの配置</a>,<a href="../directive/directive.html#align"><code>ALIGN</code></a>,<a href="../directive/directive.html#ds"><code>DS</code></a> で領域を埋める際の値を指定します。</li>
-<li>10進数の他、0x, 0o のプレフィックスで、16進数、8進数も指定可能です。</li>
-<li>このオプションを指定しない場合、255 を使用します。</li>
-<li><a href="../directive/directive.html#align"><code>ALIGN</code></a>,<a href="../directive/directive.html#ds"><code>DS/DSB</code></a>,<a href="../directive/directive.html#dsw"><code>DSW</code></a> で個別に値が指定されている場合は、そちらの値が使用されます。</li>
-</ul>
-<h3 id="r---r800">-R --R800</h3>
-<ul>
-<li>Z80 でなく R800 をターゲットとしてアセンブルします。<ul>
-<li><a href="../z80/instruction.html#r800-命令"><code>MUL</code></a> 命令がアセンブル可能</li>
-<li>リストファイルの<a href="../z80/instruction.html#r800-tstates">実行クロック（TStates）</a>表記が R800 のものに変わる</li>
-</ul>
-</li>
-</ul>
-<h3 id="l">-l</h3>
-<ul>
-<li><a href="../output/output.html#リストファイル">リストファイル</a>を出力します。</li>
-<li>ソースファイル名（複数指定した場合は最初のファイル名）と同じフォルダに、ソースファイルの拡張子を <code>.lst</code> としたファイルです。</li>
-<li>ファイル名を指定したい場合は次の<code>--list</code>オプションを使用します。</li>
-</ul>
-<h3 id="-lst">--lst</h3>
-<ul>
-<li>出力するリストファイル名を指定します。</li>
-<li><code>--list</code> を指定した場合、<code>-l</code> は不要です。</li>
-</ul>
-<h3 id="s---sym">-s --sym</h3>
-<ul>
-<li><a href="../output/output.html#シンボルファイル">シンボルファイル</a>を出力します。</li>
-<li><code>-s</code>, <code>--sym</code> の扱いは <code>-l</code>, <code>--lst</code> と同様です。</li>
-</ul>
-<h3 id="m---map">-m --map</h3>
-<ul>
-<li><a href="../output/output.html#マップファイル">マップファイル</a>を出力します。</li>
-<li><code>-m</code>, <code>--map</code> の扱いは <code>-l</code>, <code>--lst</code> と同様です。</li>
-</ul>
-<h3 id="v---verbose">-v --verbose</h3>
-<ul>
-<li>実行状況詳細を表示します。</li>
-<li>本オプションが指定されておらず、エラー・警告・情報メッセージもない場合、何も表示されません。</li>
-</ul>
-<h3 id="v---version">-V --version</h3>
-<ul>
-<li>yas80 のバージョンを表示して終了します。</li>
-</ul>
-<h3 id="a---auto-proc">-a --auto-proc</h3>
-<ul>
-<li>ailz80asm からソースファイルを移行する際に使用します。</li>
-<li>通常のラベルと<code>&quot;.&quot;</code>で始まるラベルとを自動的に<a href="../directive/directive.html#proc"><code>PROC</code></a> に変換してからアセンブルします。</li>
-<li>処理内容については次項のとおりです。</li>
-</ul>
-<h2 id="auto-proc-処理">auto-proc 処理</h2>
-<p><span class="text-danger"><b>【注意】</b><br>
-本処理は実験的に実装しているものであり、確実な変換を保障するものではありません。
-エラーが出る場合等は、シンボルの置き換え、<code>PROC</code>への置き換えを検討ください。
-</span></p>
-<h3 id="proc-範囲開始と判定する文">PROC 範囲開始と判定する文</h3>
-<ul>
-<li>ラベルのみの文</li>
-<li>ラベル付きの文<ul>
-<li>Z80/R800 命令文</li>
-<li><code>DB/DW/DD</code>文</li>
-<li><code>DS</code>文</li>
-<li><code>MACRO</code>呼出し文</li>
-<li><code>REPT</code>文</li>
-</ul>
-</li>
-</ul>
-<h3 id="proc-範囲終了と判定する文">PROC 範囲終了と判定する文</h3>
-<ul>
-<li><code>&quot;.&quot;</code> で始まらないラベル、匿名ラベルのみの文</li>
-<li><code>&quot;.&quot;</code> で始まらないラベル、匿名ラベル付きの文<ul>
-<li>Z80/R800 命令文</li>
-<li><code>DB/DW/DD</code>文</li>
-<li><code>DS</code>文</li>
-<li><code>MACRO</code>呼出し文</li>
-<li><code>REPT</code>文</li>
-</ul>
-</li>
-<li><code>PROC</code>文</li>
-<li><code>MACRO</code>文</li>
-<li><code>FUNC/FUNCTION</code>文</li>
-<li><code>ENUM</code>文</li>
-</ul>
-<h3 id="proc-変換条件">PROC 変換条件</h3>
-<p>開始、終了範囲に <code>.</code> で始まるラベルを含まない場合は PROC 文への変換は行いません。</p>
-<h3 id="適用例">適用例</h3>
-<div class="iblock" style="width:15em"><pre><code>addr1: nop
-.local1: nop
-.local2: nop
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">append</span>(<span class="hljs-params">self, name, line_number</span>):
+        <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span>[name].append(line_number)
 
-addr2:
-.local1: nop
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span>.values():
+            count += <span class="hljs-built_in">len</span>(v)
+        <span class="hljs-keyword">return</span> count
 
-addr3: nop </code></pre></div>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__in__</span>(<span class="hljs-params">self, name</span>):
+        <span class="hljs-keyword">return</span> name <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span>
 
-<div class="iblock top center"><br><i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">replace</span>(<span class="hljs-params">self, n, name</span>):
+        name = name.lower()
+        <span class="hljs-keyword">if</span> name == <span class="hljs-string">&quot;@f&quot;</span>:
+            num = <span class="hljs-variable language_">self</span>.forward(n, <span class="hljs-string">&quot;@@&quot;</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;L___<span class="hljs-subst">{num}</span>&quot;</span>
+        <span class="hljs-keyword">elif</span> name == <span class="hljs-string">&quot;@b&quot;</span>:
+            num = <span class="hljs-variable language_">self</span>.backward(n, <span class="hljs-string">&quot;@@&quot;</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;L___<span class="hljs-subst">{num}</span>&quot;</span>
+        <span class="hljs-keyword">elif</span> name.endswith(<span class="hljs-string">&quot;f&quot;</span>):
+            num = <span class="hljs-variable language_">self</span>.forward(n, name[:-<span class="hljs-number">1</span>])
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;L_<span class="hljs-subst">{name[<span class="hljs-number">1</span>]}</span>_<span class="hljs-subst">{num}</span>&quot;</span>
+        <span class="hljs-keyword">elif</span> name.endswith(<span class="hljs-string">&quot;b&quot;</span>):
+            num = <span class="hljs-variable language_">self</span>.backward(n, name[:-<span class="hljs-number">1</span>])
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;L_<span class="hljs-subst">{name[<span class="hljs-number">1</span>]}</span>_<span class="hljs-subst">{num}</span>&quot;</span>
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Invalid label reference: <span class="hljs-subst">{name}</span>:<span class="hljs-subst">{n}</span>&quot;</span>)
 
-<div class="iblock" style="width:15em"><pre><code>add1 proc \ nop
-.local1: nop
-.local2: nop \ endp
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, n, name</span>):
+        lst = <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span>.get(name, <span class="hljs-literal">None</span>)
+        <span class="hljs-keyword">if</span> lst <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Label <span class="hljs-subst">{name}</span>:<span class="hljs-subst">{n}</span> not found&quot;</span>)
 
-addr2 proc
-.local1: nop \ endp
+        <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> lst:
+            <span class="hljs-keyword">if</span> num &gt;= n:
+                <span class="hljs-keyword">return</span> num
+        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Label <span class="hljs-subst">{name}</span>:<span class="hljs-subst">{n}</span> not found&quot;</span>)
 
-addr3: nop</code></pre></div>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, n, name</span>):
+        lst = <span class="hljs-variable language_">self</span>.<span class="hljs-built_in">map</span>.get(name, <span class="hljs-literal">None</span>)
+        <span class="hljs-keyword">if</span> lst <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Label <span class="hljs-subst">{name}</span>:<span class="hljs-subst">{n}</span> not found&quot;</span>)
 
+        <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(lst):
+            <span class="hljs-keyword">if</span> num &lt;= n:
+                <span class="hljs-keyword">return</span> num
+        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">f&quot;Label <span class="hljs-subst">{name}</span>:<span class="hljs-subst">{n}</span> not found&quot;</span>)
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">infile, outfile</span>):
+    <span class="hljs-keyword">try</span>:
+        lines = read_lines(infile)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Error reading file: <span class="hljs-subst">{e}</span>&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    labels = get_labels(lines)
+    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(labels), <span class="hljs-string">&quot;labels&quot;</span>)
+    new_lines = patch(lines, labels)
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(outfile, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+        f.writelines(new_lines)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_lines</span>(<span class="hljs-params">file</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]:
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:
+            <span class="hljs-keyword">return</span> f.readlines()
+    <span class="hljs-keyword">except</span> UnicodeDecodeError:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, encoding=<span class="hljs-string">&quot;cp932&quot;</span>) <span class="hljs-keyword">as</span> f:
+            <span class="hljs-keyword">return</span> f.readlines()
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_labels</span>(<span class="hljs-params">lines</span>) -&gt; Labels:
+    <span class="hljs-built_in">map</span> = Labels()
+
+    <span class="hljs-keyword">for</span> n, line <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(lines, start=<span class="hljs-number">1</span>):
+        m = re.<span class="hljs-keyword">match</span>(<span class="hljs-string">r&quot;(@[@\d])\s*:&quot;</span>, line)
+        <span class="hljs-keyword">if</span> m <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-built_in">map</span>.append(m.group(<span class="hljs-number">1</span>), n)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">map</span>
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">patch</span>(<span class="hljs-params">lines, labels</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]:
+    new_lines = []
+    <span class="hljs-keyword">for</span> n, line <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(lines, start=<span class="hljs-number">1</span>):
+        <span class="hljs-comment"># ラベル定義</span>
+        new_line = re.sub(
+            <span class="hljs-string">r&quot;(@[@\d])\s*:&quot;</span>, <span class="hljs-keyword">lambda</span> m: <span class="hljs-string">f&quot;L<span class="hljs-subst">{m.group(<span class="hljs-number">1</span>)}</span>_<span class="hljs-subst">{n}</span>:&quot;</span>.replace(<span class="hljs-string">&quot;@&quot;</span>, <span class="hljs-string">&quot;_&quot;</span>), line
+        )
+        <span class="hljs-comment"># ラベル参照</span>
+        new_line = re.sub(
+            <span class="hljs-string">r&quot;@\d?[fb]&quot;</span>,
+            <span class="hljs-keyword">lambda</span> m: labels.replace(n, m.group(<span class="hljs-number">0</span>)),
+            new_line,
+            flags=re.IGNORECASE,
+        )
+        <span class="hljs-comment"># DB/DW/DS の前の : を削除</span>
+        new_line = re.sub(<span class="hljs-string">r&quot;:(\s*(?:db|dw|ds))&quot;</span>, <span class="hljs-string">r&quot; \1&quot;</span>, new_line, flags=re.IGNORECASE)
+        <span class="hljs-comment"># コロン演算子の置き換え</span>
+        new_line = re.sub(
+            <span class="hljs-string">r&quot;(\d+)\s*:\s*(\d+)&quot;</span>, <span class="hljs-string">r&quot;(\1 * 256) + \2&quot;</span>, new_line, flags=re.IGNORECASE
+        )
+        <span class="hljs-comment"># BININCLUDE -&gt; INCBIN は機能追加したので変更不要</span>
+        <span class="hljs-comment"># new_line = re.sub(r&quot;BINCLUDE&quot;, &quot;INCBIN&quot;, new_line, flags=re.IGNORECASE)</span>
+        new_lines.append(new_line)
+    <span class="hljs-keyword">return</span> new_lines
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) != <span class="hljs-number">3</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Usage: patch.py input output&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    main(*sys.argv[<span class="hljs-number">1</span>:])
+</code></pre>
+<h2 id="ailz80asm">AILZ80ASM</h2>
+<h3 id="変更点">変更点</h3>
+<ul>
+<li><code>#if/#elif/#else/#endif</code>の<code>#</code>を削除</li>
+<li><code>.local</code>単独行に<code>:</code>を追加</li>
+<li><code>.local</code>が多い場合は <code>-a</code> オプションの利用を検討する</li>
+<li><code>exists</code>は組み込み関数<code>$defined</code>が使用できないか検討</li>
+<li><code>.@H,@L</code> は組み込み関数<code>$H(), $L()</code>に置き換える</li>
+<li>charmap 定義の<code>@</code>を<code>_</code>に変更</li>
+<li>charmap 適用の<code>@</code>を<code>_</code> に変更</li>
+<li>charmap 適用方法修正 &apos;:&apos; -&gt; 関数呼出し形式</li>
+<li>charmap は前方参照できないので、必要に応じて定義位置を変更</li>
+<li><code>db/dw/ds</code> のラベルに<code>:</code>がある場合削除</li>
+<li><code>include &quot;file&quot;, b</code>を<code>incbin</code>に変更</li>
+<li><code>function name() =&gt; expression</code>の<code>=&gt;</code>を削除</li>
+<li>macro 定義内の<code>.name</code>を<code>@name</code>に変更</li>
+<li><code>REPT ENDM</code>は<code>REPT ENDR</code>に変更</li>
+<li><code>REPT m LAST -n</code>は<code>EXITM IF</code>利用へ書き換える</li>
+</ul>
+<h3 id="patchpy">patch.py</h3>
+<ul>
+<li>上の変更点の一部に対応したもの</li>
+</ul>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> re
+<span class="hljs-keyword">import</span> sys
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">infile, outfile</span>):
+    <span class="hljs-keyword">try</span>:
+        lines = read_lines(infile)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Error reading file: <span class="hljs-subst">{e}</span>&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+
+    new_lines = patch(lines)
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(outfile, <span class="hljs-string">&quot;w&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:
+        f.writelines(new_lines)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">read_lines</span>(<span class="hljs-params">file</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]:
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:
+            <span class="hljs-keyword">return</span> f.readlines()
+    <span class="hljs-keyword">except</span> UnicodeDecodeError:
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file, encoding=<span class="hljs-string">&quot;cp932&quot;</span>) <span class="hljs-keyword">as</span> f:
+            <span class="hljs-keyword">return</span> f.readlines()
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">patch</span>(<span class="hljs-params">lines:<span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]:
+    new_lines = []
+    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> lines:
+        line = delete_pound(line)
+        line = exists_to_defined(line)
+        line = add_colon(line)
+        line = add_colon2(line)
+        line = remove_arrow(line)
+        line = charmap(line)
+        line = incbin(line)
+        line = remove_color(line)
+        new_lines.append(line)
+    <span class="hljs-keyword">return</span> new_lines
+
+<span class="hljs-comment"># if/elif/else/endifの # prefix を削除</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">delete_pound</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt;<span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&quot;#(if|elif|else|endif)&quot;</span>, <span class="hljs-string">r&quot;\1&quot;</span>, line, flags=re.IGNORECASE)
+
+<span class="hljs-comment"># exists name を $defined(name) に置換</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">exists_to_defined</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&quot;\sexists\s+(\w+)\s*$&quot;</span>, <span class="hljs-string">r&quot; $defined(\1)&quot;</span> <span class="hljs-string">&quot;\n&quot;</span>, line, flags=re.IGNORECASE)
+
+<span class="hljs-comment"># .local を .local: に置換</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">add_colon</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>)-&gt;<span class="hljs-built_in">str</span>:
+    m = re.<span class="hljs-keyword">match</span>(<span class="hljs-string">r&quot;\s*(\.\w+)\s*(?:;|$)&quot;</span>, line)
+    <span class="hljs-keyword">if</span> m <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> line
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">{m.group(<span class="hljs-number">1</span>)}</span>:\n&quot;</span>
+
+<span class="hljs-comment"># .local instruction =&gt; .local: instruction</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">add_colon2</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>)-&gt;<span class="hljs-built_in">str</span>:
+    m = re.<span class="hljs-keyword">match</span>(<span class="hljs-string">r&quot;\s*(\.\w+)\s+(\w+)\s(.*)&quot;</span>, line, flags=re.IGNORECASE)
+    <span class="hljs-keyword">if</span> m <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> line
+    <span class="hljs-keyword">if</span> m.group(<span class="hljs-number">2</span>).upper() <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;DB&quot;</span>, <span class="hljs-string">&quot;DW&quot;</span>, <span class="hljs-string">&quot;DS&quot;</span>]:
+        <span class="hljs-keyword">return</span> line
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">{m.group(<span class="hljs-number">1</span>)}</span>:\t<span class="hljs-subst">{m.group(<span class="hljs-number">2</span>)}</span> <span class="hljs-subst">{m.group(<span class="hljs-number">3</span>)}</span>\n&quot;</span>
+
+<span class="hljs-comment"># charmap</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">charmap</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    line = re.sub(<span class="hljs-string">r&quot;charmap(\s+)@&quot;</span>, <span class="hljs-string">r&quot;charmap\1_&quot;</span>, line, flags=re.IGNORECASE)
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&apos;@(\w+):(&quot;[^&quot;]*&quot;)&apos;</span>, <span class="hljs-string">r&quot;_\1(\2)&quot;</span>, line)
+
+<span class="hljs-comment"># incbin</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">incbin</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&apos;include\s+(&quot;[^&quot;]+&quot;)\s*,\s*B\s*$&apos;</span>, <span class="hljs-string">&quot;INCBIN \\1\n&quot;</span>, line, flags=re.IGNORECASE)
+
+<span class="hljs-comment"># function name() =&gt; expression の =&gt; を削除</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">remove_arrow</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&quot;\s=&gt;\s&quot;</span>, <span class="hljs-string">&quot; &quot;</span>, line)
+
+<span class="hljs-comment"># db/dw のラベルの: を削除</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">remove_color</span>(<span class="hljs-params">line:<span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-keyword">return</span> re.sub(<span class="hljs-string">r&quot;:(\s*)(db|dw|ds)(\s+)&quot;</span>, <span class="hljs-string">r&quot; \1\2\3&quot;</span>, line, flags=re.IGNORECASE)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) != <span class="hljs-number">3</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Usage: patch.py input output&quot;</span>)
+        exit(<span class="hljs-number">1</span>)
+    main(*sys.argv[<span class="hljs-number">1</span>:])
+</code></pre>
 
                                 
                                 </section>
@@ -1602,14 +1605,10 @@ addr3: nop</code></pre></div>
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: yas80 概要">
+                <a href="../directive/directive.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 疑似命令">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="../source/source.html" class="navigation navigation-next " aria-label="Next page: ソースファイル">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -1618,7 +1617,7 @@ addr3: nop</code></pre></div>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 実行","level":"1.2","depth":1,"next":{"title":"ソースファイル","level":"1.3","depth":1,"path":"source/source.md","ref":"source/source.md","articles":[{"title":"エンコーディング","level":"1.3.1","depth":2,"anchor":"#エンコーディング","path":"source/source.md","ref":"source/source.md#エンコーディング","articles":[]},{"title":"行","level":"1.3.2","depth":2,"anchor":"#行","path":"source/source.md","ref":"source/source.md#行","articles":[]},{"title":"マルチステートメント","level":"1.3.3","depth":2,"anchor":"#マルチステートメント","path":"source/source.md","ref":"source/source.md#マルチステートメント","articles":[]},{"title":"継続行","level":"1.3.4","depth":2,"anchor":"#継続行","path":"source/source.md","ref":"source/source.md#継続行","articles":[]},{"title":"行の種類","level":"1.3.5","depth":2,"anchor":"#行の種類","path":"source/source.md","ref":"source/source.md#行の種類","articles":[]}]},"previous":{"title":"yas80 概要","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"マルチパスアセンブルと$DEFINED","level":"1.1.2","depth":2,"anchor":"#defined","path":"README.md","ref":"README.md#defined","articles":[]},{"title":"プリプロセス","level":"1.1.3","depth":2,"anchor":"#プリプロセス","path":"README.md","ref":"README.md#プリプロセス","articles":[]},{"title":"エラー・警告・情報","level":"1.1.4","depth":2,"anchor":"#エラー・警告・情報","path":"README.md","ref":"README.md#エラー・警告・情報","articles":[]},{"title":"重複出力の集約","level":"1.1.5","depth":2,"anchor":"#重複出力の集約","path":"README.md","ref":"README.md#重複出力の集約","articles":[]},{"title":"異常発生時の挙動","level":"1.1.6","depth":2,"anchor":"#異常発生時の挙動","path":"README.md","ref":"README.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.7","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"スコープ","level":"1.1.8","depth":2,"anchor":"#スコープ","path":"README.md","ref":"README.md#スコープ","articles":[]}]},"articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec/exec.md","ref":"exec/exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec/exec.md","ref":"exec/exec.md#オプション","articles":[]},{"title":"auto-proc 処理","level":"1.2.3","depth":2,"anchor":"#auto-proc-処理","path":"exec/exec.md","ref":"exec/exec.md#auto-proc-処理","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-08 21:06"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"exec/exec.md","mtime":"2026-04-08T10:08:46.243Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T12:06:39.891Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"移植メモ","level":"1.8","depth":1,"previous":{"title":"疑似命令","level":"1.7","depth":1,"path":"directive/directive.md","ref":"directive/directive.md","articles":[{"title":"ORG","level":"1.7.1","depth":2,"anchor":"#org","path":"directive/directive.md","ref":"directive/directive.md#org","articles":[]},{"title":"END","level":"1.7.2","depth":2,"anchor":"#end","path":"directive/directive.md","ref":"directive/directive.md#end","articles":[]},{"title":"ENTRY","level":"1.7.3","depth":2,"anchor":"#entry","path":"directive/directive.md","ref":"directive/directive.md#entry","articles":[]},{"title":"ALIGN","level":"1.7.4","depth":2,"anchor":"#align","path":"directive/directive.md","ref":"directive/directive.md#align","articles":[]},{"title":"CHECK256","level":"1.7.5","depth":2,"anchor":"#check256","path":"directive/directive.md","ref":"directive/directive.md#check256","articles":[]},{"title":"PROC","level":"1.7.6","depth":2,"anchor":"#proc","path":"directive/directive.md","ref":"directive/directive.md#proc","articles":[]},{"title":"匿名シンボル","level":"1.7.7","depth":2,"anchor":"#anon-symbol","path":"directive/directive.md","ref":"directive/directive.md#anon-symbol","articles":[]},{"title":"CONST/EQU","level":"1.7.8","depth":2,"anchor":"#constequ","path":"directive/directive.md","ref":"directive/directive.md#constequ","articles":[]},{"title":"VAR","level":"1.7.9","depth":2,"anchor":"#var","path":"directive/directive.md","ref":"directive/directive.md#var","articles":[]},{"title":"DB","level":"1.7.10","depth":2,"anchor":"#db","path":"directive/directive.md","ref":"directive/directive.md#db","articles":[]},{"title":"DW","level":"1.7.11","depth":2,"anchor":"#dw","path":"directive/directive.md","ref":"directive/directive.md#dw","articles":[]},{"title":"DD","level":"1.7.12","depth":2,"anchor":"#dd","path":"directive/directive.md","ref":"directive/directive.md#dd","articles":[]},{"title":"DS/DSB","level":"1.7.13","depth":2,"anchor":"#ds","path":"directive/directive.md","ref":"directive/directive.md#ds","articles":[]},{"title":"DSW","level":"1.7.14","depth":2,"anchor":"#dsw","path":"directive/directive.md","ref":"directive/directive.md#dsw","articles":[]},{"title":"ENUM","level":"1.7.15","depth":2,"anchor":"#enum","path":"directive/directive.md","ref":"directive/directive.md#enum","articles":[]},{"title":"INCLUDE","level":"1.7.16","depth":2,"anchor":"#include","path":"directive/directive.md","ref":"directive/directive.md#include","articles":[]},{"title":"INCBIN/BINCLULDE","level":"1.7.17","depth":2,"anchor":"#incbin","path":"directive/directive.md","ref":"directive/directive.md#incbin","articles":[]},{"title":"CHARMAP","level":"1.7.18","depth":2,"anchor":"#charmap","path":"directive/directive.md","ref":"directive/directive.md#charmap","articles":[]},{"title":"SETMAP","level":"1.7.19","depth":2,"anchor":"#setmap","path":"directive/directive.md","ref":"directive/directive.md#setmap","articles":[]},{"title":"ERROR/WARN/INFO","level":"1.7.20","depth":2,"anchor":"#errorwarninfo","path":"directive/directive.md","ref":"directive/directive.md#errorwarninfo","articles":[]},{"title":"IF/ELIF/ELSE/ENDIF","level":"1.7.21","depth":2,"anchor":"#ifelifelseendif","path":"directive/directive.md","ref":"directive/directive.md#ifelifelseendif","articles":[]},{"title":"FUNC/RETURN/ENDF","level":"1.7.22","depth":2,"anchor":"#funcreturnendf","path":"directive/directive.md","ref":"directive/directive.md#funcreturnendf","articles":[]},{"title":"FUNCTION","level":"1.7.23","depth":2,"anchor":"#function","path":"directive/directive.md","ref":"directive/directive.md#function","articles":[]},{"title":"MACRO/ENDM","level":"1.7.24","depth":2,"anchor":"#macroendm","path":"directive/directive.md","ref":"directive/directive.md#macroendm","articles":[]},{"title":"REPT/ENDR","level":"1.7.25","depth":2,"anchor":"#reptendr","path":"directive/directive.md","ref":"directive/directive.md#reptendr","articles":[]},{"title":"EXITM","level":"1.7.26","depth":2,"anchor":"#exitm","path":"directive/directive.md","ref":"directive/directive.md#exitm","articles":[]},{"title":"LIST","level":"1.7.27","depth":2,"anchor":"#list","path":"directive/directive.md","ref":"directive/directive.md#list","articles":[]}]},"articles":[{"title":"メモについて","level":"1.8.1","depth":2,"anchor":"#メモについて","path":"port/port.md","ref":"port/port.md#メモについて","articles":[]},{"title":"z80as","level":"1.8.2","depth":2,"anchor":"#z80as","path":"port/port.md","ref":"port/port.md#z80as","articles":[]},{"title":"AILZ80ASM","level":"1.8.3","depth":2,"anchor":"#ailz80asm","path":"port/port.md","ref":"port/port.md#ailz80asm","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-08 21:06"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"port/port.md","mtime":"2026-04-08T12:04:12.595Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T12:06:39.891Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
