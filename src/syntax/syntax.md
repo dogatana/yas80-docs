@@ -356,45 +356,54 @@ __concat.sym__
 | `PROC`ローカル| グローバル名の前に `"."` を付けたもの、および[匿名ラベル](/directive/directive.md#anon-symbol)。<br>スコープは`PROC`内 |
 | `MACRO`ローカル| グローバル名の前に `"@"` を付けたもの。<br>スコープは マクロ内 |
 
-## ラベルとコロン`:`{#colon}
+## 名前/ラベルとコロン`:`{#colon}
 
-ラベルに対するコロンの要否についてはアセンブラによって異なっていて、
-有無どちらでも許容していますが、yas80 では次の仕様としています。
+ラベルに対するコロンの要否・有無の許容についてはアセンブラによって異なっていますが、
+yas80 では次の仕様としています。
 
-- ラベル文のラベルにはコロンが必要
-- 命令、疑似命令のラベルにはコロンが必要
-- `DB/DW/DS/PROC` の名前はラベル扱いであるが、名前なのでコロン不要
-- コロンが必要な場合の省略、コロンが不要な場合の追加はエラー
-                
+- ラベルにはコロンが必要。付けないとエラー
+    - ラベル文
+    - 命令文のラベル
+    - マクロ呼出しのラベル
+    - `REPT`疑似命令のラベル
+- 疑似命令の名前にはコロンは不要。付けるとエラー
+    - `EQU`疑似命令
+    - `PROC`疑似命令
+    - `ENUM`疑似命令
+    - `FUNC`疑似命令
+    - `MACRO`疑似命令
+    - `DB/DW/DD`疑似命令
+    - `DS`疑似命令
 
 ```
+main:                       ; 必要 ラベル文
+label:  ret                 ; 必要 命令文ラベル
+
 check   macro val, name
         cp val
         jr nz, @next
         call name
-@next:                      ; 必要 マクロローカル
+@next:                      ; 必要 マクロローカルラベル
         endm
 
-check1: check 'a', process  ; 必要 マクロ呼出し
+check1: check 'a', process  ; 必要 マクロ呼出し文ラベル
 
-        call disp
-        jr skip
-skip:                       ; 必要 ラベル行
-disp:   ret                 ; 必要 命令
-
-all:    rept 3              ; 必要 疑似命令
+block:  rept 3              ; 必要 REPT文ラベル
         nop
         endr
 
 
-message db "hello"          ; 不要 名前
-
-process proc                ; 不要 名前
+message db "hello"          ; 不要 DB 名前
+process proc                ; 不要 PROC 名前
         or a
-        jr z, .ret
-        
-.ret:                       ; 必要 PROCローカル
+        jp z, .ret
+@@:                         ; 必要 匿名ラベル
+        jp @b
+        ld hl, @1f
+
+.ret:                       ; 必要 PROCローカルラベル
         ret
+@1      db 1                ; 不要 DB 匿名名前
         endp
 ```
 
