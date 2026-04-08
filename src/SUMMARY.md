@@ -83,4 +83,8 @@
     * [REPT/ENDR](directive/directive.md#reptendr)
     * [EXITM](directive/directive.md#exitm)
     * [LIST](directive/directive.md#list)
+* [移植メモ](port/port.md)
+    * [メモについて](port/port.md#メモについて)
+    * [z80as](port/port.md#z80as)
+    * [AILZ80ASM](port/port.md#ailz80asm)
 
