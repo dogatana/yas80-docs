@@ -50,3 +50,5 @@ h2 {
 }
 
 pre > code { font-size: 90%!important;}
+
+.text-danger { color: #dc3545; }
