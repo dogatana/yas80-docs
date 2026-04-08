@@ -2,7 +2,7 @@
 
 * [yas80 概要](README.md)
     * [マルチパスアセンブラ](README.md#マルチパスアセンブラ)
-    * [マルチパスアセンブルと`$DEFINED`](README.md#defined)
+    * [シンボル解決と`$DEFINED`](README.md#defined)
     * [プリプロセス](README.md#プリプロセス)
     * [エラー・警告・情報](README.md#エラー・警告・情報)
     * [重複出力の集約](README.md#重複出力の集約)
@@ -85,6 +85,6 @@
     * [LIST](directive/directive.md#list)
 * [移植メモ](port/port.md)
     * [メモについて](port/port.md#メモについて)
-    * [z80as](port/port.md#z80as)
-    * [AILZ80ASM](port/port.md#ailz80asm)
+    * [z80as から](port/port.md#z80as)
+    * [AILZ80ASM から](port/port.md#ailz80asm)
 
