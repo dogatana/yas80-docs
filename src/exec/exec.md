@@ -3,7 +3,6 @@
 ## コマンド書式
 
 ```
-> yas80 -h
 Usage: yas80 [options] file [file...]
 Options:
   -I, --I strings          directories to search for include/incbin/charmap
@@ -22,7 +21,8 @@ Options:
       --map string         map filename
   -s, --s                  generate symbol file
       --sym string         symbol filename
-  -v, --version            print version
+  -v, --verbose            verbose mode
+  -V, --version            print version
 ```
 
 ### オプション(option)
@@ -41,6 +41,10 @@ Options:
 - ソースファイルは複数指定可能です。
 
 ## オプション
+
+### -h --help
+
+- 簡単なヘルプを表示します。
 
 ### -I
 
@@ -154,18 +158,27 @@ Options:
 - 出力するリストファイル名を指定します。
 - `--list` を指定した場合、`-l` は不要です。
 
-### -s, --sym
+### -s --sym
 
 - [シンボルファイル](/output/output.md#シンボルファイル)を出力します。
 - `-s`, `--sym` の扱いは `-l`, `--lst` と同様です。
 
-### -m, --map
+### -m --map
 
 - [マップファイル](/output/output.md#マップファイル)を出力します。
 - `-m`, `--map` の扱いは `-l`, `--lst` と同様です。
 
+### -v --verbose
 
-### -a, --auto-proc
+- 実行状況詳細を表示します。
+- 本オプションが指定されておらず、エラー・警告・情報メッセージもない場合、何も表示されません。
+
+### -V --version
+
+- yas80 のバージョンを表示して終了します。
+
+
+### -a --auto-proc
 
 - ailz80asm からソースファイルを移行する際に使用します。
 - 通常のラベルと`"."`で始まるラベルとを自動的に[`PROC`](/directive/directive.md#proc) に変換してからアセンブルします。
