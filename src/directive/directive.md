@@ -587,6 +587,9 @@ CHARMAP name, json-filename|json-string [, option]
   - 単1オブジェクト `{}`
   - キーは `string`（1 文字）
   - 値は `number`の`array`
+- json ファイルは AILZ80ASM のものと互換なので、拙作の json ファイルもそのまま利用可能です。
+  - [AILZ80ASM charmap for MZ-700 and PC-8001](https://github.com/dogatana/mz700-charmap-for-AILZ80ASM)
+  - [X1turbo漢字用charmap](https://github.com/dogatana/x1turbo-charmap)
 
 <br>
 __mz700.json の冒頭__
@@ -645,6 +648,8 @@ __mz700.json の冒頭__
 
 - [システム変数](/syntax/syntax.md#システム変数) `$CMAP_ERR, $CMAP_THRU`
 - [組み込み関数](/syntax/syntax.md#組み込み関数) `$CHR`
+- [AILZ80ASM charmap for MZ-700 and PC-8001](https://github.com/dogatana/mz700-charmap-for-AILZ80ASM)
+- [X1turbo漢字用charmap](https://github.com/dogatana/x1turbo-charmap)
 
 
 ## SETMAP
