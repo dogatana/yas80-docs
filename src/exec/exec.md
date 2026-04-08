@@ -132,7 +132,7 @@ Options:
 
 ### -f --fill
 
-- [生成コードの配置](/allocate.md),[`ALIGN`](/directive/directive.md#align),[`DS`](/directive/directive.md#ds) で領域を埋める際の値を指定します。
+- [生成コードの配置](/README.md#生成コードの配置),[`ALIGN`](/directive/directive.md#align),[`DS`](/directive/directive.md#ds) で領域を埋める際の値を指定します。
 - 10進数の他、0x, 0o のプレフィックスで、16進数、8進数も指定可能です。
 - このオプションを指定しない場合、255 を使用します。
 - [`ALIGN`](/directive/directive.md#align),[`DS/DSB`](/directive/directive.md#ds),[`DSW`](/directive/directive.md#dsw) で個別に値が指定されている場合は、そちらの値が使用されます。

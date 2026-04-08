@@ -17,7 +17,7 @@ ORG address [,ABS|,REL]
 
 #### 関連
 
-- [生成コードの配置](/allocate.md)
+- [生成コードの配置](/README.md#生成コードの配置)
 - [`END`](#end)
 
 ## END
@@ -134,7 +134,7 @@ label:
 
 #### 関連
 
-- [スコープ](/scope.md)
+- [スコープ](/README.md#スコープ)
 - [ユーザ定義名とスコープ](/syntax/syntax.md#ユーザ定義名とスコープ)
 - [`PROC`ローカルラベル](/syntax/syntax.md#proc-ローカルラベル)
 
@@ -709,8 +709,8 @@ temp/sample.asm:
 
 #### 関連
 
-- [エラー・警告・情報](/error.md#エラー・警告・情報)
-- [重複出力の集約](/error.md#重複出力の集約)
+- [エラー・警告・情報](/README.md#エラー・警告・情報)
+- [重複出力の集約](/README.md#重複出力の集約)
 - [組み込み関数](/syntax/syntax.md#組み込み関数)`$FMT, $FORMAT`
 
 ## IF/ELIF/ELSE/ENDIF
