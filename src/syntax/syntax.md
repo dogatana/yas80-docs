@@ -330,7 +330,7 @@ __concat.sym__
 <tr><td>レジスタ</td><td>Z80/R800 のレジスタ</td></tr>
 <tr><td>フラグ</td><td>Z80/R800 のフラグ （※）</td></tr>
 <tr><td>疑似命令</td><td><a href="/directive/directive.html">アセンブラ疑似命令</a></td></tr>
-<tr><td>匿名シンボル</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a>内で使用可能な<a href="/directive/directive.html#anon-symbol">匿名シンボル</a><br>
+<tr><td>匿名ラベル</td><td><a href="/directive/directive.html#proc"><code>PROC</code></a>内で使用可能な<a href="/directive/directive.html#anon-symbol">匿名ラベル</a><br>
 <code>@@, @F, @B, @0-@9, @0F-@9F, @0B-@9B</code></td></tr>
 <tr><td colspan="2">ラベル</td><td>命令もしくは疑似命令のアドレス</td></tr>
 <tr><td colspan="2">定数名</td><td><a href="/directive/directive.html#constequ"><code>CONST/EQU</code></a>で定義</td></tr>
@@ -353,7 +353,7 @@ __concat.sym__
 | カテゴリ | 内容 |
 | -- | -- |
 | グローバル | 英字もしくは `"_"` で始まり、英数字もしくは `"_"` が後に続くもの |
-| `PROC`ローカル| グローバル名の前に `"."` を付けたもの、および[匿名シンボル](/directive/directive.md#anon-symbol)。<br>スコープは`PROC`内 |
+| `PROC`ローカル| グローバル名の前に `"."` を付けたもの、および[匿名ラベル](/directive/directive.md#anon-symbol)。<br>スコープは`PROC`内 |
 | `MACRO`ローカル| グローバル名の前に `"@"` を付けたもの。<br>スコープは マクロ内 |
 
 ## ラベルとコロン`:`{#colon}
