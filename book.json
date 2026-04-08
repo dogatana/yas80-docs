@@ -1,5 +1,5 @@
 {
-    "title": "yas80 docs",
+    "title": "yas80 マニュアル",
     "language": "ja",
 	"root": "./src",
     "plugins": ["collapsible-chapters", "search-plus", "@dogatana/back-to-top-button"],
