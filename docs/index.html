@@ -122,7 +122,7 @@
                 <a href="./#defined">
             
                     
-                    マルチパスアセンブルと$DEFINED
+                    シンボル解決と$DEFINED
             
                 </a>
             
@@ -1243,7 +1243,7 @@
                 <a href="port/port.html#z80as">
             
                     
-                    z80as
+                    z80as から
             
                 </a>
             
@@ -1256,7 +1256,7 @@
                 <a href="port/port.html#ailz80asm">
             
                     
-                    AILZ80ASM
+                    AILZ80ASM から
             
                 </a>
             
@@ -1318,7 +1318,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="yas80-概要">yas80 概要</h1>
-<div class="right" style="position:relative; top:-1.5em">Last Update: 2026-04-08 23:32</div>
+<div class="right" style="position:relative; top:-1.5em">Last Update: 2026-04-09 06:30</div>
 
 <div style="margin-top:1em">
 yas80 - Yet Another Assembler for Z80 and R800 - は
@@ -1334,23 +1334,36 @@ Z80/R800 向けアブソリュートアセンブラです。
 <p><img src="images/マルチパス.svg" alt="マルチパス"></p>
 <p>の 4 工程に分かれており、評価工程は更に</p>
 <ul>
-<li>シンボル解決 <ul>
+<li>stage 1 - シンボル解決 <ul>
 <li>未解決シンボルがなくなるまで最大 256 回繰り返し評価</li>
-<li><a href="syntax/syntax.html#システム変数">システム変数</a><code>$STAGE2</code>が 0</li>
 </ul>
 </li>
-<li>生成コード確定<ul>
+<li>stage 2 - 生成コード確定<ul>
 <li>生成コードが安定する（評価し生成コードが同一になる）まで、最大 16 回繰り返し評価</li>
-<li><a href="syntax/syntax.html#システム変数">システム変数</a><code>$STAGE2</code>が 1</li>
 <li>2 パスアセンブラのパス 2 に相当します。</li>
 </ul>
 </li>
 </ul>
 <p>の 2 段階で構成しています。</p>
-<p>現在のパス番号（1～）は<a href="syntax/syntax.html#システム変数">システム変数</a><code>$PASS</code>で参照できます。</p>
-<h2 id="defined">マルチパスアセンブルと<code>$DEFINED</code></h2>
-<p>yas80 は<a href="#マルチパスアセンブラ">マルチパスアセンブラ</a>のため、最低 2 回の評価を実行します。
-このため、<a href="syntax/syntax.html#組み込み関数">組み込み関数</a><code>$DEFINED</code>を使用して条件アセンブルする際には注意してください。</p>
+<p>なお現在のパス番号（1～）は<a href="syntax/syntax.html#システム変数">システム変数</a><code>$PASS</code>で、
+どちらの stage かは<a href="syntax/syntax.html#システム変数">システム変数</a><code>$STAGE2</code>で参照できます。</p>
+<h2 id="defined">シンボル解決と<code>$DEFINED</code></h2>
+<p>シンボル解決は最大 256 回試行します。</p>
+<pre><code>ld a, not_defined ; 未定義
+</code></pre><p> <i class="fa fa-arrow-down"></i></p>
+<pre><code>&gt; yas80 -v not_defined.asm
+# parse
+# ast
+# eval stage 1
+last pass 256, 1 errors, eval.Resolved: false
+1 errros
+not_defined.asm:1 [ERR] シンボル NOT_DEFINED は未定義
+</code></pre><p>シンボルを前方参照する場合、その時点で「未解決シンボル」としてシンボルテーブルに登録し、
+処理を進める中で定義されていればシンボルテーブルを「解決済」として更新します。</p>
+<p><a href="directive/directive.html#ifelifelseendif">疑似命令<code>IF</code></a>(※)と
+<a href="syntax/syntax.html#組み込み関数">組み込み関数</a><code>$DEFINED</code>を組み合わせて条件アセンブルする場合、
+真偽の変化に注意が必要な場合があります。</p>
+<p>※yas80 では<code>IF</code>はプリプロセッサ命令ではなく、意味解析で真偽判定する疑似命令です。</p>
 <pre><code>const v1 = $defined(x)
 const v2 = $defined(v2)
 const v3 = $defined(fwd)
@@ -1368,7 +1381,7 @@ temp\test.asm:7 [INFO] pass 2 v2 1 ; 0-&gt;1 へ変化
 temp\test.asm:8 [INFO] pass 2 v3 1 ; 0-&gt;1 へ変換
 </code></pre><ul>
 <li><code>v1</code>について<code>x</code> は未定義なので、<code>$defined(x)</code>は常に 0 です</li>
-<li><code>v2</code>について pass 1 で<code>$defined(v2)</code>を評価する時点では未定義で 0 となり<code>v2</code>に設定しているため、pass 2 では定義済みとなり、<code>$defined(v2)</code>は 1 に変わります。</li>
+<li><code>v2</code>について pass 1 で<code>$defined(v2)</code>の評価する時点では未定義で 0 となり、その後定義しています。このため pass 2 開始時点では定義済みとなっているため、<code>$defined(v2)</code>は 1 に変わります。</li>
 <li><code>v3</code>について pass 1 で<code>$defined(fwd)</code>を評価する時点では<code>fwd</code>を前方参照しているため未定義で 0。 pass 2 時点では定義済みのため<code>$defined(v2)</code>は 1 に変わります。</li>
 </ul>
 <h2 id="プリプロセス">プリプロセス</h2>
@@ -1385,13 +1398,13 @@ temp\test.asm:8 [INFO] pass 2 v3 1 ; 0-&gt;1 へ変換
     <td class="nowrap">エラー</td>
     <td>ERR</td>
     <td>yas80 が出力するエラーと<code>ERROR</code>疑似命令による出力があります。<br>
-    エラーが発生する工程によって、アセンブルを継続するかどうか、出力ファイルを生成するかどうかが決まります。</td>
+    エラーがあると出力ファイルは生成しませんが、指定があればリストファイルは出力します。
+    </td>
 </tr>
 <tr>
     <td>警告</td>
     <td>WARN</td>
-    <td>型変換に関するものなど。<br>
-    <code>WARN</code>疑似命令による出力も可能です。
+    <td>型変換に関するものなどと、<code>WARN</code>疑似命令による出力があります。<br>
     警告があってもアセンブルは継続し、指定された出力ファイルも生成します。</td>
 </tr>
 <tr>
@@ -1416,7 +1429,7 @@ ld a, val</code></pre>
 
 </code></pre></div>
 
-<p>各パス毎の値の変化を<code>INFO</code>等で出力したい場合は、<a href="syntax/syntax.html#システム変数">システム変数</a><code>$PASS</code>を出力すると集約を回避することが可能です。</p>
+<p>各パス毎の値の変化を<code>INFO</code>等で出力したい場合は、<a href="syntax/syntax.html#システム変数">システム変数</a><code>$PASS</code>を使用します。</p>
 <div class="iblock" style="width:27em"><pre><code>const val= 123
 info $fmt(&quot;pass: %d, val: %d&quot;, $pass, val)
 ld a, val</code></pre>
@@ -1503,16 +1516,15 @@ msg.asm:2 [INFO] pass: 2, val: 123
 <p>出力ファイルのロードアドレスはソート後の先頭セグメントのアドレスです。</p>
 <p>セグメントのアドレ範囲が重複する場合はエラーとします。<br>
 また、セグメント間にギャップがある場合、<a href="exec/exec.html#f---fill"><code>--fill</code></a>オプションで指定した値で埋めます。</p>
-<pre><code class="lang-as">org $<span class="hljs-number">20</span>
-jp  $    ; アドレス $<span class="hljs-number">20</span> から配置なので jp $<span class="hljs-number">0020</span>
+<pre><code>org $20
+jp  $    ; アドレス $20 から配置なので jp $0020
 
-org $<span class="hljs-number">00</span>
-jp  $    ; アドレス $<span class="hljs-number">00</span> から配置なので jp $<span class="hljs-number">0000</span>
+org $00
+jp  $    ; アドレス $00 から配置なので jp $0000
 
-org $<span class="hljs-number">10</span>
-jp  $    ; アドレス $<span class="hljs-number">10</span> から配置なので jp $<span class="hljs-number">0010</span>
-</code></pre>
-<p> <i class="fa fa-arrow-down"></i></p>
+org $10
+jp  $    ; アドレス $10 から配置なので jp $0010
+</code></pre><p> <i class="fa fa-arrow-down"></i></p>
 <pre><code>0000: c3 00 00 ff ff ff ff ff  ff ff ff ff ff ff ff ff  ; jp $0000 0003-000f はギャップ
 0010: c3 10 00 ff ff ff ff ff  ff ff ff ff ff ff ff ff  ; jp $0010 0013-001f はギャップ
 0020: c3 20 00                                          ; jp $0020
@@ -1545,11 +1557,11 @@ jp  $          ; jp $0010
 <p>次の例は<code>2000 - 20ff</code>の 256 バイトの領域に、
 <code>sub1</code>もしくは<code>sub2</code>の どちらかをロードし、
 <code>main</code>からは<code>call 2000</code>とすることで異なる処理を実行することを想定したものです。</p>
-<pre><code class="lang-as">org $<span class="hljs-number">1200</span>
+<pre><code>org $1200
 main:
-  ld a, <span class="hljs-number">0</span>
-  call select_bank ; <span class="hljs-number">2000</span> からの領域に sub1 or sub <span class="hljs-number">2</span> をロード
-  call $<span class="hljs-number">2000</span>       ; sub1, sub2 でも同じ
+  ld a, 0
+  call select_bank ; 2000 からの領域に sub1 or sub 2 をロード
+  call $2000       ; sub1, sub2 でも同じ
   halt
 
 select_bank proc
@@ -1557,25 +1569,24 @@ select_bank proc
 endp
 
 ; 
-org $<span class="hljs-number">2000</span>
+org $2000
 
-; bank <span class="hljs-number">0</span>
-org $<span class="hljs-number">2000</span>, rel 
+; bank 0
+org $2000, rel 
 sub1 proc
-  ; <span class="hljs-keyword">do</span> something
+  ; do something
   ret
 endp
-align <span class="hljs-number">256</span>
+align 256
 
-; bank <span class="hljs-number">1</span>
-org $<span class="hljs-number">2000</span>, rel
+; bank 1
+org $2000, rel
 sub2 proc
-  ; <span class="hljs-keyword">do</span> something
+  ; do something
   ret
 endp
-align <span class="hljs-number">256</span>
-</code></pre>
-<h2 id="スコープ">スコープ</h2>
+align 256
+</code></pre><h2 id="スコープ">スコープ</h2>
 <p>yas80 は次のスコープがあり、
 異なるスコープ間で同じ名前（識別子）を使用することが可能です。</p>
 <p>内容はそれぞれの疑似命令を参照ください。</p>
@@ -1592,14 +1603,14 @@ align <span class="hljs-number">256</span>
 <tr>
 <td><code>PROC</code></td>
 <td><code>PROC</code>定義内</td>
-<td>あり (<code>.</code>)</td>
+<td>あり (<code>.</code>)  匿名シンボル</td>
 <td style="text-align:center">不可</td>
 </tr>
 <tr>
 <td>マクロ呼出し</td>
 <td><code>MACRO</code>で定義したマクロの呼出し内</td>
 <td>あり (<code>@</code>)</td>
-<td style="text-align:center">可</td>
+<td style="text-align:center">可 (*1)</td>
 </tr>
 <tr>
 <td><code>REPT</code></td>
@@ -1616,12 +1627,13 @@ align <span class="hljs-number">256</span>
 <tr>
 <td><code>ENUM</code></td>
 <td><code>ENUM</code>要素</td>
-<td>なし（※）</td>
+<td>なし (*2)</td>
 <td style="text-align:center">可</td>
 </tr>
 </tbody>
 </table>
-<p>※<code>ENUM</code>要素定義時に他の要素を参照する場合を除く</p>
+<p><em>1 マクロ定義はネスト不可です。マクロ定義の中でマクロを定義することはできません。<br>
+</em>2 <code>ENUM</code>要素定義時に他の要素を参照する場合を除きます。</p>
 
                                 
                                 </section>
@@ -1677,7 +1689,7 @@ align <span class="hljs-number">256</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec/exec.md","ref":"exec/exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec/exec.md","ref":"exec/exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec/exec.md","ref":"exec/exec.md#オプション","articles":[]},{"title":"auto-proc 処理","level":"1.2.3","depth":2,"anchor":"#auto-proc-処理","path":"exec/exec.md","ref":"exec/exec.md#auto-proc-処理","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"マルチパスアセンブルと$DEFINED","level":"1.1.2","depth":2,"anchor":"#defined","path":"README.md","ref":"README.md#defined","articles":[]},{"title":"プリプロセス","level":"1.1.3","depth":2,"anchor":"#プリプロセス","path":"README.md","ref":"README.md#プリプロセス","articles":[]},{"title":"エラー・警告・情報","level":"1.1.4","depth":2,"anchor":"#エラー・警告・情報","path":"README.md","ref":"README.md#エラー・警告・情報","articles":[]},{"title":"重複出力の集約","level":"1.1.5","depth":2,"anchor":"#重複出力の集約","path":"README.md","ref":"README.md#重複出力の集約","articles":[]},{"title":"異常発生時の挙動","level":"1.1.6","depth":2,"anchor":"#異常発生時の挙動","path":"README.md","ref":"README.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.7","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"スコープ","level":"1.1.8","depth":2,"anchor":"#スコープ","path":"README.md","ref":"README.md#スコープ","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-08 23:32"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-04-08T02:41:22.999Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T14:32:54.953Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec/exec.md","ref":"exec/exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec/exec.md","ref":"exec/exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec/exec.md","ref":"exec/exec.md#オプション","articles":[]},{"title":"auto-proc 処理","level":"1.2.3","depth":2,"anchor":"#auto-proc-処理","path":"exec/exec.md","ref":"exec/exec.md#auto-proc-処理","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"シンボル解決と$DEFINED","level":"1.1.2","depth":2,"anchor":"#defined","path":"README.md","ref":"README.md#defined","articles":[]},{"title":"プリプロセス","level":"1.1.3","depth":2,"anchor":"#プリプロセス","path":"README.md","ref":"README.md#プリプロセス","articles":[]},{"title":"エラー・警告・情報","level":"1.1.4","depth":2,"anchor":"#エラー・警告・情報","path":"README.md","ref":"README.md#エラー・警告・情報","articles":[]},{"title":"重複出力の集約","level":"1.1.5","depth":2,"anchor":"#重複出力の集約","path":"README.md","ref":"README.md#重複出力の集約","articles":[]},{"title":"異常発生時の挙動","level":"1.1.6","depth":2,"anchor":"#異常発生時の挙動","path":"README.md","ref":"README.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.7","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"スコープ","level":"1.1.8","depth":2,"anchor":"#スコープ","path":"README.md","ref":"README.md#スコープ","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-09 06:30"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-04-08T20:36:35.256Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T21:30:31.895Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

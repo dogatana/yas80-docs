@@ -11,7 +11,7 @@ require(["gitbook", "jquery"], (gitbook, $) => {
     let THEMES = [
         {
             config: "white",
-            text: "白",
+            text: "ライト",
             id: 0
         },
         {
@@ -21,7 +21,7 @@ require(["gitbook", "jquery"], (gitbook, $) => {
         },
         {
             config: "night",
-            text: "ナイト",
+            text: "ダーク",
             id: 2
         }
     ];
