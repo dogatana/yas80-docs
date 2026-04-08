@@ -856,6 +856,31 @@ _ = name ( [argument [, argument...]] )
    15  0004 3e 02                    [ 7]       ld a, counter()
    16  0006 3e 03                    [ 7]       ld a, counter()
 ```
+<br>
+```
+; seed を渡して 0-65535 の疑似乱数列を返す関数を返す
+make_rand func seed
+    var rx = seed & 0xffffffff
+    fn func
+        rx = rx ^ (rx << 13) & 0xffffffff
+        rx = rx ^ (rx >> 17)
+        rx = rx ^ (rx << 5) & 0xffffffff
+        return rx % 65536
+    endf
+    return fn
+endf
+
+; 関数作成 seed 12345
+const rand = make_rand(12345)
+
+; 乱数テーブル作成
+    align 256
+rand_table:
+    list $off
+    rept 256
+        db rand() & 0xff
+    endr
+```
 
 #### 関連
 
