@@ -421,12 +421,12 @@ table#sysvar tr td:nth-child(2) { text-align: center}
 <tr>
     <td><code>$R800 </code></td>
     <td>数値</td>
-    <td><a href="/exec/option.html#r---r800"><code>-R --R800</code></a>オプションを指定したとき 1、指定しないとき 0 </td>
+    <td><a href="/exec/exec.html#r---r800"><code>-R --R800</code></a>オプションを指定したとき 1、指定しないとき 0 </td>
 </tr>
 <tr>
     <td><code>$FILL</code></td>
     <td>数値</td>
-    <td><a href="/exec/option.html#f---fill"><code>-f --fill</code></a>オプションで指定した値。指定しないとき 255 </td>
+    <td><a href="/exec/exec.html#f---fill"><code>-f --fill</code></a>オプションで指定した値。指定しないとき 255 </td>
 </tr>
 <tr>
     <td><code>$PASS</code></td>

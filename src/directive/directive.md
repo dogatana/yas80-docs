@@ -38,7 +38,7 @@ END [address]
 #### 関連
 - [MZT 形式](/output/output.md#mzt-形式)
 - [`ENTRY`](#entry)
-- [`-e --entry`](/exec/option.md#e---entry)オプション
+- [`-e --entry`](/exec/exec.md#e---entry)オプション
 
 ## ENTRY
 
@@ -58,7 +58,7 @@ ENTRY address
 #### 関連
 - [MZT 形式](/output/output.md#mzt-形式)
 - [`END`](#end)
-- [`-e --entry`](/exec/option.md#e---entry)オプション
+- [`-e --entry`](/exec/exec.md#e---entry)オプション
 
 ## ALIGN
 
@@ -75,7 +75,7 @@ ALIGN size [,fill]
 
 #### 関連
 
-- [`-f --fill`](/exec/option.md#f---fill)オプション
+- [`-f --fill`](/exec/exec.md#f---fill)オプション
 - [システム変数](syntax/syntax.md#システム変数)`$FILL`
 
 ## CHECK256
@@ -407,7 +407,7 @@ name = expression     ; 再代入
 
 #### 関連
 
-- [`-f --fill`](/exec/option.md#f---fill) オプション
+- [`-f --fill`](/exec/exec.md#f---fill) オプション
 - [システム変数](/syntax/syntax.md#システム変数)`$FILL`
 
 
@@ -433,7 +433,7 @@ name = expression     ; 再代入
 
 #### 関連
 
-- [`-f --fill`](/exec/option.md#f---fill) オプション
+- [`-f --fill`](/exec/exec.md#f---fill) オプション
 - [システム変数](/syntax/syntax.md#システム変数)`$FILL`
 
 ### ENUM
@@ -521,7 +521,7 @@ endif
 
 #### 関連
 
-- [`-I`](/exec/option.md#i)オプション
+- [`-I`](/exec/exec.md#i)オプション
 
 ## INCBIN/BINCLUDE{#incbin}
 
@@ -563,7 +563,7 @@ sample.asm:
 
 #### 関連
 
-- [`-I`](/exec/option.md#i)オプション
+- [`-I`](/exec/exec.md#i)オプション
 - [システム変数](/syntax/syntax.md#システム変数)`$RSIZE`
 
 ## CHARMAP
@@ -1149,5 +1149,5 @@ ld a, 5
         
 #### 関連
 
-- [オプション](/exec/option.md#l)`-l, --lst`
+- [オプション](/exec/exec.md#l)`-l, --lst`
 - [リストファイル](/output/output.md#リストファイル)

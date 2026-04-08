@@ -4,9 +4,9 @@
 
 - yas80 は次の 3 種類の形式に対応しています。
 - 形式は実行時のオプションによって指定します。
-    - [`-o --output`](/exec/option.md#o---output)オプション
-    - [`--mzt`](/exec/option.md#-mzt)オプション
-    - [`--t88`](/exec/option.md#-t88)オプション
+    - [`-o --output`](/exec/exec.md#o---output)オプション
+    - [`--mzt`](/exec/exec.md#-mzt)オプション
+    - [`--t88`](/exec/exec.md#-t88)オプション
 
 ## BIN 形式
 

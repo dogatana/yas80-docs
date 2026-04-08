@@ -65,5 +65,5 @@ temp\test.asm:8 [INFO] pass 2 v3 1 ; 0->1 へ変換
 ## プリプロセス
 
 yas80 のプリプロセスは C言語のプリプロセスとは異なり構文解析の後、意味解析の前に実行します。<br>
-これは[`-a --auto-proc`](/exec/option.md#a---auto-proc)オプションを指定した場合に実行され、
-構文解析工程の出力である抽象構文木を処理する[auto-proc 処理](/exec/option.md#auto-proc-処理)です。
+これは[`-a --auto-proc`](/exec/exec.md#a---auto-proc)オプションを指定した場合に実行され、
+構文解析工程の出力である抽象構文木を処理する[auto-proc 処理](/exec/exec.md#auto-proc-処理)です。
