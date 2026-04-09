@@ -857,6 +857,7 @@ _ = name ( [argument [, argument...]] )
    16  0006 3e 03                    [ 7]       ld a, counter()
 ```
 <br>
+
 ```
 ; seed を渡して 0-65535 の疑似乱数列を返す関数を返す
 make_rand func seed
@@ -1041,6 +1042,7 @@ sample.asm
     7                                         + endm(DEFMSG)
 ```
 __sample.sym__
+
 ```
 0000 DATA_01
 0003 DATA_02
@@ -1066,6 +1068,9 @@ ENDR
 - `expressioin`の評価結果が数値の場合、その回数だけ `REPT-ENDR` 間の`statement`を展開します。
 - `expressioin`の評価結果が配列の場合、その配列要素の数だけ `REPT-ENDR` 間の`statement`を展開します。
 - 展開の際、次のシステム変数の値が設定されます。
+- これらのシステム変数は[`INFO`](#info)で表示できるほか、次の方法でリストファイルに出力することが可能です。
+  - [`LIST`](#list)制御命令で`2`を指定する
+  - [`--list`](/README.md#オプション)オプションで`2`を指定する
 
 | 変数名       | 型   | 内容 |
 | --           | :--:   | --   |
@@ -1073,6 +1078,30 @@ ENDR
 | `$I`         | 数値 | 展開毎の序数（`0`から`$COUNT - 1`まで）|
 | `$V`         | -   | "`REPT`配列" の展開毎の値（配列要素の値）|
 
+<br>
+<div class="iblock top"><pre><code> 1                        ; --list 指定なし
+ 2                        rept 3
+ 3                          nop
+ 4                        endr
+ 4  0000 00    [ 4]     +   nop
+ 4  0001 00    [ 4]     +   nop
+ 4  0002 00    [ 4]     +   nop
+</code></pre></div>
+<div class="iblock" style="width:3em"></div>
+<div class="iblock top"><pre><code> 1                         ; --list 2 指定
+ 2                         rept 3
+ 3                           nop
+ 4                         endr
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 0(0x0)
+ 4  0000 00     [ 4]     +   nop
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 1(0x1)
+ 4  0001 00     [ 4]     +   nop
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 2(0x2)
+ 4  0002 00     [ 4]     +   nop 
+</code></pre></div>
 <br>
 
 ```
@@ -1136,20 +1165,12 @@ ENDIF
     3                                             exitm if $i == $count - 1
     4                                             inc hl
     5                                           endr
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 0(0x0)
     5  0000 77                       [ 7]     +   ld (hl), a
     5  0001 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 1(0x1)
     5  0002 77                       [ 7]     +   ld (hl), a
     5  0003 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 2(0x2)
     5  0004 77                       [ 7]     +   ld (hl), a
     5  0005 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 3(0x3)
     5  0006 77                       [ 7]     +   ld (hl), a
 ```
 
@@ -1169,9 +1190,10 @@ LIST expression
 #### 説明
 
 - リスト出力を制御します。
-- `expression`が真(1) の場合、次の行からリスト出力します。
-- `expression`が偽(0) の場合、次の行からリスト出力しません。
-- `LIST` 行はリスト出力対象外です。
+- `expression`が 0 の場合、次の行からリスト出力しません。
+- `expression`が 1 の場合、次の行からリスト出力します。
+- `expression`が 2 の場合、次の行からリスト出力します。また`REPT`の展開時にシステム変数の設定を出力します。
+- `LIST`行はリスト出力対象外です。
 
 
 ```
@@ -1195,4 +1217,6 @@ ld a, 5
 #### 関連
 
 - [オプション](/exec/exec.md#l)`-l, --lst`
+- [オプション](/exec/exec.md#-list)`--list`
 - [リストファイル](/output/output.md#リストファイル)
+- [`REPT`](/directive/directive.md#reptendr)

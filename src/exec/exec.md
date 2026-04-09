@@ -2,7 +2,9 @@
 
 ## コマンド書式
 
+
 ```
+> yas80 -h
 Usage: yas80 [options] file [file...]
 Options:
   -I, --I strings          directories to search for include/incbin/charmap
@@ -17,6 +19,7 @@ Options:
   -R, --R800               assmble for R800
   -l, --l                  generate list file
       --lst string         lst filename
+      --list int           LIST value (default 1)
   -m, --m                  generate map file
       --map string         map filename
   -s, --s                  generate symbol file
@@ -157,6 +160,11 @@ Options:
 
 - 出力するリストファイル名を指定します。
 - `--list` を指定した場合、`-l` は不要です。
+
+### --list
+
+- [LIST](/directive/directive.md#list)疑似命令の初期値(0-2)を指定します。
+- 本オプションを指定しない場合 1 が設定されます。
 
 ### -s --sym
 
