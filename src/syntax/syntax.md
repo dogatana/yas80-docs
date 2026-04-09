@@ -502,15 +502,15 @@ yas80 の組み込み関数を次表に示します。
 
 | 関数名   | 動作内容 |
 | --       |  -- |
-|`$W`<br>`$WORD` | 引数（数値）を WORD（2 バイト整数）としてマークします。[`DD`](/directive/directive.html#dbdwdd) で使用します。|
 |`$H`<br>`$HIGH` | 引数（数値）の上位バイトを返します。 |
 |`$L`<br>`$LOW`  | 引数（数値）の下位バイトを返します。 |
-|`$LEN`<br>`$LENGTH`  | 引数が文字列の場合は文字数を、配列リテラルの場合は要素数を返します。|
+|`$W`<br>`$WORD` | 引数（数値）を WORD（2 バイト整数）としてマークします。<br>[`DD`](/directive/directive.html#dbdwdd) で使用すると、値がバイト値の範囲であってもワード値として扱います。|
+|`$LEN`<br>`$LENGTH`  | 引数（配列）の要素数を返します。<br>引数（文字列）は文字列を、Shift_JIS文字列としたb場合のバイト数を返します。|
 |`$REV`<br>`$REVERSE` | 引数（配列）の並びを逆転した配列を新たに作り返します。<br>引数の配列は元のまま変化しません。|
-|`$FMT` `$FORMAT` | 最初の引数を書式文字列、残りの引数（数値もしくは文字列）を書式文字列に従って文字列化した文字列を返します。書式指定文字は Go 言語の fmt パッケージの [Printing](https://pkg.go.dev/fmt@go1.26.1#hdr-Printing) を参照ください（C 言語等とほぼ同じです）。|
+|`$FMT` `$FORMAT` | 最初の引数を書式文字列、残りの引数を書式文字列に従って文字列化した文字列を返します。書式指定文字は Go 言語の fmt パッケージの [Printing](https://pkg.go.dev/fmt@go1.26.1#hdr-Printing) を参照ください（C 言語等とほぼ同じです）。レジスタ、フラグを指定した場合は文字列が指定されたものとして扱います。|
 |`$ISARY` `$ISARRAY` | 引数が配列の場合 1 を、配列でない場合 0 を返します。|
-|`$CHR`   | 引数（配列）が 1 要素の場合はその値を、2 要素の場合は最初の値を上位バイト、次の値を下位バイトとした数値を返します。1 文字の文字列リテラルに[`CHARMAP`](/directive/directive.md#charmap) を適用した場合、結果が配列になるため、それを"コード（数値）"としたい場合に使用します。|
-|`$DEFINED` | 引数（シンボル）が現在のパスでこの関数の呼出し時点で値が確定してれば 1 をそうでない場合 0 を返します。[`IF`](/directive/directive.md#ifelifelseendif)と組み合わせて使用する場合は[マルチパスアセンブルと`#DEFINED`](/README.md#defined)の記載内容に注意ください。|
+|`$CODE`   | 引数（配列）が 1 要素の場合はその値を、2 要素の場合は最初の値を上位バイト、次の値を下位バイトとした数値を返します。1 文字の文字列リテラルに[`CHARMAP`](/directive/directive.md#charmap) を適用した場合、結果が配列になるため、それを"コード（数値）"としたい場合に使用します。|
+|`$DEFINED` | 引数（シンボル）が現在のパスでこの関数の呼出し時点で値が確定してれば 1 をそうでない場合 0 を返します。[`IF`](/directive/directive.md#ifelifelseendif)と組み合わせて使用する場合は[シンボル解決と`#DEFINED`](/README.md#defined)の記載内容に注意ください。|
 |`$STR` | 引数を文字列に変換します。|
 
 
@@ -529,6 +529,7 @@ __sample.sym__
 0006 DATA012
 ```
 <br>
+
 __disp.asm__
 <div class="iblock top" style="width:26em;font-size:90%"><pre><code>disp macro arg
   info $fmt("disp arg is %s", $str(arg))
