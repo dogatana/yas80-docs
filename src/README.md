@@ -322,6 +322,63 @@ endp
 align 256
 ```
 
+
+## `$`と`$$`{#location}
+
+`$` と `$$` はどちらもアドレスを格納する[システム変数](/syntax/syntax.md#システム変数)です。
+
+- `$` は現在のローケンションカウンタ（アドレス）で命令のベースアドレスです。
+- `$$` は現在の配置ローケンションカウンタ（アドレス）で出力先のアドレスです。
+
+絶対セグメントでは `$ == $$` になりますが、相対セグメントでは `$ != $$` になります。<br>
+次に例を示します。
+
+<div class="iblock top" style="width:24em"><pre><code>org $1000
+a1  equ $
+a1r equ $$
+    ret
+    
+org $2000
+a2  equ $
+a2r equ $$
+    ret
+
+org $3000, REL
+a3  equ $
+a3r equ $$
+    ret
+
+org $4000, REL
+a4  equ $
+a4r equ $$
+    ret
+
+org $5000
+a5  equ $
+a5r equ $$
+    ret
+
+info $fmt("A1: %04x, A1R: %04x", a1, a1r)
+info $fmt("A2: %04x, A2R: %04x", a2, a2r)
+info $fmt("A3: %04x, A3R: %04x", a3, a3r)
+info $fmt("A4: %04x, A4R: %04x", a4, a4r)
+info $fmt("A5: %04x, A5R: %04x", a5, a5r)
+</code></pre></div>
+<div class="iblock top center" style="width:2em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock top" style="width:30em"><pre><code>rel.asm:26 [INFO] A1: 1000, A1R: 1000
+rel.asm:27 [INFO] A2: 2000, A2R: 2000
+rel.asm:28 [INFO] A3: 3000, A3R: 2001
+rel.asm:29 [INFO] A4: 4000, A4R: 2002
+rel.asm:30 [INFO] A5: 5000, A5R: 5000
+</code></pre>
+<ul>
+<li><code>A1R/A2R/A5R</code>は絶対セグメン内のため、<code>A1/A2/A5</code>と同じアドレスになります。</li>
+<li><code>A3R/A4R</code>は相対セグメン内のため、先行する絶対セグメントの続きに配置されるため、
+<code>A3/A4</code>と異なるアドレスとなります。</li>
+</ul>
+</div>
+
+
 ## スコープ
 
 yas80 は次のスコープがあり、

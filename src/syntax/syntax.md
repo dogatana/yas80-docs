@@ -423,9 +423,11 @@ table#sysvar tr td:nth-child(2) { text-align: center}
 </thead>
 <tbody>
 <tr>
-    <td><code>$ </code></td>
+    <td><code>$</code><br><code>$$</code></td>
     <td class="center">数値</td>
-    <td>現在のロケーションカウンタ（アドレス）</td>
+    <td><code>$</code> は現在のロケーションカウンタ（アドレス）、
+    <code>$$</code>は現在の配置ロケーションカウンタ（アドレス）です。
+    違いについては<a href="/#location"><code>$</code>と<code>$$</code></a>を参照ください</td>
 </tr>
 <tr>
     <td><code>$R800 </code></td>

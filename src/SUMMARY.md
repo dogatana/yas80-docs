@@ -8,6 +8,7 @@
     * [重複出力の集約](README.md#重複出力の集約)
     * [異常発生時の挙動](README.md#異常発生時の挙動)
     * [生成コードの配置](README.md#生成コードの配置)
+    * [`$`と`$$`](README.md#location)
     * [スコープ](README.md#スコープ)
 * [yas80 実行](exec/exec.md)
     * [コマンド書式](exec/exec.md#コマンド書式)
