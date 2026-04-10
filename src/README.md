@@ -129,7 +129,7 @@ ld a, val</code></pre>
 <div class="iblock top" style="width:23em"><pre><code>msg.asm:2 [INFO] val: 123
 
 
-</div>
+</code></pre></div>
 
 各パス毎の値の変化を`INFO`等で出力したい場合は、[システム変数](/syntax/syntax.md#システム変数)`$PASS`を使用します。
 
@@ -141,9 +141,7 @@ ld a, val</code></pre>
 <div class="iblock top" style="width:23em"><pre><code>msg.asm:2 [INFO] pass: 1, val: 123
 msg.asm:2 [INFO] pass: 2, val: 123
 
-</div>
-
-
+</code></pre></div>
 
 
 ## 異常発生時の挙動
@@ -242,7 +240,7 @@ jp  $    ; アドレス $00 から配置なので jp $0000
 org $10
 jp  $    ; アドレス $10 から配置なので jp $0010
 ```
-&nbsp;<i class="fa fa-arrow-down">
+&nbsp;<i class="fa fa-arrow-down"></i>
 ```
 0000: c3 00 00 ff ff ff ff ff  ff ff ff ff ff ff ff ff  ; jp $0000 0003-000f はギャップ
 0010: c3 10 00 ff ff ff ff ff  ff ff ff ff ff ff ff ff  ; jp $0010 0013-001f はギャップ
@@ -268,7 +266,7 @@ jp  top2       ; jp $0100
 org $10        ; ロードアドレス $10 から配置
 jp  $          ; jp $0010
 ```
-&nbsp;<i class="fa fa-arrow-down">
+&nbsp;<i class="fa fa-arrow-down"></i>
 ```
 ; 絶対セグメント $0010 + gap
 0010: c3 10 00 ff ff ff ff ff  ff ff ff ff ff ff ff ff ; jp $0010 0003-000f はギャップ
