@@ -84,7 +84,7 @@
     * [REPT/ENDR](directive/directive.md#reptendr)
     * [EXITM](directive/directive.md#exitm)
     * [LIST](directive/directive.md#list)
-* [他のアセンブラとの違い](port/port.md)
+* [メモ：他のアセンブラとの違い](port/port.md)
     * [本内容について](port/port.md#contents)
     * [z80as との違い](port/port.md#z80as)
     * [AILZ80ASM との違い](port/port.md#ailz80asm)
