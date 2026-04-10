@@ -1,15 +1,18 @@
-# 移植メモ
+# メモ：他のアセンブラとの違い
 
-## メモについて
+## 本内容について{#contents}
 
-自作および公開されているアセンブラソースを yas80 用に修正する際に必要になった事柄のメモです。
+機能的な大きな課題がないかどうかを確認する目的で、
+自作および公開されているソースファイルを yas80 用でアセンブルできるかどうか試したものです。
 
-修正後のソースファイルで同一のバイナリが生成されるまでは確認していますが、
-修正はあくまで該当ソースファイルで使用している機能範囲に限定されており、
-<span class="text-danger"><b>移植元のアセンブラの仕様を網羅するものではなく</b></span>、
-参考レベルの情報として"メモ"と呼ぶものです。
+ここでは
+<span class="text-danger"><b>移植元のアセンブラの仕様を網羅する</b></span>
+ことは目標とせず、
+該当ソースファイルで使用している機能範囲に限定した内容であるため、
+参考レベルの情報として"メモ"と呼んでいます。
 
-## z80as から{#z80as}
+
+## z80as との違い{#z80as}
 
 ### 変更点
 
@@ -144,7 +147,7 @@ if __name__ == "__main__":
     main(*sys.argv[1:])
 ```
 
-## AILZ80ASM から{#ailz80asm}
+## AILZ80ASM との違い{#ailz80asm}
 
 ### 変更点
 
@@ -163,10 +166,130 @@ if __name__ == "__main__":
 - macro 定義内の`.name`を`@name`に変更
 - `REPT ENDM`は`REPT ENDR`に変更
 - `REPT m LAST -n`は`EXITM IF`利用へ書き換える
+- `HIGH,LOW`演算子を関数呼出し`$HIGH(),$LOW()`へ置き換える
+
+### `ORG`の配置管理の違い
+
+命令のベースアドレスと実際に格納されるアドレスを別にする場合、
+`ORG`疑似命令を使用し設定することになりますが、
+yas80 と AILZ80ASM とではアプローチが異なっています。
+
+
+<table>
+<thead>
+<tr>
+    <th style="white-space:nowra">項目</th>
+    <th style="width:40%">yas80</th>
+    <th style="width:40%">AILZ80ASM</th></tr>
+</thead>
+<tbody>
+<tr>
+    <td>配置アドレス指定</td>
+    <td>自動: 先行セグメントの続きになる<br>
+    特定のアドレスとする場合、先行セグメント末尾でのアライメント調整が必要</td>
+    <td>手動: <code>ORG</code>の第2引数で指定<br>
+    特定のアドレスとするのは容易な反面、連続して配置する場合は第1引数で計算が必要か？</td>
+</tr>
+<tr>
+    <td>配置アドレス参照</td>
+    <td><code>$$</code>を使用</td>
+    <td><code>$$</code>を使用</td>
+</tr>
+</tbody>
+</table>
+
+このためスクリプトで簡単に書き換えるといったことはできず、
+メモリマップを考慮しながらの修正が必要になります。
+
+公開されているものでは[LSX-Dodgers](https://github.com/tablacus/LSX-Dodgers)
+が`ORG`による配置指定をしているのが分かったので、
+PC8801 用を対象に移行を試みたところ、次の内容で同一バイナリが生成できるところまでは確認できました。
+
+- patch.py による書き換え
+- `ORG`で第2引数を指定している場合、`REL`に置き換えるか無効化
+- いくつかのラベル定義を`name equ $$`に置き換え、配置アドレスとする
+
+```
+diff -u '-x=*.bin' '-x=*.bat' '-x=*.bin' patched/88INIT.ASM temp/88INIT.ASM
+--- patched/88INIT.ASM
++++ temp/88INIT.ASM
+@@ -270,7 +270,7 @@
+ 	DB	0
+ 
+ AT_SUBSYS:
+-	ORG	SUBSYS,AT_SUBSYS-OFFSET
++	ORG	SUBSYS,REL ; AT_SUBSYS-OFFSET
+ 	JP	PUTCOM
+ 	JP	PUTDAT
+ 	JP	GETDAT
+@@ -304,5 +304,5 @@
+ 	DAA
+ 	JP	MSG_A
+ 	DS	4
+-	ORG	$$+OFFSET,$$	;$DEPHASE
+-AT_TRAPE:
++	; ORG	$$+OFFSET,$$	;$DEPHASE
++AT_TRAPE equ $$
+Only in temp: 88INIT.ASM.bak
+
+diff -u '-x=*.bin' '-x=*.bat' '-x=*.bin' patched/88SUB.ASM temp/88SUB.ASM
+--- patched/88SUB.ASM
++++ temp/88SUB.ASM
+@@ -2,8 +2,8 @@
+ ;	LSX-Dodgers SUB DISK SYSTEM
+ ;	PC-8801mkIISR
+ 
+-AT_DSS:
+-	ORG	DSS,AT_DSS-OFFSET
++AT_DSS equ $$
++	ORG	DSS,REL ; AT_DSS-OFFSET
+ 	JP	READDISKEX
+ 	JP	WRITEDISKEX
+ 	JP	GETPARAMS_N
+@@ -425,7 +425,8 @@
+ 	IN	A,(0FBH)	;FDC μPD765A データレジスタリード
+ 	RET
+ 
+-	ORG	$$+OFFSET,$$	;$DEPHASE
++	; ORG	$$+OFFSET,$$	;$DEPHASE
++	ORG $D880
+ AT_DSSE:
+ INITE:
+ 	DS	BDOS-INITE
+
+diff -u '-x=*.bin' '-x=*.bat' '-x=*.bin' patched/88TABLE.ASM temp/88TABLE.ASM
+--- patched/88TABLE.ASM
++++ temp/88TABLE.ASM
+@@ -46,5 +46,5 @@
+ 	DB	00H,00H,00H,00H,00H,00H,00H,00H	;B
+ 	DB	00H,00H,00H,00H,00H,08H,12H,08H	;C
+ VRAME:
+-	ORG	$$+OFFSET,$$	;$DEPHASE
+-AT_VRAME:
++	; ORG	$$+OFFSET,$$	;$DEPHASE
++AT_VRAME equ $$
+
+diff -u '-x=*.bin' '-x=*.bat' '-x=*.bin' patched/88VRAM.ASM temp/88VRAM.ASM
+--- patched/88VRAM.ASM
++++ temp/88VRAM.ASM
+@@ -2,8 +2,8 @@
+ ;	LSX-Dodgers VRAM
+ ;	PC-8801mkIISR
+ 
+-AT_VRAM:
+-	ORG	0F000H,AT_VRAM-OFFSET
++AT_VRAM equ $$
++	ORG	0F000H,REL ; AT_VRAM-OFFSET
+ ESC1:
+ 	LD	A,E
+ 	CP	'A'
+```
+
+
 
 ### 書き換え Python スクリプト例
 
-- 上の変更点の一部に対応したもの
+- スクリプトで処理後手作業で修正する前提のため、変更点の一部には対応してません。
 
 ```python
 import re
@@ -203,6 +326,7 @@ def patch(lines:list[str]) -> list[str]:
         line = charmap(line)
         line = incbin(line)
         line = remove_color(line)
+        line = high_low(line)
         new_lines.append(line)
     return new_lines
 
@@ -246,6 +370,10 @@ def remove_arrow(line:str) -> str:
 # db/dw のラベルの: を削除
 def remove_color(line:str) -> str:
     return re.sub(r":(\s*)(db|dw|ds)(\s+)", r" \1\2\3", line, flags=re.IGNORECASE)
+
+# high low の関数呼出し化
+def high_low(line:str) -> str:
+    return re.sub(r"(HIGH|LOW)\s+(\w+)", r" $\1(\2) ", line, flags=re.IGNORECASE)
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
