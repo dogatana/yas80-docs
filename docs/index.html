@@ -197,6 +197,19 @@
     
         <li class="chapter " data-level="1.1.8" data-path="./">
             
+                <a href="./#location">
+            
+                    
+                    $と$$
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.9" data-path="./">
+            
                 <a href="./#スコープ">
             
                     
@@ -1216,7 +1229,7 @@
                 <a href="port/port.html">
             
                     
-                    移植メモ
+                    他のアセンブラとの違い
             
                 </a>
             
@@ -1227,10 +1240,10 @@
     
         <li class="chapter " data-level="1.8.1" data-path="port/port.html">
             
-                <a href="port/port.html#メモについて">
+                <a href="port/port.html#contents">
             
                     
-                    メモについて
+                    本内容について
             
                 </a>
             
@@ -1243,7 +1256,7 @@
                 <a href="port/port.html#z80as">
             
                     
-                    z80as から
+                    z80as との違い
             
                 </a>
             
@@ -1256,7 +1269,7 @@
                 <a href="port/port.html#ailz80asm">
             
                     
-                    AILZ80ASM から
+                    AILZ80ASM との違い
             
                 </a>
             
@@ -1318,7 +1331,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="yas80-概要">yas80 概要</h1>
-<div class="right" style="position:relative; top:-1.5em">Last Update: 2026-04-09 06:30</div>
+<div class="right" style="position:relative; top:-1.5em">Last Update: 2026-04-10 17:28</div>
 
 <div style="margin-top:1em">
 yas80 - Yet Another Assembler for Z80 and R800 - は
@@ -1439,8 +1452,6 @@ ld a, val</code></pre>
 msg.asm:2 [INFO] pass: 2, val: 123
 
 </code></pre></div>
-
-
 
 
 <h2 id="異常発生時の挙動">異常発生時の挙動</h2>
@@ -1586,7 +1597,61 @@ sub2 proc
   ret
 endp
 align 256
-</code></pre><h2 id="スコープ">スコープ</h2>
+</code></pre><h2 id="location"><code>$</code>と<code>$$</code></h2>
+<p><code>$</code> と <code>$$</code> はどちらもアドレスを格納する<a href="syntax/syntax.html#システム変数">システム変数</a>です。</p>
+<ul>
+<li><code>$</code> は現在のローケンションカウンタ（アドレス）で命令のベースアドレスです。</li>
+<li><code>$$</code> は現在の配置ローケンションカウンタ（アドレス）で出力先のアドレスです。</li>
+</ul>
+<p>絶対セグメントでは <code>$ == $$</code> になりますが、相対セグメントでは <code>$ != $$</code> になります。<br>
+次に例を示します。</p>
+<div class="iblock top" style="width:24em"><pre><code>org $1000
+a1  equ $
+a1r equ $$
+    ret
+
+org $2000
+a2  equ $
+a2r equ $$
+    ret
+
+org $3000, REL
+a3  equ $
+a3r equ $$
+    ret
+
+org $4000, REL
+a4  equ $
+a4r equ $$
+    ret
+
+org $5000
+a5  equ $
+a5r equ $$
+    ret
+
+info $fmt(&quot;A1: %04x, A1R: %04x&quot;, a1, a1r)
+info $fmt(&quot;A2: %04x, A2R: %04x&quot;, a2, a2r)
+info $fmt(&quot;A3: %04x, A3R: %04x&quot;, a3, a3r)
+info $fmt(&quot;A4: %04x, A4R: %04x&quot;, a4, a4r)
+info $fmt(&quot;A5: %04x, A5R: %04x&quot;, a5, a5r)
+</code></pre></div>
+<div class="iblock top center" style="width:2em"><br><i class="fa fa-arrow-right"></i></div>
+<div class="iblock top" style="width:30em"><pre><code>rel.asm:26 [INFO] A1: 1000, A1R: 1000
+rel.asm:27 [INFO] A2: 2000, A2R: 2000
+rel.asm:28 [INFO] A3: 3000, A3R: 2001
+rel.asm:29 [INFO] A4: 4000, A4R: 2002
+rel.asm:30 [INFO] A5: 5000, A5R: 5000
+</code></pre>
+<ul>
+<li><code>A1R/A2R/A5R</code>は絶対セグメン内のため、<code>A1/A2/A5</code>と同じアドレスになります。</li>
+<li><code>A3R/A4R</code>は相対セグメン内のため、先行する絶対セグメントの続きに配置されるため、
+<code>A3/A4</code>と異なるアドレスとなります。</li>
+</ul>
+</div>
+
+
+<h2 id="スコープ">スコープ</h2>
 <p>yas80 は次のスコープがあり、
 異なるスコープ間で同じ名前（識別子）を使用することが可能です。</p>
 <p>内容はそれぞれの疑似命令を参照ください。</p>
@@ -1689,7 +1754,7 @@ align 256
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec/exec.md","ref":"exec/exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec/exec.md","ref":"exec/exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec/exec.md","ref":"exec/exec.md#オプション","articles":[]},{"title":"auto-proc 処理","level":"1.2.3","depth":2,"anchor":"#auto-proc-処理","path":"exec/exec.md","ref":"exec/exec.md#auto-proc-処理","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"シンボル解決と$DEFINED","level":"1.1.2","depth":2,"anchor":"#defined","path":"README.md","ref":"README.md#defined","articles":[]},{"title":"プリプロセス","level":"1.1.3","depth":2,"anchor":"#プリプロセス","path":"README.md","ref":"README.md#プリプロセス","articles":[]},{"title":"エラー・警告・情報","level":"1.1.4","depth":2,"anchor":"#エラー・警告・情報","path":"README.md","ref":"README.md#エラー・警告・情報","articles":[]},{"title":"重複出力の集約","level":"1.1.5","depth":2,"anchor":"#重複出力の集約","path":"README.md","ref":"README.md#重複出力の集約","articles":[]},{"title":"異常発生時の挙動","level":"1.1.6","depth":2,"anchor":"#異常発生時の挙動","path":"README.md","ref":"README.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.7","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"スコープ","level":"1.1.8","depth":2,"anchor":"#スコープ","path":"README.md","ref":"README.md#スコープ","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-09 06:30"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-04-08T20:36:35.256Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T21:30:31.895Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"yas80 概要","level":"1.1","depth":1,"next":{"title":"yas80 実行","level":"1.2","depth":1,"path":"exec/exec.md","ref":"exec/exec.md","articles":[{"title":"コマンド書式","level":"1.2.1","depth":2,"anchor":"#コマンド書式","path":"exec/exec.md","ref":"exec/exec.md#コマンド書式","articles":[]},{"title":"オプション","level":"1.2.2","depth":2,"anchor":"#オプション","path":"exec/exec.md","ref":"exec/exec.md#オプション","articles":[]},{"title":"auto-proc 処理","level":"1.2.3","depth":2,"anchor":"#auto-proc-処理","path":"exec/exec.md","ref":"exec/exec.md#auto-proc-処理","articles":[]}]},"articles":[{"title":"マルチパスアセンブラ","level":"1.1.1","depth":2,"anchor":"#マルチパスアセンブラ","path":"README.md","ref":"README.md#マルチパスアセンブラ","articles":[]},{"title":"シンボル解決と$DEFINED","level":"1.1.2","depth":2,"anchor":"#defined","path":"README.md","ref":"README.md#defined","articles":[]},{"title":"プリプロセス","level":"1.1.3","depth":2,"anchor":"#プリプロセス","path":"README.md","ref":"README.md#プリプロセス","articles":[]},{"title":"エラー・警告・情報","level":"1.1.4","depth":2,"anchor":"#エラー・警告・情報","path":"README.md","ref":"README.md#エラー・警告・情報","articles":[]},{"title":"重複出力の集約","level":"1.1.5","depth":2,"anchor":"#重複出力の集約","path":"README.md","ref":"README.md#重複出力の集約","articles":[]},{"title":"異常発生時の挙動","level":"1.1.6","depth":2,"anchor":"#異常発生時の挙動","path":"README.md","ref":"README.md#異常発生時の挙動","articles":[]},{"title":"生成コードの配置","level":"1.1.7","depth":2,"anchor":"#生成コードの配置","path":"README.md","ref":"README.md#生成コードの配置","articles":[]},{"title":"$と$$","level":"1.1.8","depth":2,"anchor":"#location","path":"README.md","ref":"README.md#location","articles":[]},{"title":"スコープ","level":"1.1.9","depth":2,"anchor":"#スコープ","path":"README.md","ref":"README.md#スコープ","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-10 17:28"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"README.md","mtime":"2026-04-10T00:52:29.318Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-10T08:28:23.426Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

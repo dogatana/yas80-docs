@@ -199,6 +199,19 @@
     
         <li class="chapter " data-level="1.1.8" data-path="../">
             
+                <a href="../#location">
+            
+                    
+                    $と$$
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.9" data-path="../">
+            
                 <a href="../#スコープ">
             
                     
@@ -1218,7 +1231,7 @@
                 <a href="../port/port.html">
             
                     
-                    移植メモ
+                    他のアセンブラとの違い
             
                 </a>
             
@@ -1229,10 +1242,10 @@
     
         <li class="chapter " data-level="1.8.1" data-path="../port/port.html">
             
-                <a href="../port/port.html#メモについて">
+                <a href="../port/port.html#contents">
             
                     
-                    メモについて
+                    本内容について
             
                 </a>
             
@@ -1245,7 +1258,7 @@
                 <a href="../port/port.html#z80as">
             
                     
-                    z80as から
+                    z80as との違い
             
                 </a>
             
@@ -1258,7 +1271,7 @@
                 <a href="../port/port.html#ailz80asm">
             
                     
-                    AILZ80ASM から
+                    AILZ80ASM との違い
             
                 </a>
             
@@ -2039,6 +2052,29 @@ _ = name ( [argument [, argument...]] )
    14  0002 3e 01                    [ 7]       ld a, counter()
    15  0004 3e 02                    [ 7]       ld a, counter()
    16  0006 3e 03                    [ 7]       ld a, counter()
+</code></pre><p><br></p>
+<pre><code>; seed を渡して 0-65535 の疑似乱数列を返す関数を返す
+make_rand func seed
+    var rx = seed &amp; 0xffffffff
+    fn func
+        rx = rx ^ (rx &lt;&lt; 13) &amp; 0xffffffff
+        rx = rx ^ (rx &gt;&gt; 17)
+        rx = rx ^ (rx &lt;&lt; 5) &amp; 0xffffffff
+        return rx % 65536
+    endf
+    return fn
+endf
+
+; 関数作成 seed 12345
+const rand = make_rand(12345)
+
+; 乱数テーブル作成
+    align 256
+rand_table:
+    list $off
+    rept 256
+        db rand() &amp; 0xff
+    endr
 </code></pre><h4 id="関連">関連</h4>
 <ul>
 <li><a href="#function"><code>FUNCTION</code></a></li>
@@ -2191,6 +2227,11 @@ ENDR
 <li><code>expressioin</code>の評価結果が数値の場合、その回数だけ <code>REPT-ENDR</code> 間の<code>statement</code>を展開します。</li>
 <li><code>expressioin</code>の評価結果が配列の場合、その配列要素の数だけ <code>REPT-ENDR</code> 間の<code>statement</code>を展開します。</li>
 <li>展開の際、次のシステム変数の値が設定されます。</li>
+<li>これらのシステム変数は<a href="#info"><code>INFO</code></a>で表示できるほか、次の方法でリストファイルに出力することが可能です。<ul>
+<li><a href="#list"><code>LIST</code></a>制御命令で<code>2</code>を指定する</li>
+<li><a href="../#オプション"><code>--list</code></a>オプションで<code>2</code>を指定する</li>
+</ul>
+</li>
 </ul>
 <table>
 <thead>
@@ -2219,6 +2260,30 @@ ENDR
 </tbody>
 </table>
 <p><br></p>
+<p></p><div class="iblock top"><pre><code> 1                        ; --list 指定なし
+ 2                        rept 3
+ 3                          nop
+ 4                        endr
+ 4  0000 00    [ 4]     +   nop
+ 4  0001 00    [ 4]     +   nop
+ 4  0002 00    [ 4]     +   nop
+</code></pre></div><p></p>
+<p></p><div class="iblock" style="width:3em"></div><p></p>
+<p></p><div class="iblock top"><pre><code> 1                         ; --list 2 指定
+ 2                         rept 3
+ 3                           nop
+ 4                         endr
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 0(0x0)
+ 4  0000 00     [ 4]     +   nop
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 1(0x1)
+ 4  0001 00     [ 4]     +   nop
+ 4                       + $COUNT = 3(0x3)
+ 4                       + $I = 2(0x2)
+ 4  0002 00     [ 4]     +   nop 
+</code></pre></div>
+<br><p></p>
 <pre><code>push_regs macro lst
   rept lst
     push $v
@@ -2264,20 +2329,12 @@ ENDIF
     3                                             exitm if $i == $count - 1
     4                                             inc hl
     5                                           endr
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 0(0x0)
     5  0000 77                       [ 7]     +   ld (hl), a
     5  0001 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 1(0x1)
     5  0002 77                       [ 7]     +   ld (hl), a
     5  0003 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 2(0x2)
     5  0004 77                       [ 7]     +   ld (hl), a
     5  0005 23                       [ 6]     +   inc hl
-    5                                         + $COUNT = 4(0x4)
-    5                                         + $I = 3(0x3)
     5  0006 77                       [ 7]     +   ld (hl), a
 </code></pre><h4 id="関連">関連</h4>
 <ul>
@@ -2290,9 +2347,10 @@ ENDIF
 </code></pre><h4 id="説明">説明</h4>
 <ul>
 <li>リスト出力を制御します。</li>
-<li><code>expression</code>が真(1) の場合、次の行からリスト出力します。</li>
-<li><code>expression</code>が偽(0) の場合、次の行からリスト出力しません。</li>
-<li><code>LIST</code> 行はリスト出力対象外です。</li>
+<li><code>expression</code>が 0 の場合、次の行からリスト出力しません。</li>
+<li><code>expression</code>が 1 の場合、次の行からリスト出力します。</li>
+<li><code>expression</code>が 2 の場合、次の行からリスト出力します。また<code>REPT</code>の展開時にシステム変数の設定を出力します。</li>
+<li><code>LIST</code>行はリスト出力対象外です。</li>
 </ul>
 <pre><code>ld a, 1
 list 0
@@ -2310,7 +2368,9 @@ ld a, 5
 </code></pre><h4 id="関連">関連</h4>
 <ul>
 <li><a href="../exec/exec.html#l">オプション</a><code>-l, --lst</code></li>
+<li><a href="../exec/exec.html#-list">オプション</a><code>--list</code></li>
 <li><a href="../output/output.html#リストファイル">リストファイル</a></li>
+<li><a href="directive.html#reptendr"><code>REPT</code></a></li>
 </ul>
 
                                 
@@ -2360,7 +2420,7 @@ ld a, 5
                 </a>
                 
                 
-                <a href="../port/port.html" class="navigation navigation-next " aria-label="Next page: 移植メモ">
+                <a href="../port/port.html" class="navigation navigation-next " aria-label="Next page: 他のアセンブラとの違い">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2371,7 +2431,7 @@ ld a, 5
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"疑似命令","level":"1.7","depth":1,"next":{"title":"移植メモ","level":"1.8","depth":1,"path":"port/port.md","ref":"port/port.md","articles":[{"title":"メモについて","level":"1.8.1","depth":2,"anchor":"#メモについて","path":"port/port.md","ref":"port/port.md#メモについて","articles":[]},{"title":"z80as から","level":"1.8.2","depth":2,"anchor":"#z80as","path":"port/port.md","ref":"port/port.md#z80as","articles":[]},{"title":"AILZ80ASM から","level":"1.8.3","depth":2,"anchor":"#ailz80asm","path":"port/port.md","ref":"port/port.md#ailz80asm","articles":[]}]},"previous":{"title":"Z80/R800 命令","level":"1.6","depth":1,"path":"z80/instruction.md","ref":"z80/instruction.md","articles":[{"title":"Z80 命令","level":"1.6.1","depth":2,"anchor":"#z80-命令","path":"z80/instruction.md","ref":"z80/instruction.md#z80-命令","articles":[]},{"title":"Z80 TStates","level":"1.6.2","depth":2,"anchor":"#z80-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#z80-tstates","articles":[]},{"title":"R800 命令","level":"1.6.3","depth":2,"anchor":"#r800-命令","path":"z80/instruction.md","ref":"z80/instruction.md#r800-命令","articles":[]},{"title":"R800 TStates","level":"1.6.4","depth":2,"anchor":"#r800-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#r800-tstates","articles":[]},{"title":"表記揺らぎ対応","level":"1.6.5","depth":2,"anchor":"#表記揺らぎ対応","path":"z80/instruction.md","ref":"z80/instruction.md#表記揺らぎ対応","articles":[]},{"title":"文字列、配列を数値として扱う","level":"1.6.6","depth":2,"anchor":"#ld-op2","path":"z80/instruction.md","ref":"z80/instruction.md#ld-op2","articles":[]}]},"articles":[{"title":"ORG","level":"1.7.1","depth":2,"anchor":"#org","path":"directive/directive.md","ref":"directive/directive.md#org","articles":[]},{"title":"END","level":"1.7.2","depth":2,"anchor":"#end","path":"directive/directive.md","ref":"directive/directive.md#end","articles":[]},{"title":"ENTRY","level":"1.7.3","depth":2,"anchor":"#entry","path":"directive/directive.md","ref":"directive/directive.md#entry","articles":[]},{"title":"ALIGN","level":"1.7.4","depth":2,"anchor":"#align","path":"directive/directive.md","ref":"directive/directive.md#align","articles":[]},{"title":"CHECK256","level":"1.7.5","depth":2,"anchor":"#check256","path":"directive/directive.md","ref":"directive/directive.md#check256","articles":[]},{"title":"PROC","level":"1.7.6","depth":2,"anchor":"#proc","path":"directive/directive.md","ref":"directive/directive.md#proc","articles":[]},{"title":"匿名シンボル","level":"1.7.7","depth":2,"anchor":"#anon-symbol","path":"directive/directive.md","ref":"directive/directive.md#anon-symbol","articles":[]},{"title":"CONST/EQU","level":"1.7.8","depth":2,"anchor":"#constequ","path":"directive/directive.md","ref":"directive/directive.md#constequ","articles":[]},{"title":"VAR","level":"1.7.9","depth":2,"anchor":"#var","path":"directive/directive.md","ref":"directive/directive.md#var","articles":[]},{"title":"DB","level":"1.7.10","depth":2,"anchor":"#db","path":"directive/directive.md","ref":"directive/directive.md#db","articles":[]},{"title":"DW","level":"1.7.11","depth":2,"anchor":"#dw","path":"directive/directive.md","ref":"directive/directive.md#dw","articles":[]},{"title":"DD","level":"1.7.12","depth":2,"anchor":"#dd","path":"directive/directive.md","ref":"directive/directive.md#dd","articles":[]},{"title":"DS/DSB","level":"1.7.13","depth":2,"anchor":"#ds","path":"directive/directive.md","ref":"directive/directive.md#ds","articles":[]},{"title":"DSW","level":"1.7.14","depth":2,"anchor":"#dsw","path":"directive/directive.md","ref":"directive/directive.md#dsw","articles":[]},{"title":"ENUM","level":"1.7.15","depth":2,"anchor":"#enum","path":"directive/directive.md","ref":"directive/directive.md#enum","articles":[]},{"title":"INCLUDE","level":"1.7.16","depth":2,"anchor":"#include","path":"directive/directive.md","ref":"directive/directive.md#include","articles":[]},{"title":"INCBIN/BINCLULDE","level":"1.7.17","depth":2,"anchor":"#incbin","path":"directive/directive.md","ref":"directive/directive.md#incbin","articles":[]},{"title":"CHARMAP","level":"1.7.18","depth":2,"anchor":"#charmap","path":"directive/directive.md","ref":"directive/directive.md#charmap","articles":[]},{"title":"SETMAP","level":"1.7.19","depth":2,"anchor":"#setmap","path":"directive/directive.md","ref":"directive/directive.md#setmap","articles":[]},{"title":"ERROR/WARN/INFO","level":"1.7.20","depth":2,"anchor":"#errorwarninfo","path":"directive/directive.md","ref":"directive/directive.md#errorwarninfo","articles":[]},{"title":"IF/ELIF/ELSE/ENDIF","level":"1.7.21","depth":2,"anchor":"#ifelifelseendif","path":"directive/directive.md","ref":"directive/directive.md#ifelifelseendif","articles":[]},{"title":"FUNC/RETURN/ENDF","level":"1.7.22","depth":2,"anchor":"#funcreturnendf","path":"directive/directive.md","ref":"directive/directive.md#funcreturnendf","articles":[]},{"title":"FUNCTION","level":"1.7.23","depth":2,"anchor":"#function","path":"directive/directive.md","ref":"directive/directive.md#function","articles":[]},{"title":"MACRO/ENDM","level":"1.7.24","depth":2,"anchor":"#macroendm","path":"directive/directive.md","ref":"directive/directive.md#macroendm","articles":[]},{"title":"REPT/ENDR","level":"1.7.25","depth":2,"anchor":"#reptendr","path":"directive/directive.md","ref":"directive/directive.md#reptendr","articles":[]},{"title":"EXITM","level":"1.7.26","depth":2,"anchor":"#exitm","path":"directive/directive.md","ref":"directive/directive.md#exitm","articles":[]},{"title":"LIST","level":"1.7.27","depth":2,"anchor":"#list","path":"directive/directive.md","ref":"directive/directive.md#list","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-09 06:30"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"directive/directive.md","mtime":"2026-04-08T09:54:39.140Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-08T21:30:31.895Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"疑似命令","level":"1.7","depth":1,"next":{"title":"他のアセンブラとの違い","level":"1.8","depth":1,"path":"port/port.md","ref":"port/port.md","articles":[{"title":"本内容について","level":"1.8.1","depth":2,"anchor":"#contents","path":"port/port.md","ref":"port/port.md#contents","articles":[]},{"title":"z80as との違い","level":"1.8.2","depth":2,"anchor":"#z80as","path":"port/port.md","ref":"port/port.md#z80as","articles":[]},{"title":"AILZ80ASM との違い","level":"1.8.3","depth":2,"anchor":"#ailz80asm","path":"port/port.md","ref":"port/port.md#ailz80asm","articles":[]}]},"previous":{"title":"Z80/R800 命令","level":"1.6","depth":1,"path":"z80/instruction.md","ref":"z80/instruction.md","articles":[{"title":"Z80 命令","level":"1.6.1","depth":2,"anchor":"#z80-命令","path":"z80/instruction.md","ref":"z80/instruction.md#z80-命令","articles":[]},{"title":"Z80 TStates","level":"1.6.2","depth":2,"anchor":"#z80-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#z80-tstates","articles":[]},{"title":"R800 命令","level":"1.6.3","depth":2,"anchor":"#r800-命令","path":"z80/instruction.md","ref":"z80/instruction.md#r800-命令","articles":[]},{"title":"R800 TStates","level":"1.6.4","depth":2,"anchor":"#r800-tstates","path":"z80/instruction.md","ref":"z80/instruction.md#r800-tstates","articles":[]},{"title":"表記揺らぎ対応","level":"1.6.5","depth":2,"anchor":"#表記揺らぎ対応","path":"z80/instruction.md","ref":"z80/instruction.md#表記揺らぎ対応","articles":[]},{"title":"文字列、配列を数値として扱う","level":"1.6.6","depth":2,"anchor":"#ld-op2","path":"z80/instruction.md","ref":"z80/instruction.md#ld-op2","articles":[]}]},"articles":[{"title":"ORG","level":"1.7.1","depth":2,"anchor":"#org","path":"directive/directive.md","ref":"directive/directive.md#org","articles":[]},{"title":"END","level":"1.7.2","depth":2,"anchor":"#end","path":"directive/directive.md","ref":"directive/directive.md#end","articles":[]},{"title":"ENTRY","level":"1.7.3","depth":2,"anchor":"#entry","path":"directive/directive.md","ref":"directive/directive.md#entry","articles":[]},{"title":"ALIGN","level":"1.7.4","depth":2,"anchor":"#align","path":"directive/directive.md","ref":"directive/directive.md#align","articles":[]},{"title":"CHECK256","level":"1.7.5","depth":2,"anchor":"#check256","path":"directive/directive.md","ref":"directive/directive.md#check256","articles":[]},{"title":"PROC","level":"1.7.6","depth":2,"anchor":"#proc","path":"directive/directive.md","ref":"directive/directive.md#proc","articles":[]},{"title":"匿名シンボル","level":"1.7.7","depth":2,"anchor":"#anon-symbol","path":"directive/directive.md","ref":"directive/directive.md#anon-symbol","articles":[]},{"title":"CONST/EQU","level":"1.7.8","depth":2,"anchor":"#constequ","path":"directive/directive.md","ref":"directive/directive.md#constequ","articles":[]},{"title":"VAR","level":"1.7.9","depth":2,"anchor":"#var","path":"directive/directive.md","ref":"directive/directive.md#var","articles":[]},{"title":"DB","level":"1.7.10","depth":2,"anchor":"#db","path":"directive/directive.md","ref":"directive/directive.md#db","articles":[]},{"title":"DW","level":"1.7.11","depth":2,"anchor":"#dw","path":"directive/directive.md","ref":"directive/directive.md#dw","articles":[]},{"title":"DD","level":"1.7.12","depth":2,"anchor":"#dd","path":"directive/directive.md","ref":"directive/directive.md#dd","articles":[]},{"title":"DS/DSB","level":"1.7.13","depth":2,"anchor":"#ds","path":"directive/directive.md","ref":"directive/directive.md#ds","articles":[]},{"title":"DSW","level":"1.7.14","depth":2,"anchor":"#dsw","path":"directive/directive.md","ref":"directive/directive.md#dsw","articles":[]},{"title":"ENUM","level":"1.7.15","depth":2,"anchor":"#enum","path":"directive/directive.md","ref":"directive/directive.md#enum","articles":[]},{"title":"INCLUDE","level":"1.7.16","depth":2,"anchor":"#include","path":"directive/directive.md","ref":"directive/directive.md#include","articles":[]},{"title":"INCBIN/BINCLULDE","level":"1.7.17","depth":2,"anchor":"#incbin","path":"directive/directive.md","ref":"directive/directive.md#incbin","articles":[]},{"title":"CHARMAP","level":"1.7.18","depth":2,"anchor":"#charmap","path":"directive/directive.md","ref":"directive/directive.md#charmap","articles":[]},{"title":"SETMAP","level":"1.7.19","depth":2,"anchor":"#setmap","path":"directive/directive.md","ref":"directive/directive.md#setmap","articles":[]},{"title":"ERROR/WARN/INFO","level":"1.7.20","depth":2,"anchor":"#errorwarninfo","path":"directive/directive.md","ref":"directive/directive.md#errorwarninfo","articles":[]},{"title":"IF/ELIF/ELSE/ENDIF","level":"1.7.21","depth":2,"anchor":"#ifelifelseendif","path":"directive/directive.md","ref":"directive/directive.md#ifelifelseendif","articles":[]},{"title":"FUNC/RETURN/ENDF","level":"1.7.22","depth":2,"anchor":"#funcreturnendf","path":"directive/directive.md","ref":"directive/directive.md#funcreturnendf","articles":[]},{"title":"FUNCTION","level":"1.7.23","depth":2,"anchor":"#function","path":"directive/directive.md","ref":"directive/directive.md#function","articles":[]},{"title":"MACRO/ENDM","level":"1.7.24","depth":2,"anchor":"#macroendm","path":"directive/directive.md","ref":"directive/directive.md#macroendm","articles":[]},{"title":"REPT/ENDR","level":"1.7.25","depth":2,"anchor":"#reptendr","path":"directive/directive.md","ref":"directive/directive.md#reptendr","articles":[]},{"title":"EXITM","level":"1.7.26","depth":2,"anchor":"#exitm","path":"directive/directive.md","ref":"directive/directive.md#exitm","articles":[]},{"title":"LIST","level":"1.7.27","depth":2,"anchor":"#list","path":"directive/directive.md","ref":"directive/directive.md#list","articles":[]}],"dir":"ltr"},"config":{"plugins":["collapsible-chapters","search-plus","@dogatana/back-to-top-button"],"root":"./src","styles":{"website":"styles/website.css"},"pluginsConfig":{"collapsible-chapters":{},"search-plus":{},"@dogatana/back-to-top-button":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"buildDate":"2026-04-10 17:28"},"title":"yas80 マニュアル","language":"ja","gitbook":"*"},"file":{"path":"directive/directive.md","mtime":"2026-04-09T01:11:42.392Z","type":"markdown"},"gitbook":{"version":"6.1.7","time":"2026-04-10T08:28:23.426Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
